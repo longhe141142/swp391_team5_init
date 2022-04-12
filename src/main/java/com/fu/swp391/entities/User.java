@@ -69,6 +69,10 @@ public class User {
         this.avatar = avatar;
     }
 
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     @Transient
     private String token;
 

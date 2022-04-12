@@ -1,5 +1,6 @@
 package com.fu.swp391.entities;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -12,6 +13,8 @@ public class Role {
 
     public Role() {
     }
+   @OneToMany(mappedBy = "role")
+   private List<User> users;
 
     public Role(String description) {
         this.description = description;
