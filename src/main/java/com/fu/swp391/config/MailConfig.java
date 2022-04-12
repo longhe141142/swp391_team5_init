@@ -8,7 +8,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-public class MailConfigD {
+public class MailConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -16,8 +16,8 @@ public class MailConfigD {
 //        mailSender.setHost("smtp.gmail.com");
 //        mailSender.setPort(587);
 //
-        mailSender.setUsername("hotelbookingserviceyoy@gmail.com");
-        mailSender.setPassword("hotelbooking1234");
+        mailSender.setUsername("longnthe141142@fpt.edu.vn");
+        mailSender.setPassword("xhafvevjztcnzebz");
 
         Properties props = mailSender.getJavaMailProperties();
 //        props.put("mail.transport.protocol", "smtp");
