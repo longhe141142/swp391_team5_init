@@ -37,17 +37,7 @@ public class User {
     @NotEmpty
     private String status;
 
-    @NotNull
-    @NotEmpty
-    private Integer age;
 
-    @Size(max = 10, min = 10, message = "Mobile number should be from 9 to 12 digits")
-    @Pattern(regexp = "[0-9]{9,12}" ,message = "Phone number is invalid" )
-    @NotNull
-    @NotEmpty
-    private String phoneNumber;
-
-    private String name;
     public static PasswordEncoder getPasswordEncoder() {
         return PASSWORD_ENCODER;
     }
@@ -60,13 +50,8 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.status = status;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.name = name;
-        this.birthDate = birthDate;
         this.token = token;
         this.passwordToken = passwordToken;
-        this.avatar = avatar;
     }
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
@@ -77,7 +62,7 @@ public class User {
     private String token;
 
     private String passwordToken;//for password recovery
-    private String avatar;
+
 
     public String getPasswordToken() {
         return passwordToken;
@@ -103,15 +88,12 @@ public class User {
 //        this.comments = comments;
 //    }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
     @Override
     public String toString() {
         return "UserModel{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
+                "," +
                 '}';
     }
 
@@ -159,29 +141,7 @@ public class User {
         this.status = status;
     }
 
-    public Integer getAge() {
-        return age;
-    }
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Date getBirthDate() {
         return birthDate;
@@ -199,7 +159,5 @@ public class User {
         this.token = token;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
+
 }

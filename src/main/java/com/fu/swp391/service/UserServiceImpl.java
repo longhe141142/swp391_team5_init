@@ -45,8 +45,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(username);
         }
         return UserPrinciple.built(user);
-
-
     }
 
     @Override

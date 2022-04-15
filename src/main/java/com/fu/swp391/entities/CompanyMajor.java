@@ -1,7 +1,14 @@
 package com.fu.swp391.entities;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "company_major")
 public class CompanyMajor {
@@ -9,26 +16,70 @@ public class CompanyMajor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_info_id")
-    private CompanyInfo companyInfo;
 
     @Column(name = "salary")
     private double salary;
 
-    public CompanyMajor(CompanyInfo companyInfo, double salary) {
-        this.companyInfo = companyInfo;
+    @Column(name="major_level")
+    @NotEmpty
+    @NotEmpty
+    private String majorLevel;
+
+    @Column(name = "major_name")
+    @NotEmpty
+    @NotEmpty
+    private String majorName;
+
+
+    @Column(name = "work_address")
+    @NotEmpty
+    @NotEmpty
+    private String workAddress;
+
+    @Column(name = "gender")
+    @NotEmpty
+    @NotEmpty
+    private String gender;
+
+    @Column(name = "max_candidates")
+    @NotEmpty
+    @NotEmpty
+    private int maxCandidate;
+
+    @NotEmpty
+    @NotEmpty
+    private String experience;
+
+    @Column(name = "job_description")
+    @NotEmpty
+    @NotEmpty
+    private String jobDescription;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @OneToMany(mappedBy = "companyMajor")
+    private List<MajorRule> majorRules;
+
+    @OneToMany(mappedBy = "companyMajor")
+    private List<MajorBenefit> majorBenefits;
+
+
+    public CompanyMajor(Company company, double salary) {
+        this.company = company;
         this.salary = salary;
     }
 
+
     public CompanyMajor(){}
 
-    public CompanyInfo getCompanyInfo() {
-        return companyInfo;
+    public Company getCompanyInfo() {
+        return company;
     }
 
-    public void setCompanyInfo(CompanyInfo companyInfo) {
-        this.companyInfo = companyInfo;
+    public void setCompanyInfo(Company company) {
+        this.company = company;
     }
 
     public double getSalary() {
@@ -38,4 +89,6 @@ public class CompanyMajor {
     public void setSalary(double salary) {
         this.salary = salary;
     }
+
+
 }

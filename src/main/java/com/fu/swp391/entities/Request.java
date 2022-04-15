@@ -1,12 +1,17 @@
 package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "requests")
 public class Request {
@@ -26,13 +31,19 @@ public class Request {
     @Column(name = "comment")
     private String comment;
 
+    @Column(name = "content")
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cv_id",nullable = true, updatable = false)
+    private CV cv;
+
     @NotNull
     @NotEmpty
     private String status;
 
-    @OneToMany(mappedBy = "request")
-    @JsonIgnore
-    private List<RequestDetail> requestDetails;
+    @Column(name = "cv_image")
+    private String cvImage;
 
     public Request(){}
 
@@ -76,11 +87,5 @@ public class Request {
         this.status = status;
     }
 
-    public List<RequestDetail> getRequestDetails() {
-        return requestDetails;
-    }
-
-    public void setRequestDetails(List<RequestDetail> requestDetails) {
-        this.requestDetails = requestDetails;
-    }
+ 
 }

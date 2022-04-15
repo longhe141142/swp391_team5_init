@@ -2,10 +2,11 @@ package com.fu.swp391.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "company_information")
-public class CompanyInfo {
+@Table(name = "company")
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,26 @@ public class CompanyInfo {
     @NotNull
     private String email;
 
+    @Column(name = "personnel_size")
+    @Email
+    @NotEmpty
+    @NotNull
+    private int personnelSize;
+
+    @Column(name = "founding_at")
+    @NotEmpty
+    @NotNull
+    private Date foundingAt;
+
+    @NotEmpty
+    @NotNull
+    private String description;
+
+    @Column(name = "company_intro")
+    @NotEmpty
+    @NotNull
+    private String companyIntro;
+
     @NotEmpty
     @NotNull
     private String address;
@@ -36,7 +57,7 @@ public class CompanyInfo {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public CompanyInfo(){}
+    public Company(){}
 
     public String getName() {
         return name;
@@ -52,14 +73,6 @@ public class CompanyInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAddress() {
