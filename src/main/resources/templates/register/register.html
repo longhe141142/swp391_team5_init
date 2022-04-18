@@ -102,10 +102,16 @@
 						<div class="rs-select2 js-select-simple select--no-search">
 							<select name="subject">
 								<option disabled="disabled" selected="selected">Choose option</option>
-								<option>Subject 1</option>
-								<option>Subject 2</option>
-								<option>Subject 3</option>
+								<div th:each="gender : ${listGender}">
+									<input th:field="${userCandidate.candidate.gender}" th:value="${gender.name}" type="radio"/>
+									<label class="custom-control-label" th:for="${#ids.prev('gender')}" th:text="${gender.name}">model</label>
+								</div>
 							</select>
+							<div th:each="gender: ${listGender}">
+<!--								<td th:text="${student.id}" />-->
+								<div th:text="${gender.name}">
+							</div>
+							</div>
 							<div class="select-dropdown"></div>
 						</div>
 					</div>

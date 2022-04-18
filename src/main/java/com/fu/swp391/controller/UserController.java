@@ -1,6 +1,8 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.binding.entiity.UserCandidate;
+import com.fu.swp391.common.enumConstants.Gender;
+import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.accountStatusEnum;
 import com.fu.swp391.common.enumConstants.roleEnum;
 import com.fu.swp391.entities.Candidate;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,8 @@ public class UserController {
   @Autowired RoleService roleService;
 
   @Autowired CandidateService candidateService;
+
+  @Autowired GenderEnum genderEnum;
 
   @Autowired
   @Qualifier("userServiceImpl")
@@ -46,7 +51,12 @@ public class UserController {
   public String registerTest(Model model) {
     System.out.println("Entry SignUp");
     model.addAttribute("userCandidate", new UserCandidate());
-    return "register/simpletest";
+    List<Gender> genders = genderEnum.getGenders();
+    genders.forEach(gender ->{
+               System.out.println(gender.getName().toString());
+    });
+    model.addAttribute("listGender",genders);
+    return "register/register";
   }
 
   @GetMapping("/testTemplate")
@@ -65,6 +75,7 @@ public class UserController {
       Model model)
       throws Exception {
 
+
     if (userCandidateResult.hasErrors()) {
       List<FieldError> f = userCandidateResult.getFieldErrors();
       f.forEach(
@@ -77,7 +88,7 @@ public class UserController {
     }
     System.out.println(userCandidate.getCandidate().getName());
 
-    return "register/simpletest";
+    return "register/register";
   }
 
   @PostMapping("/register")
