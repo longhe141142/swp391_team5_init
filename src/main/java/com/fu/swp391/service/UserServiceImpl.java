@@ -51,4 +51,8 @@ public class UserServiceImpl implements UserService {
     public User save(User user) throws Exception {
         return userRepository.save(user);
     }
+
+    public void getServiceName(){
+        System.out.println("User service 1st instance");
+    }
 }

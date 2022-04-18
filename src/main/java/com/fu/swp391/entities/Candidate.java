@@ -23,10 +23,18 @@ public class Candidate {
     @NotEmpty
     private String gender;
 
+    public Candidate(String gender, int age, String phoneNumber, String name, Date dob) {
+        this.gender = gender;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.dob = dob;
+    }
+
+    public Candidate(){}
 
     @NotNull
-    @NotEmpty
-    private Integer age;
+    private int age;
 
     @Size(max = 10, min = 10, message = "Mobile number should be from 9 to 12 digits")
     @Pattern(regexp = "[0-9]{9,12}" ,message = "Phone number is invalid" )
@@ -40,12 +48,48 @@ public class Candidate {
     @JsonIgnore
     private List<CV> cv;
 
+    @ManyToOne(optional = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @NotNull
-    @NotEmpty
     private Date dob;
 
+    public String getGender() {
+        return gender;
+    }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public List<CV> getCv() {
+        return cv;
+    }
+
+    public void setCv(List<CV> cv) {
+        this.cv = cv;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
     public Integer getAge() {
         return age;

@@ -55,6 +55,10 @@ public class CompanyMajor {
     @NotEmpty
     private String jobDescription;
 
+    @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "major_id")
+    private Major major;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
@@ -64,6 +68,9 @@ public class CompanyMajor {
 
     @OneToMany(mappedBy = "companyMajor")
     private List<MajorBenefit> majorBenefits;
+
+    @OneToMany(mappedBy = "companyMajor")
+    private List<MajorSkill> majorSkills;
 
 
     public CompanyMajor(Company company, double salary) {

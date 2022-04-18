@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,11 +59,18 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Candidate> candidates = new ArrayList<>();
+
+
     @Transient
     private String token;
 
     private String passwordToken;//for password recovery
 
+    public void setCandidate(Candidate candidate) {
+        this.candidates.add(candidate);
+    }
 
     public String getPasswordToken() {
         return passwordToken;

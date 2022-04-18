@@ -34,6 +34,9 @@ public class Request {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "subject")
+    private String subject;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cv_id",nullable = true, updatable = false)
     private CV cv;
