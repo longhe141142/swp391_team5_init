@@ -2,6 +2,7 @@ package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -52,6 +53,7 @@ public class Candidate {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @NotNull
     private Date dob;
 

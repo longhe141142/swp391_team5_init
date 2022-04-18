@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller()
 // @RequestMapping(value = "/user")
@@ -38,7 +39,6 @@ public class UserController {
   @Autowired GenderEnum genderEnum;
 
   @Autowired
-  @Qualifier("userServiceImpl")
   UserService userService;
 
   @GetMapping("/register")
@@ -51,11 +51,8 @@ public class UserController {
   public String registerTest(Model model) {
     System.out.println("Entry SignUp");
     model.addAttribute("userCandidate", new UserCandidate());
-    List<Gender> genders = genderEnum.getGenders();
-    genders.forEach(gender ->{
-               System.out.println(gender.getName().toString());
-    });
-    model.addAttribute("listGender",genders);
+    List<String> genderStringList = userService.getListGender();
+    model.addAttribute("listGender",genderStringList);
     return "register/register";
   }
 
@@ -82,13 +79,23 @@ public class UserController {
           name -> {
             System.out.println(name.getField());
             System.out.println( name.getDefaultMessage());
-
           });
-      System.out.println("error occured");
-    }
-    System.out.println(userCandidate.getCandidate().getName());
 
-    return "register/register";
+      System.out.println("error occured");
+
+      return "redirect:/registerTest";
+    }
+    Optional<Role> roleUser = userService.addRoleToUser(roleEnum.CANDIDATE,userCandidate);
+    User user = userCandidate.getUser();
+    //tham chieu phuong thuc
+    //consumer bind
+    roleUser.ifPresent(user::setRole);
+    user.setToken("user");
+    user.setStatus(accountStatusEnum.USER_CREATED);
+    Candidate candidate = userCandidate.getCandidate();
+    user.setCandidate(candidate);
+    userService.save(user);
+    return "login/login";
   }
 
   @PostMapping("/register")
@@ -98,12 +105,9 @@ public class UserController {
       RedirectAttributes redirect,
       Model model)
       throws Exception {
-    Optional<Role> roleUser = roleService.findRoleByDescription(roleEnum.CANDIDATE);
-    Candidate candidate = userCandidate.getCandidate();
+    Optional<Role> roleUser = userService.addRoleToUser(roleEnum.CANDIDATE,userCandidate);
     User user = userCandidate.getUser();
-    user.setCandidate(candidate);
     if (roleUser.isPresent()) user.setRole(roleUser.get());
-
     user.setToken("user");
     user.setStatus(accountStatusEnum.USER_CREATED);
     //        user.setBirthDate(user.getBirthDate());

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<!-- Required meta tags-->
@@ -25,6 +26,8 @@
 
 	<!-- Main CSS-->
 	<link href="/register/css/main.css" media="all" rel="stylesheet">
+	<link href="/register/css/radio.css" media="all" rel="stylesheet">
+
 </head>
 
 <body>
@@ -33,7 +36,7 @@
 		<div class="card card-4">
 			<div class="card-body">
 				<h2 class="title">Registration Form</h2>
-				<form method="post" th:action="@{/register} ">
+				<form method="post" th:action="@{/registerTest}">
 					<div class="row row-space">
 						<div class="col-2">
 							<div class="input-group">
@@ -71,14 +74,27 @@
 							<div class="input-group">
 								<label class="label">Gender</label>
 								<div class="p-t-10">
-									<label class="radio-container m-r-45">Male
-										<input checked="checked" name="gender" type="radio">
-										<span class="checkmark"></span>
-									</label>
-									<label class="radio-container">Female
-										<input name="gender" type="radio">
-										<span class="checkmark"></span>
-									</label>
+
+									<div th:each="gender, itemStat : ${listGender}">
+										<p>
+											<!--												<input type="radio" id="test2" name="radio-group">-->
+											<!--												<label for="test2">Pegender</label>-->
+											<input th:field="${userCandidate.candidate.gender}"
+											       th:value="${gender}"
+											       type="radio"/>
+											<label th:for="${#ids.prev('candidate.gender')}" th:text="${gender}">model
+											</label>
+										</p>
+									</div>
+
+									<!--									<label class="radio-container m-r-45">Male-->
+									<!--										<input checked="checked" name="gender" type="radio">-->
+									<!--										<span class="checkmark"></span>-->
+									<!--									</label>-->
+									<!--									<label class="radio-container">Female-->
+									<!--										<input name="gender" type="radio">-->
+									<!--										<span class="checkmark"></span>-->
+									<!--									</label>-->
 								</div>
 							</div>
 						</div>
@@ -86,14 +102,20 @@
 					<div class="row row-space">
 						<div class="col-2">
 							<div class="input-group">
-								<label class="label">Email</label>
-								<input class="input--style-4" name="email" type="email">
+								<label class="label">Your name</label>
+								<input class="input--style-4"
+								       name="email"
+								       th:field="${userCandidate.candidate.name}"
+								       type="text">
 							</div>
 						</div>
 						<div class="col-2">
 							<div class="input-group">
 								<label class="label">Phone Number</label>
-								<input class="input--style-4" name="phone" type="text">
+								<input class="input--style-4"
+								       name="phone"
+								       th:field="${userCandidate.candidate.phoneNumber}"
+								       type="tel">
 							</div>
 						</div>
 					</div>
@@ -102,16 +124,14 @@
 						<div class="rs-select2 js-select-simple select--no-search">
 							<select name="subject">
 								<option disabled="disabled" selected="selected">Choose option</option>
-								<div th:each="gender : ${listGender}">
-									<input th:field="${userCandidate.candidate.gender}" th:value="${gender.name}" type="radio"/>
-									<label class="custom-control-label" th:for="${#ids.prev('gender')}" th:text="${gender.name}">model</label>
-								</div>
+
+
 							</select>
-							<div th:each="gender: ${listGender}">
-<!--								<td th:text="${student.id}" />-->
-								<div th:text="${gender.name}">
-							</div>
-							</div>
+							<!--							<div th:each="gender: ${listGender}">-->
+							<!--&lt;!&ndash;								<td th:text="${student.id}" />&ndash;&gt;-->
+							<!--								<div th:text="${gender.name}">-->
+							<!--							</div>-->
+							<!--							</div>-->
 							<div class="select-dropdown"></div>
 						</div>
 					</div>

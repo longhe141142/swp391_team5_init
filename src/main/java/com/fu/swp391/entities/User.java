@@ -30,12 +30,7 @@ public class User {
     @Size(min = 6, message = "Password should be more than 5 letters" )
     private String password;
 
-    @NotNull
-    @NotEmpty
-    private String gender;
 
-    @NotNull
-    @NotEmpty
     private String status;
 
 
@@ -46,10 +41,9 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    public User(String email, String password, String gender, String status, Integer age, String phoneNumber, String name, Date birthDate, String token, String passwordToken, String avatar) {
+    public User(String email, String password, String status, Integer age, String phoneNumber, String name, Date birthDate, String token, String passwordToken, String avatar) {
         this.email = email;
         this.password = password;
-        this.gender = gender;
         this.status = status;
         this.token = token;
         this.passwordToken = passwordToken;
@@ -133,13 +127,6 @@ public class User {
         this.password = password;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public String getStatus() {
         return status;

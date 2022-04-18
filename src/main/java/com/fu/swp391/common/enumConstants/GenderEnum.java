@@ -12,7 +12,7 @@ public class GenderEnum {
 
     public static final String MALE = "MALE";
     public static final String FEMALE = "FEMALE";
-    private List<Gender> Genders = new ArrayList<>();
+    private List<Gender> Genders = new ArrayList<Gender>();
     public GenderEnum(){
         Gender g1 = new Gender();
         g1.setName(MALE);

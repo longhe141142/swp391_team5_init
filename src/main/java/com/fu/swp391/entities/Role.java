@@ -1,5 +1,7 @@
 package com.fu.swp391.entities;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,6 +12,11 @@ public class Role {
     private Long id;
 
     private String description;
+
+    @Column(unique = true)
+    @NotEmpty
+    @NotNull
+    private String name;
 
     public Role() {
     }
