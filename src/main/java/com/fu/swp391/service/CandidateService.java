@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 @Service
 public interface CandidateService {
-    ArrayList<Company> findall();
+
 }

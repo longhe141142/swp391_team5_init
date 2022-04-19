@@ -1,11 +1,13 @@
 package com.fu.swp391.service;
 
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
@@ -17,8 +19,7 @@ public class CandidateServiceImpl implements CandidateService {
         this.candidateRepository = _candidateRepository;
     }
 
-    @Override
-    public ArrayList<Company> findall() {
-        return candidateRepository.findall();
+    public List<Candidate> findAll() {
+        return candidateRepository.findAll();
     }
 }
