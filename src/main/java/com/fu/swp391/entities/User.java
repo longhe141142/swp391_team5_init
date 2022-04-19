@@ -1,21 +1,18 @@
 package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +23,14 @@ public class User {
     @Email(message = "Email is not valid", regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
     private String email;
 
+  private String passwordEncoder;
+
+  public void setPasswordEncoder(String hashed) {
+    this.passwordEncoder = hashed;
+  }
+
+
+
     @NotEmpty
     @Size(min = 6, message = "Password should be more than 5 letters" )
     private String password;
@@ -33,10 +38,17 @@ public class User {
 
     private String status;
 
+  public String getPasswordEncoder() {
+    return this.passwordEncoder;
+  }
 
-    public static PasswordEncoder getPasswordEncoder() {
-        return PASSWORD_ENCODER;
-    }
+  public List<Candidate> getCandidates() {
+    return candidates;
+  }
+
+  public void setCandidates(List<Candidate> candidates) {
+    this.candidates = candidates;
+  }
 
     @Temporal(TemporalType.DATE)
     private Date birthDate;
@@ -49,13 +61,15 @@ public class User {
         this.passwordToken = passwordToken;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-    private Role role;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(
+      name = "user_role",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  Set<Role> roles = new HashSet<Role>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Candidate> candidates = new ArrayList<>();
-
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Candidate> candidates = new ArrayList<>();
 
     @Transient
     private String token;
@@ -74,7 +88,9 @@ public class User {
         this.passwordToken = passwordToken;
     }
 
-    public User(){}
+  public User() {
+    this.roles = new LinkedHashSet<Role>();
+  }
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 //    private List<WebReview> comments;
 //
@@ -99,17 +115,23 @@ public class User {
                 '}';
     }
 
-    public Role getRole() {
-        return role;
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
     }
+
+  public void setRole(Role _role) {
+    this.roles.add(_role);
+  }
 
     public Long getId() {
         return id;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+
 
     public String getEmail() {
         return email;

@@ -81,8 +81,9 @@ public class Candidate {
         return user;
     }
 
-    public void setUser(User user) {
+  public Candidate setUser(User user) {
         this.user = user;
+    return this;
     }
 
     public Date getDob() {
