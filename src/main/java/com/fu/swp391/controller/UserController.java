@@ -15,13 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-=======
 import org.springframework.web.bind.annotation.*;
->>>>>>> 43d3fcd6e0f2db07de02494965fa91ec6a38b42b
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -36,7 +33,6 @@ public class UserController {
 
   @Autowired CandidateService candidateService;
 
-<<<<<<< HEAD
   @Autowired GenderEnum genderEnum;
 
   @Autowired
@@ -98,7 +94,8 @@ public class UserController {
     } catch (Exception e) {
       System.out.println(e.getStackTrace());
       throw e;
-=======
+      }
+    }
 //    @RequestMapping(value = "/templates/homeAdmin.html/", method = RequestMethod.GET){
 //
 //    }
@@ -122,11 +119,9 @@ public class UserController {
     @GetMapping("candidate/detailOneCV")
     public String detailOneCV(){
         return "/candidate/detailOneCV.html";
->>>>>>> 43d3fcd6e0f2db07de02494965fa91ec6a38b42b
     }
-  }
 
-<<<<<<< HEAD
+
   //  @PostMapping("/register")
   //  public String registerUser(
   //      @Validated @ModelAttribute("userCandidate") UserCandidate userCandidate,
@@ -158,7 +153,6 @@ public class UserController {
   public String login(Model model) {
     return "login/login";
   }
-=======
 //
     //admin
 
@@ -222,5 +216,4 @@ public class UserController {
 //        }
 //    }
 
->>>>>>> 43d3fcd6e0f2db07de02494965fa91ec6a38b42b
 }
