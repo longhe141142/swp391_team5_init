@@ -1,6 +1,9 @@
 package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fu.swp391.config.SecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,7 +18,6 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +30,10 @@ public class User {
 
   private String passwordEncoder;
 
-  public void setPasswordEncoder(String passwordEncoder) {
-    this.passwordEncoder = passwordEncoder;
+  public void setPasswordEncoder() {
+      AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SecurityConfig.class);
+      PasswordEncoder encoder = (PasswordEncoder) context.getBean("passwordEncoder");
+      this.passwordEncoder = encoder.encode(this.getPassword());
   }
 
   public String getPasswordEncoder() {
