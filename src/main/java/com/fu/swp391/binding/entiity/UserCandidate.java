@@ -36,4 +36,8 @@ public class UserCandidate {
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
     }
+//
+//    public setDobByString(String date){
+//
+//    }
 }

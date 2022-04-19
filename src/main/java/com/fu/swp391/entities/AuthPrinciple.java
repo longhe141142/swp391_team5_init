@@ -1,8 +1,5 @@
-package com.fu.swp391.service;
+package com.fu.swp391.entities;
 
-
-import com.fu.swp391.entities.Role;
-import com.fu.swp391.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,24 +8,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserPrinciple implements UserDetails {
+public class AuthPrinciple implements UserDetails {
     private Long id;
-    private String username;
+    private String email;
     private String password;
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id, String username, String password, Collection<? extends GrantedAuthority> roles) {
+    public AuthPrinciple(Long id, String username, String password, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
-        this.username = username;
+        this.email = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public static UserPrinciple built(User user){
+    public static AuthPrinciple built(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Role UserRole = user.getRole();
-            authorities.add(new SimpleGrantedAuthority(UserRole.getDescription()));
-        return new UserPrinciple(user.getId(), user.getEmail(), user.getPassword(), authorities );
+        for(Role role: user.getRoles()){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+    System.out.println("building"+"" +
+            "encoder pass"+"::::"+user.getPasswordEncoder());
+
+        return new AuthPrinciple(user.getId(), user.getEmail(), user.getPasswordEncoder(), authorities );
     }
 
     @Override
@@ -43,7 +44,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
