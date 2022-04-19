@@ -1,11 +1,7 @@
 package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fu.swp391.config.SecurityConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,7 +14,6 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,15 +25,11 @@ public class User {
 
   private String passwordEncoder;
 
-  public void setPasswordEncoder() {
-      AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SecurityConfig.class);
-      PasswordEncoder encoder = (PasswordEncoder) context.getBean("passwordEncoder");
-      this.passwordEncoder = encoder.encode(this.getPassword());
+  public void setPasswordEncoder(String hashed) {
+    this.passwordEncoder = hashed;
   }
 
-  public String getPasswordEncoder() {
-    return this.passwordEncoder;
-  }
+
 
     @NotEmpty
     @Size(min = 6, message = "Password should be more than 5 letters" )
@@ -47,7 +38,9 @@ public class User {
 
     private String status;
 
-
+  public String getPasswordEncoder() {
+    return this.passwordEncoder;
+  }
 
   public List<Candidate> getCandidates() {
     return candidates;

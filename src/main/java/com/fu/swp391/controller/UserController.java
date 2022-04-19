@@ -34,6 +34,9 @@ public class UserController {
 
   @Autowired GenderEnum genderEnum;
 
+  @Autowired
+  PasswordEncoder encoder;
+
 
 
   @Autowired
@@ -84,7 +87,7 @@ public class UserController {
               });
       System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
       System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
-      user.setPasswordEncoder();
+      user.setPasswordEncoder(encoder.encode( user.getPassword()));
       userService.save(user);
       return "login/login";
     } catch (Exception e) {
