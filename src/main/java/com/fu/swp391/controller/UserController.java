@@ -52,7 +52,7 @@ public class UserController {
         return "/candidate/detailOneCV.html";
     }
 
-
+//
     //admin
 
     @GetMapping("admin/home")
