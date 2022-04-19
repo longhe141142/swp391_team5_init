@@ -44,7 +44,7 @@ public class UserController {
   UserService userService;
 
 
-  @GetMapping("/registerTest")
+  @GetMapping("/register")
   public String registerTest(Model model) {
     System.out.println("Entry SignUp");
     model.addAttribute("userCandidate", new UserCandidate());
@@ -73,7 +73,7 @@ public class UserController {
             });
 
         System.out.println("error occured");
-        return "redirect:/registerTest";
+        return "redirect:/register";
       }
 
       String[] roleArray = new String[] {roleEnum.USER, roleEnum.CANDIDATE};
@@ -156,10 +156,10 @@ public class UserController {
 //
     //admin
 
-    @GetMapping("admin/home")
-    public String homeAdmin(){
-        return "/admin/homeAdmin.html";
-    }
+//    @GetMapping("admin/home")
+//    public String homeAdmin(){
+//        return "/admin/homeAdmin.html";
+//    }
     @GetMapping("admin/login")
     public String loginAdmin(){
         return "/admin/login.html";
