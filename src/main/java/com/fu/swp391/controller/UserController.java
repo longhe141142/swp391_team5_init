@@ -27,13 +27,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-//    @RequestMapping(value = "/templates/index.html/", method = RequestMethod.GET){
+//    @RequestMapping(value = "/templates/homeAdmin.html/", method = RequestMethod.GET){
 //
 //    }
 
     @GetMapping("candidate/home")
     public String home(){
-        return "HomeCandidate.html";
+        return "/candidate/HomeCandidate.html";
     }
 //    @GetMapping("candidate/about-us")
 //    public String home1(){
@@ -45,12 +45,33 @@ public class UserController {
 //    }
     @GetMapping("candidate/listAllCV")
     public String listAllCV(){
-        return "listAllCV.html";
+        return "/candidate/listAllCV.html";
     }
     @GetMapping("candidate/detailOneCV")
     public String detailOneCV(){
-        return "detailOneCV.html";
+        return "/candidate/detailOneCV.html";
     }
+
+
+    //admin
+
+    @GetMapping("admin/home")
+    public String homeAdmin(){
+        return "/admin/homeAdmin.html";
+    }
+    @GetMapping("admin/login")
+    public String loginAdmin(){
+        return "/admin/login.html";
+    }
+    @GetMapping("admin/register")
+    public String registerAdmin(){
+        return "/admin/register.html";
+    }
+    @GetMapping("admin/forgotPassword")
+    public String forgetPasswordAdmin(){
+        return "/admin/forgot-password.html";
+    }
+
 
 //    @PostMapping("/register")
 //    public String registerUser(@Validated @ModelAttribute("user") User user , BindingResult result , RedirectAttributes redirect, Model model) throws Exception {
