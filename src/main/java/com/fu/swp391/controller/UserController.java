@@ -33,7 +33,23 @@ public class UserController {
 
     @GetMapping("candidate/home")
     public String home(){
-        return "index.html";
+        return "HomeCandidate.html";
+    }
+//    @GetMapping("candidate/about-us")
+//    public String home1(){
+//        return "about-us.html";
+//    }
+//    @GetMapping("candidate/contact-us")
+//    public String home2(){
+//        return "contact-us.html";
+//    }
+    @GetMapping("candidate/listAllCV")
+    public String listAllCV(){
+        return "listAllCV.html";
+    }
+    @GetMapping("candidate/detailOneCV")
+    public String detailOneCV(){
+        return "detailOneCV.html";
     }
 
 //    @PostMapping("/register")
