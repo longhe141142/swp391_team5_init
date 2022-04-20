@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navigation">
 
               <ul class="navbar-nav" th:each="list: ${listCandidateCV}">
-                <li class="nav-item"><a class="nav-link smooth-scroll" href="#about"><a th:text="${list.getName()}"/> </li>
+                <li class="nav-item"><a class="nav-link smooth-scroll" href="#about">dsfds </a></li>
                 <li class="nav-item"><a class="nav-link smooth-scroll" href="#skill">Skills</a></li>
                 <li class="nav-item"><a class="nav-link smooth-scroll" href="#portfolio">Portfolio</a></li>
                 <li class="nav-item"><a class="nav-link smooth-scroll" href="#experience">Experience</a></li>
@@ -72,11 +72,22 @@
     <div class="card" data-aos="fade-up" data-aos-offset="10">
       <div class="row">
         <div class="col-lg-6 col-md-12">
-          <div class="card-body">
+
+
+
+          <div class="card-body" th:each="list: ${listCandidateCV}">
             <div class="h4 mt-0 title">About</div>
-            <p>Hello! I am Anthony Barnett. Web Developer, Graphic Designer and Photographer.</p>
+            <p><a th:text="${list.getContent()}"/></p>
             <p>Creative CV is a HTML resume template for professionals. Built with Bootstrap 4, Now UI Kit and FontAwesome, this modern and responsive design template is perfect to showcase your portfolio, skills and experience. <a href="https://templateflip.com/templates/creative-cv/" target="_blank">Learn More</a></p>
           </div>
+
+
+
+
+
+
+
+
         </div>
         <div class="col-lg-6 col-md-12">
           <div class="card-body">

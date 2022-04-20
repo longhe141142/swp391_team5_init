@@ -1,11 +1,9 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
+import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Company;
-import com.fu.swp391.service.CompanyService;
-import com.fu.swp391.service.RoleService;
-import com.fu.swp391.service.UserService;
-import com.fu.swp391.service.CandidateService;
+import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +18,9 @@ public class CandidateController {
     RoleService roleService;
 
     @Autowired
+    CvService cvService;
+
+    @Autowired
     CandidateService candidateService;
 
     @Autowired
@@ -30,12 +31,15 @@ public class CandidateController {
 
     @Autowired
     CompanyService companyService;
-    public CandidateController(CandidateService candidateService,CompanyService companyService) {
+
+    public CandidateController(CandidateService candidateService,CompanyService companyService,CvService cvService) {
         this.candidateService = candidateService;
         this.companyService = companyService;
+        this.cvService = cvService;
     }
 
-//    @GetMapping("/listAllCV")
+
+    //    @GetMapping("/listAllCV")
 //    public String listAllCV(Model model){
 //        model.addAttribute("listCandidateCV", candidateService.getAllCandidate());
 //        return "candidate/listAllCV";
@@ -54,10 +58,15 @@ public class CandidateController {
     public String home2(){
         return "/candidate/contact-us";
     }
+
+
     @GetMapping("/listAllCV")
-    public String listAllCV(){
+    public String listAllCV(Model model){
+        List<CV> cvList =  cvService.getAllCV();
+        model.addAttribute("listCandidateCV",cvList);
         return "/candidate/listAllCV";
     }
+
     @GetMapping("/detailOneCV")
     public String detailOneCV(){
         return "/candidate/detailOneCV";
@@ -77,10 +86,7 @@ public class CandidateController {
 
     @GetMapping("/candidatehome")
     public String homecandidate(Model model) {
-
-
-
-        return "candidate/HomeCandidate.html";
+        return "candidate/HomeCandidate";
     }
 
 }
