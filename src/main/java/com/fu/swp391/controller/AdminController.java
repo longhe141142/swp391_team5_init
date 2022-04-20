@@ -8,8 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin")
 public class AdminController {
 
+//    @GetMapping("/utilities")
+//    public String renderAdminSide(){
+//        return "admin/utilities-animation";
+//    }
+
     @GetMapping("/")
-    public String renderAdminSide(){
-        return "admin/utilities-animation";
+    public String renderAdminHome(){
+        return "admin/homeAdmin";
     }
+
+    @GetMapping("/company")
+    public String renderCompanyManagement(){
+        return "company/ListAllCompany";
+    }
+
+
 }
