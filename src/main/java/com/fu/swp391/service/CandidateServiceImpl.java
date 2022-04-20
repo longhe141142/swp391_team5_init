@@ -1,7 +1,7 @@
-package com.fu.swp391.service.candidate;
+package com.fu.swp391.service;
 
 import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.repository.candidate.CandidateRepository;
+import com.fu.swp391.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

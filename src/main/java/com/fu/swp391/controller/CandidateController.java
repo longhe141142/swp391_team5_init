@@ -1,7 +1,11 @@
 package com.fu.swp391.controller;
 
+import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.service.CompanyService;
+import com.fu.swp391.service.RoleService;
+import com.fu.swp391.service.UserService;
+import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.candidate.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-
-@Controller
-@RequestMapping("candidate")
+@Controller("candidate")
 public class CandidateController {
     @Autowired
-    CandidateService candidateService ;
+    RoleService roleService;
+
+    @Autowired
+    CandidateService candidateService;
+
+    @Autowired
+    GenderEnum genderEnum;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     CompanyService companyService;
@@ -58,20 +69,19 @@ public class CandidateController {
     }
 
     @GetMapping("/ListCompanyCandidate")
-    public String ListCompanyCandidate() {
+    public String ListCompanyCandidate(Model model) {
+
+        List<Company> ListCompany = companyService.findAllCompany();
+        model.addAttribute("ListCompany",ListCompany);
         return "candidate/listCompany";
     }
 
+    @GetMapping("/candidatehome")
+    public String homecandidate(Model model) {
 
 
 
-
-//    @PostMapping("createCV")
-//    public String CreateCV(CompanyMajor companyMajor){
-//
-//        System.out.println(companyMajor.toString());
-//
-//        return "candidate/createCV";
-//    }
+        return "candidate/HomeCandidate.html";
+    }
 
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping("/")
-    public String renderAdminSide(){
-        return "admin/utilities-animation";
+    public String renderAdminHome(){
+        return "admin/homeAdmin";
     }
 
     //admin
@@ -29,6 +29,13 @@ public class AdminController {
     @GetMapping("/forgotPassword")
     public String forgetPasswordAdmin(){
         return "/admin/forgot-password";
+    }
+
+
+
+    @GetMapping("/company")
+    public String renderCompanyManagement(){
+        return "company/ListAllCompany";
     }
 
 
