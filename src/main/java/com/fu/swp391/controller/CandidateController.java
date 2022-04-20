@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@Controller()
+@Controller("candidate")
 public class CandidateController {
     @Autowired
     RoleService roleService;
@@ -28,11 +28,8 @@ public class CandidateController {
     UserService userService;
     @GetMapping("/ListCompanyCandidate")
     public String ListCompanyCandidate(Model model) {
-        System.out.println("aaa");
 
-        List<Company> ListCompany = candidateService.findallComp();
-        model.addAttribute("ListCompany",ListCompany);
-        return "candidate/listCompany.html";
+        return "candidate/listCompany";
     }
 
 
