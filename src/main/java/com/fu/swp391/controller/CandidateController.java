@@ -119,9 +119,17 @@ public class CandidateController {
         return "candidate/listCompany";
     }
 
+<<<<<<< HEAD
     @GetMapping("/candidatehome")
     public String homecandidate(Model model) {
         return "candidate/HomeCandidate";
-    }
+=======
+    @GetMapping("/detailcompany")
+    public String DetailCompany(Model model) {
 
+//        List<Company> ListCompany = companyService.findAllCompany();
+//        model.addAttribute("ListCompany",ListCompany);
+        return "candidate/detailCompany";
+>>>>>>> 06490ba (Thêm Detail company)
+    }
 }
