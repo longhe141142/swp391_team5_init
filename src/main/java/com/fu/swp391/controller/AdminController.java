@@ -20,7 +20,7 @@ public class AdminController {
 
     @GetMapping("/company")
     public String renderCompanyManagement(){
-        return "admin/company-view";
+        return "company/ListAllCompany";
     }
 
 
