@@ -1,4 +1,4 @@
-package com.fu.swp391.controller.candidate;
+package com.fu.swp391.controller;
 
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.service.CompanyService;
@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("candidate/cv")
+@RequestMapping("candidate")
 public class CandidateController {
     @Autowired
     CandidateService candidateService ;
@@ -25,17 +25,46 @@ public class CandidateController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/listAllCV")
-    public String listAllCV(Model model){
-        model.addAttribute("listCandidateCV", candidateService.getAllCandidate());
-        return "candidate/listAllCV";
+//    @GetMapping("/listAllCV")
+//    public String listAllCV(Model model){
+//        model.addAttribute("listCandidateCV", candidateService.getAllCandidate());
+//        return "candidate/listAllCV";
+//    }
+
+
+    @GetMapping("/home")
+    public String home(){
+        return "/candidate/HomeCandidate";
     }
+    @GetMapping("/about-us")
+    public String home1(){
+        return "/candidate/about-us";
+    }
+    @GetMapping("/contact-us")
+    public String home2(){
+        return "/candidate/contact-us";
+    }
+    @GetMapping("/listAllCV")
+    public String listAllCV(){
+        return "/candidate/listAllCV";
+    }
+    @GetMapping("/detailOneCV")
+    public String detailOneCV(){
+        return "/candidate/detailOneCV";
+    }
+    @GetMapping("/createCV")
+    public String createCV(){
+        return "/candidate/CreateCV";
+    }
+
     @GetMapping("/ListCompanyCandidate")
-    public String ListCompanyCandidate(Model model) {
-        System.out.println("list comapny");
-//        model.addAttribute("ListCompany",companyService.findAllCompany());
+    public String ListCompanyCandidate() {
         return "candidate/listCompany";
     }
+
+
+
+
 
 //    @PostMapping("createCV")
 //    public String CreateCV(CompanyMajor companyMajor){
