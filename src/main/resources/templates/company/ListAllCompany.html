@@ -18,6 +18,12 @@
             font-family: 'Varela Round', sans-serif;
             font-size: 13px;
         }
+        table.table td a.edit {
+            color: #FFC107;
+        }
+        table.table td a.delete {
+            color: #F44336;
+        }
         .table-responsive {
             margin: 30px 0;
         }
@@ -277,8 +283,7 @@
                         <h2>List<b>Company</b></h2>
                     </div>
                     <div class="col-sm-8">
-<!--                        <a href="#editEmployeeModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>-->
-                        <a href="#editEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
+                        <a href="#addCompanyModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
                     </div>
                 </div>
             </div>
@@ -346,8 +351,8 @@
                     <td>Software Company</td>
                     <td>1500</td>
                     <td>
-                        <a href="#deleteEmployeeModal" class="view" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
-                        <a href="#addEmployeeModal" class="view" title="View Details" data-toggle="modal"><i class="material-icons">&#xE5C8;</i></a>
+                        <a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                 </tr>
                 <tr>
@@ -358,7 +363,10 @@
                     <td><span class="status text-success">&bull;</span> IsActive</td>
                     <td>Software Company</td>
                     <td>$1000</td>
-                    <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                    <td>
+                        <a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
                 </tr>
                 <tr>
                     <td>3</td>
@@ -368,7 +376,10 @@
                     <td><span class="status text-success">&bull;</span> IsActive</td>
                     <td>Software Company</td>
                     <td>500</td>
-                    <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                    <td>
+                        <a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
                 </tr>
                 <tr>
                     <td>4</td>
@@ -378,7 +389,10 @@
                     <td><span class="status text-danger">&bull;</span> InActive</td>
                     <td>Software Company</td>
                     <td>60</td>
-                    <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                    <td>
+                        <a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -400,12 +414,12 @@
     </div>
 </div>
 <!-- Edit Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
+<div id="addCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Employee</h4>
+                    <h4 class="modal-title">Add Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -435,12 +449,12 @@
     </div>
 </div>
 <!-- Edit Modal HTML -->
-<div id="editEmployeeModal" class="modal fade">
+<div id="editCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Employee</h4>
+                    <h4 class="modal-title">Edit Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -470,12 +484,12 @@
     </div>
 </div>
 <!-- Delete Modal HTML -->
-<div id="deleteEmployeeModal" class="modal fade">
+<div id="deleteCompanyModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete Employee</h4>
+                    <h4 class="modal-title">Delete Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
