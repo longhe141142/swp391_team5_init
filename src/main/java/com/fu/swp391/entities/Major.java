@@ -1,32 +1,31 @@
 package com.fu.swp391.entities;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor
 @Entity()
 @Table(name = "majors")
-public class Major {
+public class Major implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
     @NotNull
+    @Column(name = "description")
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     @NotEmpty
     @NotNull
     private String name;
@@ -41,4 +40,19 @@ public class Major {
     @OneToMany(mappedBy = "major")
     private List<CompanyMajor> companyMajors;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
