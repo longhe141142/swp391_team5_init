@@ -19,7 +19,5 @@ public class CandidateServiceImpl implements CandidateService {
         this.candidateRepository = _candidateRepository;
     }
 
-    public List<Candidate> findAll() {
-        return candidateRepository.findAll();
-    }
+
 }
