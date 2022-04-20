@@ -75,12 +75,11 @@ public class CandidateController {
         return "candidate/listCompany";
     }
 
-    @GetMapping("/candidatehome")
-    public String homecandidate(Model model) {
+    @GetMapping("/detailcompany")
+    public String DetailCompany(Model model) {
 
-
-
-        return "candidate/HomeCandidate.html";
+//        List<Company> ListCompany = companyService.findAllCompany();
+//        model.addAttribute("ListCompany",ListCompany);
+        return "candidate/detailCompany";
     }
-
 }
