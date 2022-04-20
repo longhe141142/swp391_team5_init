@@ -5,7 +5,7 @@ import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.accountStatusEnum;
 import com.fu.swp391.common.enumConstants.roleEnum;
 import com.fu.swp391.entities.User;
-import com.fu.swp391.service.CandidateService;
+import com.fu.swp391.service.candidate.CandidateService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -119,7 +118,28 @@ public class UserController {
     public String detailOneCV(){
         return "/candidate/detailOneCV.html";
     }
+    @GetMapping("candidate/createCV")
+    public String createCV(){
+        return "/candidate/CreateCV.html";
+    }
 
+//admin
+    @GetMapping("admin/home")
+    public String homeAdmin(){
+        return "/admin/homeAdmin.html";
+    }
+    @GetMapping("admin/login")
+    public String loginAdmin(){
+        return "/admin/login.html";
+    }
+    @GetMapping("admin/register")
+    public String registerAdmin(){
+        return "/admin/register.html";
+    }
+    @GetMapping("admin/forgotPassword")
+    public String forgetPasswordAdmin(){
+        return "/admin/forgot-password.html";
+    }
 
   //  @PostMapping("/register")
   //  public String registerUser(
@@ -152,25 +172,7 @@ public class UserController {
   public String login(Model model) {
     return "login/login";
   }
-//
-    //admin
 
-//    @GetMapping("admin/home")
-//    public String homeAdmin(){
-//        return "/admin/homeAdmin.html";
-//    }
-    @GetMapping("admin/login")
-    public String loginAdmin(){
-        return "/admin/login.html";
-    }
-    @GetMapping("admin/register")
-    public String registerAdmin(){
-        return "/admin/register.html";
-    }
-    @GetMapping("admin/forgotPassword")
-    public String forgetPasswordAdmin(){
-        return "/admin/forgot-password.html";
-    }
 
 
 //    @PostMapping("/register")

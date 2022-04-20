@@ -1,4 +1,4 @@
-package com.fu.swp391.repository;
+package com.fu.swp391.repository.candidate;
 
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
