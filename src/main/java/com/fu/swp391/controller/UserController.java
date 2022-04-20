@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller()
-// @RequestMapping(value = "/user")
 public class UserController {
 
   @Autowired RoleService roleService;
