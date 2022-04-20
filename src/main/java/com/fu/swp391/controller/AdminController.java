@@ -13,7 +13,7 @@ public class AdminController {
 //        return "admin/utilities-animation";
 //    }
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String renderAdminHome(){
         return "admin/homeAdmin";
     }

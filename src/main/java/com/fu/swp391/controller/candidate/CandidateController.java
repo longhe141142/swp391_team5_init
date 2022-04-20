@@ -1,6 +1,6 @@
 package com.fu.swp391.controller.candidate;
 
-import com.fu.swp391.service.candidate.CandidateService;
+import com.fu.swp391.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

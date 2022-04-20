@@ -5,10 +5,11 @@ import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.accountStatusEnum;
 import com.fu.swp391.common.enumConstants.roleEnum;
 import com.fu.swp391.entities.User;
-import com.fu.swp391.service.candidate.CandidateService;
+import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +30,7 @@ public class UserController {
 
   @Autowired RoleService roleService;
 
-  @Autowired CandidateService candidateService;
+  @Autowired @Qualifier("candidateServiceImpl") CandidateService candidateService;
 
   @Autowired GenderEnum genderEnum;
 
