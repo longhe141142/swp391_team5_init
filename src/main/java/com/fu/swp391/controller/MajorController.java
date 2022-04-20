@@ -1,4 +1,4 @@
-package com.fu.swp391.controller.company;
+package com.fu.swp391.controller;
 
 
 import com.fu.swp391.entities.CompanyMajor;

@@ -99,48 +99,7 @@ public class UserController {
 //
 //    }
 
-    @GetMapping("candidate/home")
-    public String home(){
-        return "/candidate/HomeCandidate.html";
-    }
-//    @GetMapping("candidate/about-us")
-//    public String home1(){
-//        return "about-us.html";
-//    }
-//    @GetMapping("candidate/contact-us")
-//    public String home2(){
-//        return "contact-us.html";
-//    }
-    @GetMapping("candidate/listAllCV")
-    public String listAllCV(){
-        return "/candidate/listAllCV.html";
-    }
-    @GetMapping("candidate/detailOneCV")
-    public String detailOneCV(){
-        return "/candidate/detailOneCV.html";
-    }
-    @GetMapping("candidate/createCV")
-    public String createCV(){
-        return "/candidate/CreateCV.html";
-    }
 
-//admin
-    @GetMapping("admin/home")
-    public String homeAdmin(){
-        return "/admin/homeAdmin.html";
-    }
-    @GetMapping("admin/login")
-    public String loginAdmin(){
-        return "/admin/login.html";
-    }
-    @GetMapping("admin/register")
-    public String registerAdmin(){
-        return "/admin/register.html";
-    }
-    @GetMapping("admin/forgotPassword")
-    public String forgetPasswordAdmin(){
-        return "/admin/forgot-password.html";
-    }
 
   //  @PostMapping("/register")
   //  public String registerUser(
