@@ -18,5 +18,10 @@ public class AdminController {
         return "admin/homeAdmin";
     }
 
+    @GetMapping("/company")
+    public String renderCompanyManagement(){
+        return "admin/company-view";
+    }
+
 
 }
