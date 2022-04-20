@@ -16,6 +16,9 @@ public class Company {
     @NotEmpty
     private String name;
 
+    @Column(name = "company_image",nullable = true)
+    private String companyImageUrl;
+
     @Column
     @NotNull
     @NotEmpty
