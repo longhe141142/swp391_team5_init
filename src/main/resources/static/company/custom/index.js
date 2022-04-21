@@ -106,6 +106,7 @@ $(".file_remove").on("click", function (e) {
 });
 
 
+<<<<<<< HEAD
 function getElmByClass(className) {
     return document.getElementsByClassName(className);
 }
@@ -354,3 +355,5 @@ $(document).ready(function () {
 
 
 
+=======
+>>>>>>> 4c16774 (add Company)
