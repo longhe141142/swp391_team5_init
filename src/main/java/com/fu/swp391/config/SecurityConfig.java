@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class git SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired private com.fu.swp391.service.UserServiceImpl2 userService;
 

@@ -84,4 +84,3 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   protected RedirectStrategy getRedirectStrategy() {
     return redirectStrategy;
   }
-}
