@@ -1,15 +1,23 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
+<<<<<<< HEAD
 import com.fu.swp391.entities.*;
 import com.fu.swp391.repository.ExperienceRepository;
+=======
+import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.CompanyMajor;
+>>>>>>> 0bf80d9 (Thêm thymeleaf)
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PostMapping;
+=======
+>>>>>>> 0bf80d9 (Thêm thymeleaf)
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -33,11 +41,20 @@ public class CandidateController {
 
     @Autowired
     CompanyService companyService;
+<<<<<<< HEAD
 
     public CandidateController(CandidateService candidateService,CompanyService companyService,CvService cvService) {
         this.candidateService = candidateService;
         this.companyService = companyService;
         this.cvService = cvService;
+=======
+@Autowired
+CompanyMajorService companyMajorService;
+    public CandidateController(CandidateService candidateService,CompanyService companyService,CompanyMajorService companyMajorService) {
+        this.candidateService = candidateService;
+        this.companyService = companyService;
+        this.companyMajorService = companyMajorService;
+>>>>>>> 0bf80d9 (Thêm thymeleaf)
     }
 
 
@@ -120,15 +137,21 @@ public class CandidateController {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @GetMapping("/candidatehome")
     public String homecandidate(Model model) {
         return "candidate/HomeCandidate";
 =======
     @GetMapping("/detailcompany")
     public String DetailCompany(Model model) {
+=======
+    @GetMapping("/DetailCompany/{id}")
+    public String DetailCompany(Model model, @PathVariable long id) {
+//
+        List<CompanyMajor> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
+        model.addAttribute("ListCompanyDetail",ListCompanyDetail);
+>>>>>>> 0bf80d9 (Thêm thymeleaf)
 
-//        List<Company> ListCompany = companyService.findAllCompany();
-//        model.addAttribute("ListCompany",ListCompany);
         return "candidate/detailCompany";
 >>>>>>> 06490ba (Thêm Detail company)
     }
