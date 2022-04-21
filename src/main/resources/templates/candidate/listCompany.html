@@ -79,7 +79,7 @@
               <div class="card-body">
 <!--                <a></a>-->
                 <div class="h5">
-                  <a th:href="@{DetailCompany/(${x.getId()})}" th:text="${x.name}">
+                  <a th:href="@{DetailCompany/{id}(id = ${x.getId()})}" th:text="${x.name}">
                     Web Developer</a></div>
 
                 <p ><a th:text="${x.getDescription()}"/></p>

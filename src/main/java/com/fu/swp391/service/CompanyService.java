@@ -21,4 +21,6 @@ public interface CompanyService {
     Company addCompany(Company company, User user);
 
     public Company getJson(String user, MultipartFile file);
+
+    Company getById(Long id);
 }

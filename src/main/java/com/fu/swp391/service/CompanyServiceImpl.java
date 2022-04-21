@@ -62,6 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
     return CompanyJson;
   }
 
+  @Override
+  public Company getById(Long id) {
+    return this.companyRepository.getById(id);
+  }
+
+
+
   public User addUCompanyUserRole(User user) {
     String[] roleArray = new String[] {roleEnum.USER, roleEnum.COMPANY};
     List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));

@@ -145,45 +145,25 @@ public class Company {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public int getPersonnelSize() {
-        return personnelSize;
-    }
 
-    public void setPersonnelSize(int personnelSize) {
-        this.personnelSize = personnelSize;
-    }
 
-    public Date getFoundingAt() {
-        return foundingAt;
-    }
 
-    public void setFoundingAt(Date foundingAt) {
-        this.foundingAt = foundingAt;
-    }
 
-    public String getCompanyIntro() {
-        return companyIntro;
-    }
 
-    public void setCompanyIntro(String companyIntro) {
-        this.companyIntro = companyIntro;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+
+
+
+
+
+
+
+
+
+
 
     public String getPhone() {
         return phone;

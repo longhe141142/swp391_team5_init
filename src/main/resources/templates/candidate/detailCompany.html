@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -22,11 +23,11 @@
           <img src="/home/images/FPTSoft.png" alt="">
         </div>
         <div class="title">
-          <h1>FPT Software</h1>
-          <h2>DEV Company</h2>
-          <h2>Mail</h2>
-          <h2>Phone</h2>
-          <h2>Address</h2>
+          <h1 th:text="${ComPa.getName()}">FPT Software</h1>
+          <h2 th:text="${ComPa.getFoundingAt()}">DEV Company</h2>
+          <h2 th:text="${ComPa.getEmail()}">Mail</h2>
+          <h2 th:text="${ComPa.getPhone()}">Phone</h2>
+          <h2 th:text="${ComPa.getAddress()}"></h2>
         </div>
 
       </div>
@@ -39,8 +40,8 @@
 
           <h2>Introduction</h2>
           <div class="item">
-            <h3><span>Jan 2016 -  Present</span> </h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+            <h3><span></span> </h3>
+            <p><a th:text="${ComPa.getCompanyIntro()}"/></p>
           </div>
         </div>
 
@@ -48,8 +49,8 @@
 
           <h2>Description</h2>
           <div class="item">
-            <h3><span>Jan 2016 -  Present</span> </h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+            <h3><span></span> </h3>
+            <p> <a th:text="${ComPa.getDescription()}"/></p>
           </div>
         </div>
 
@@ -59,7 +60,7 @@
             <tbody >
             <tr th:each=" x:${ListCompanyDetail}">
               <td style="border-style: ridge;border-left: 1px solid #000000;border-top: 1px solid black;border-bottom: 1px solid black;"><img style="width:100px;height:100px;" src="/home/images/FPTSoft.png" alt=""></td>
-              <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a th:text="${x.majorName}"/></a> </td>
+              <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a href="#" th:text="${x.majorName}"/></a> </td>
               <td style="border-style: ridge;  border-top: 1px solid black;border-bottom: 1px solid black;
   border-right: 1px solid #000000;vertical-align:top; padding-top: 15px">Personal Need :<a th:text="${x.maxCandidate}"/></td>
             </tr>

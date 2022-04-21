@@ -82,7 +82,8 @@ CompanyMajorService companyMajorService;
 //
         List<CompanyMajor> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
         model.addAttribute("ListCompanyDetail",ListCompanyDetail);
-
+        Company com = companyService.getById(id);
+        model.addAttribute("ComPa",com);
         return "candidate/detailCompany";
     }
 }

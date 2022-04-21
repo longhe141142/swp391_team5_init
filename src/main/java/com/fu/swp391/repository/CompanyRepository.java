@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company,Long> {
     @Query(value = "SELECT * FROM company", nativeQuery = true)
     List<Company> findAllCompany();
-Optional<Company> findById(Long id);
+
+    @Override
+    Company getById(Long aLong);
 }
