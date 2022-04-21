@@ -16,6 +16,9 @@ public class Company {
     @NotEmpty
     private String name;
 
+    @Column(name = "company_image",nullable = true)
+    private String companyImageUrl;
+
     @Column
     @NotNull
     @NotEmpty
@@ -56,6 +59,14 @@ public class Company {
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Company(){}
 

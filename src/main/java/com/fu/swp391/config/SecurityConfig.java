@@ -35,15 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService);
-    // .passwordEncoder(passwordEncoder());
   }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/registerTest","/login").permitAll()
+        http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*").permitAll()
                 .antMatchers(HttpMethod.POST).permitAll()
         .antMatchers("/login").access("hasAnyRole('USER')")
-                .antMatchers("/admin/*").access("hasRole('ADMIN')")
+//                .antMatchers("/admin/*").access("hasRole('ADMIN')")
                 .antMatchers("/company/*").access("hasRole('ROLE_USER')")
                 .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
                 .and().formLogin().failureUrl("/fail_login")
