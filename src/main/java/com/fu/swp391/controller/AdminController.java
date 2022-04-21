@@ -1,13 +1,21 @@
 package com.fu.swp391.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fu.swp391.config.entity.ApiError;
+import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.Role;
+import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +25,8 @@ public class AdminController {
 
     @Autowired
     RoleService roleService;
+
+  @Autowired CompanyService companyService;
 
     @GetMapping("/")
     public String renderAdminHome(){
@@ -50,26 +60,31 @@ public class AdminController {
         return "company/ListAllCompany";
     }
 
+  //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
+  // "application/json")
 
-    @RequestMapping(value = "/example", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<Object> getObj(){
-        List<JSONPObject> entities = new ArrayList<JSONPObject>();
-//        try {
-////            HocsinhModel hsm = new HocsinhModel();
-////            for (Hocsinh hs: hsm.findAll()){
-////                JSONObject obj = new JSONObject();
-////                obj.put("mahs", hs.getMahs());
-////                obj.put("ten", hs.getTen());
-////                obj.put("tuoi", hs.getTuoi());
-////                entities.add(obj);
-//            }
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            System.out.println(e.getMessage());
-//        }
+
+  // example api
+  @RequestMapping(value = "/example", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseEntity<Object> getObj() {
+    List<ObjectNode> entities = new ArrayList<ObjectNode>();
+    try {
+      List<Role> roles = roleService.getAllRole();
+
+      for (Role r : roles) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode json = mapper.createObjectNode();
+        json.put("name", r.getName());
+        json.put("description", r.getDescription());
+        json.put("id", r.getId());
+        entities.add(json);
+      }
+    } catch (Exception e) {
+      // TODO: handle exception
+      System.out.println(e.getMessage());
+    }
         return new ResponseEntity<Object>(entities, HttpStatus.OK);
     }
-
 
 }
