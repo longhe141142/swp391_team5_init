@@ -14,8 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -35,19 +39,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService);
-    // .passwordEncoder(passwordEncoder());
   }
 
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowedMethods(Arrays.asList("*"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*").permitAll()
-                .antMatchers(HttpMethod.POST).permitAll()
-        .antMatchers("/login").access("hasAnyRole('USER')")
-//                .antMatchers("/admin/*").access("hasRole('ADMIN')")
-                .antMatchers("/company/*").access("hasRole('ROLE_USER')")
+      http.cors().and().csrf().disable();
+        http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
+//                .antMatchers(HttpMethod.POST).permitAll()
+//        .antMatchers("/login").access("hasAnyRole('USER')")
+////                .antMatchers("/admin/*").access("hasRole('ADMIN')")
+//                .antMatchers("/company/*").access("hasRole('ROLE_USER')")
                 .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
-                .and().formLogin().failureUrl("/fail_login")
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                .and().formLogin().failureUrl("/fail_login");
+//                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 
 //        http.authorizeRequests().and() //
 //                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
