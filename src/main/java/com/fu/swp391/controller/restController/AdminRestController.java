@@ -31,10 +31,12 @@ public class AdminRestController {
   @Autowired CompanyService companyService;
   @Autowired HelperUntil helperUntil;
 
+
   @PostMapping(
       value = "/addCompany",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
+//  @CrossOrigin
   public ResponseEntity<Object> addCompany(
       @RequestPart("file") MultipartFile file,
       @Validated @RequestPart("addCompanyDto") addCompany addCompanyDto,
