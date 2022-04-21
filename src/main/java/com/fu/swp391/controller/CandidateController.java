@@ -3,6 +3,7 @@ package com.fu.swp391.controller;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.skillFake;
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,10 +46,10 @@ public class CandidateController {
 //        return "candidate/listAllCV";
 //    }
 
-
+///candidate/HomeCandidate
     @GetMapping("/home")
     public String home(){
-        return "/candidate/HomeCandidate";
+        return "/company/index";
     }
     @GetMapping("/about-us")
     public String home1(){
@@ -63,7 +64,11 @@ public class CandidateController {
     @GetMapping("/listAllCV")
     public String listAllCV(Model model){
         List<CV> cvList =  cvService.getAllCV();
+        List<CV> cvListSkill =  cvService.getAllCVSkill();
+        //List<skillFake> skillFakes =  cvService.getSkillFake();
         model.addAttribute("listCandidateCV",cvList);
+        model.addAttribute("listCandidateCVSkill",cvListSkill);
+        //model.addAttribute("skillFakes",skillFakes);
         return "/candidate/listAllCV";
     }
 
