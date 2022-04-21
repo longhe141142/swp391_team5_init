@@ -45,7 +45,7 @@ public class CompanyServiceImpl implements CompanyService {
   public Company addCompany(Company company, User user) {
     user = this.addUCompanyUserRole(user);
     company.setUser(user);
-    this.companyRepository.save(company);
+    company = this.companyRepository.save(company);
     return company;
   }
 
