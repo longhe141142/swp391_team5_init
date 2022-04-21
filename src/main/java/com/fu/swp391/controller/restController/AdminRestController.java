@@ -38,17 +38,24 @@ public class AdminRestController {
   @ResponseBody
 //  @CrossOrigin
   public ResponseEntity<Object> addCompany(
-      @RequestPart("file") MultipartFile file,
       @Validated @RequestPart("addCompanyDto") addCompany addCompanyDto,
+      @RequestPart("file") MultipartFile file,
       BindingResult bindingresult) {
+    ObjectNode responseBodyError = null;
+    ObjectMapper mapper = new ObjectMapper();
+    if (file.isEmpty()) {
+      helperUntil.putKeyValue(responseBodyError, "image", "Please select image");
+      System.out.println("file empty");
+      return new ResponseEntity<Object>(
+          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+    }
     MultipartFile multipartFile = file;
     String fileName = multipartFile.getOriginalFilename();
-    System.out.println(fileName);
-    ObjectNode responseBodyError = null;
+//    System.out.println(fileName);
 
     if (bindingresult.hasErrors()) {
       System.out.println("entry");
-      ObjectMapper mapper = new ObjectMapper();
+
       responseBodyError = mapper.createObjectNode();
       if (addCompanyDto.user == null || addCompanyDto.company == null) {
         if (addCompanyDto.user == null) {
@@ -82,6 +89,7 @@ public class AdminRestController {
     }
     Company company = addCompanyDto.company;
     User user = addCompanyDto.user;
+    company.setCompanyImageUrl(fileName);
     Company companyCreate = companyService.addCompany(company, user);
     return new ResponseEntity<Object>(companyCreate, HttpStatus.OK);
   }
