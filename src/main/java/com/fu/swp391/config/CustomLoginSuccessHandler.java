@@ -55,7 +55,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     } else if (isAdmin(roles)) {
       url = "/home";
     } else if (isAdmin(roles)) {
-      url = "/home";
+      url = "/admin/home";
     } else {
       url = "/accessDenied";
     }

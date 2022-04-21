@@ -1,5 +1,6 @@
 package com.fu.swp391.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +62,7 @@ public class CompanyMajor {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
+    @JsonIgnore
     private Company company;
 
     @OneToMany(mappedBy = "companyMajor")
