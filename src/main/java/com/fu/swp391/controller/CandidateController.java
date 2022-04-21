@@ -49,7 +49,7 @@ public class CandidateController {
 ///candidate/HomeCandidate
     @GetMapping("/home")
     public String home(){
-        return "/company/index";
+        return "/candidate/HomeCandidate";
     }
     @GetMapping("/about-us")
     public String home1(){
