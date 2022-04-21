@@ -130,3 +130,5 @@ $(".file_remove").on("click", function (e) {
     btnOuter.removeClass("file_uploading");
     btnOuter.removeClass("file_uploaded");
 });
+
+
