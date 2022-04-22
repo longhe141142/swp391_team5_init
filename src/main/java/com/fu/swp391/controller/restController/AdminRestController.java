@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fu.swp391.common.enumConstants.StatusEnum;
 import com.fu.swp391.config.entity.ApiError;
+import com.fu.swp391.config.entity.ResponseSuccess;
 import com.fu.swp391.controller.restController.dto.addCompany;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
@@ -11,10 +12,13 @@ import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.UserService;
+<<<<<<< HEAD
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import javax.validation.Validator;
+=======
+>>>>>>> d6c270e (long add company)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -41,14 +45,21 @@ public class AdminRestController {
   @Autowired CompanyService companyService;
   @Autowired HelperUntil helperUntil;
   @Autowired UserService userService;
+<<<<<<< HEAD
   @Autowired CompanyRepository companyRepository;
+=======
+>>>>>>> d6c270e (long add company)
 
   @PostMapping(
       value = "/upload-company-image",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
+<<<<<<< HEAD
   public ResponseEntity<Object> uploadImage(
       @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
+=======
+  public ResponseEntity<Object> uploadImage(@RequestPart("file") MultipartFile file) {
+>>>>>>> d6c270e (long add company)
     ResponseEntity<Object> isSomethingWrong = validateFile(file);
     if (isSomethingWrong != null) {
       return isSomethingWrong;
@@ -60,6 +71,7 @@ public class AdminRestController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+<<<<<<< HEAD
       ObjectMapper mapper = new ObjectMapper();
       ObjectNode responseBody = mapper.createObjectNode();
       if (id.isEmpty()) {
@@ -109,12 +121,22 @@ public class AdminRestController {
     }
   }
 
+=======
+      return new ResponseSuccess("Upload Success");
+    }
+  }
+
+>>>>>>> d6c270e (long add company)
   @PostMapping(value = "/addCompany")
   @ResponseBody
   public ResponseEntity<Object> addCompanyRequest(
       @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode responseBodyError = mapper.createObjectNode();
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6c270e (long add company)
     if (bindingResult.hasErrors()) {
       System.out.println("entry");
       if (addCompanyDto.user == null || addCompanyDto.company == null) {

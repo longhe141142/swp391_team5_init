@@ -85,6 +85,45 @@ public class Company {
     }
 
 
+<<<<<<< HEAD
+=======
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getPersonnelSize() {
+        return personnelSize;
+    }
+
+    public void setPersonnelSize(int personnelSize) {
+        this.personnelSize = personnelSize;
+    }
+
+    public Date getFoundingAt() {
+        return foundingAt;
+    }
+
+    public void setFoundingAt(Date foundingAt) {
+        this.foundingAt = foundingAt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCompanyIntro() {
+        return companyIntro;
+    }
+
+    public void setCompanyIntro(String companyIntro) {
+        this.companyIntro = companyIntro;
+    }
+
+>>>>>>> d6c270e (long add company)
     @Column(name = "company_intro",length = 1700)
     @NotEmpty
     @NotNull
