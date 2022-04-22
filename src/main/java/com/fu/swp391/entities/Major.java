@@ -2,7 +2,6 @@ package com.fu.swp391.entities;
 
 
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -38,7 +37,7 @@ public class Major implements Serializable {
     Set<Skill> skills;
 
     @OneToMany(mappedBy = "major")
-    private List<CompanyMajor> companyMajors;
+    private List<JobPost> jobPosts;
 
     public Long getId() {
         return id;

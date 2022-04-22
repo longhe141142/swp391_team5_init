@@ -46,8 +46,6 @@ public class ExceptionHandler {
                     violation.getPropertyPath() + ": " + violation.getMessage());
         }
 
-
-
         ApiError apiError =
                 new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors,responseBody);
         return new ResponseEntity<Object>(

@@ -105,8 +105,14 @@ public class UserServiceImpl2 implements UserService  {
         return user;
     }
 
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return  userRepository.findUserByEmail(email);
+    }
+
     public void getServiceName(){
         System.out.println("User service 2nd instance");
     }
+
 
 }
