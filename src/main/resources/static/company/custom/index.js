@@ -274,25 +274,28 @@ $(document).ready(function () {
         // $('[data-toggle="tooltip"]').tooltip();
         if (!getAll.error) {
             $.ajax({
-                url: 'http://localhost:8002/admin/addCompany',
-                data: JSON.stringify({ ...dataPendingToSend }),
+                url: '/admin/addCompany',
+                data: JSON.stringify({...dataPendingToSend}),
                 processData: false,
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'POST',
                 success: function (data) {
-                    alert(data);
+                    $('#uploadImage').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     $("#uploadImage").modal('show');
                     $("#addCompanyModal").modal('hide');
+                    document.getElementById("companyId").innerText = `${data.id}`
                 },
                 error: function (xhr, status, error) {
                     const response = JSON.parse(xhr.responseText);
                     console.log(response);
                     let errMsg = "";
-                    if(!("responseBody" in response)){
-                        errMsg = "Internal server error";
+                    if (("responseBody" in response)) {
                         errMsg = "user_existed" in response.responseBody ? "User already existed" : "Internal Server error";
-                    }else{
+                    } else {
                         errMsg = "Internal server error";
                     }
                     handle_errors(errMsg);
@@ -304,28 +307,44 @@ $(document).ready(function () {
         }
     });
 
-
+    //upload file
     $('#upload-file').submit(function (e) {    // $('[data-toggle="tooltip"]').tooltip();
         e.preventDefault();
-        console.log(JSON.stringify(getAllInput()));
-        $.ajax({
-            url: '/admin/addCompany',
-            data: null,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function (data) {
-                alert(data);
-            },
-            error: function (xhr, status, error) {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response);
-                console.log("999999");
-            }
-        });
-        $("#uploadImage").modal('show');
-        $("#addCompanyModal").modal('hide');
+        var formData = new FormData();
+        var files = $('#upload_file')[0].files;
+        if (files.length === 0) {
+            handle_errors("YOU MUST INPUT IMAGE");
+        } else {
+            formData.append('file', $('#upload_file')[0].files[0])
+
+
+            //call api upload
+            $.ajax({
+                url: `/admin/upload-company-image?id=${document.getElementById('companyId').innerHTML}`,
+                type: 'POST',
+                data: formData,
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+                success: function (data) {
+                    $('#confirmModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    $("#confirmModal").modal('toggle');
+
+                    $("#uploadImage").modal('hide');
+                }
+            });
+
+
+        }
+
     });
+
+
+
+    //redirect to page
+
 });
 
 

@@ -1,6 +1,8 @@
 
 
+<p id="companyId" style="display: none"></p>
 
+<!--add company modal -->
 <div id="addCompanyModal" class="modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -92,16 +94,16 @@
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Add">
+					<input class="btn btn-success" type="submit" value="Next Step">
 				</div>
 				<div th:insert="/common/error.html"></div>
 			</form>
 		</div>
 	</div>
 </div>
+<!--end of add company modal-->
 
-
-
+<!--Modal upload image-->
 <div id="uploadImage" class="modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -132,7 +134,37 @@
 						</main>
 					</div>
 				</div>
+				<div class="modal-footer">
+					<input class="btn btn-success" type="submit" value="Finish">
+				</div>
 			</form>
 		</div>
 	</div>
+</div>
+<!--end of Modal upload image -->
+
+
+<!--modal confirm-->
+<div class="modal fade" id="confirmModal">
+	<form th:action="@{/admin/company}" method="get" xmlns:th="http://www.thymeleaf.org">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="icon-box">
+						<i class="material-icons">&#xE876;</i>
+					</div>
+					<h4 class="modal-title w-100">Awesome!</h4>
+				</div>
+				<div class="modal-body">
+					<p class="text-center">Your booking has been confirmed. Check your email for
+						detials.</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn--radius btn--green" id="register"
+					        type="submit">OK
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
