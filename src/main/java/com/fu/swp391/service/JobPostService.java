@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface MajorService {
+public interface JobPostService {
     List<Major> findAll();
 
     List<Major> findAll(Sort sort);

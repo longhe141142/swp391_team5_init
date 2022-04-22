@@ -3,11 +3,13 @@ package com.fu.swp391.controller.restController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fu.swp391.config.entity.ApiError;
+import com.fu.swp391.config.entity.ResponseSuccess;
 import com.fu.swp391.controller.restController.dto.addCompany;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.service.CompanyService;
+import com.fu.swp391.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,33 +32,37 @@ public class AdminRestController {
   @Autowired Validator validator;
   @Autowired CompanyService companyService;
   @Autowired HelperUntil helperUntil;
-
+  @Autowired UserService userService;
 
   @PostMapping(
-      value = "/addCompany",
+      value = "/upload-company-image",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
-//  @CrossOrigin
-  public ResponseEntity<Object> addCompany(
-      @Validated @RequestPart("addCompanyDto") addCompany addCompanyDto,
-      @RequestPart("file") MultipartFile file,
-      BindingResult bindingresult) {
-    ObjectNode responseBodyError = null;
-    ObjectMapper mapper = new ObjectMapper();
-    if (file.isEmpty()) {
-      helperUntil.putKeyValue(responseBodyError, "image", "Please select image");
-      System.out.println("file empty");
-      return new ResponseEntity<Object>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+  public ResponseEntity<Object> uploadImage(@RequestPart("file") MultipartFile file) {
+    ResponseEntity<Object> isSomethingWrong = validateFile(file);
+    if (isSomethingWrong != null) {
+      return isSomethingWrong;
+    } else {
+      MultipartFile multipartFile = file;
+      String fileName = multipartFile.getOriginalFilename();
+      try {
+        FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return new ResponseSuccess("Upload Success");
     }
-    MultipartFile multipartFile = file;
-    String fileName = multipartFile.getOriginalFilename();
-//    System.out.println(fileName);
+  }
 
-    if (bindingresult.hasErrors()) {
+  @PostMapping(value = "/addCompany")
+  @ResponseBody
+  public ResponseEntity<Object> addCompanyRequest(
+      @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode responseBodyError = mapper.createObjectNode();
+
+    if (bindingResult.hasErrors()) {
       System.out.println("entry");
-
-      responseBodyError = mapper.createObjectNode();
       if (addCompanyDto.user == null || addCompanyDto.company == null) {
         if (addCompanyDto.user == null) {
           helperUntil.putKeyValue(
@@ -67,29 +73,29 @@ public class AdminRestController {
               responseBodyError, "companyError", "Please input company information");
         }
       } else {
-        for (FieldError err : bindingresult.getFieldErrors()) {
+        for (FieldError err : bindingResult.getFieldErrors()) {
           helperUntil.putKeyValue(responseBodyError, err.getField(), err.getDefaultMessage());
           System.out.println(err.getField());
           System.out.println(err.getDefaultMessage());
         }
       }
-
       return new ResponseEntity<Object>(
           new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
+
+    if(userService.findUserByEmail(addCompanyDto.user.getEmail()).isPresent()){
+      helperUntil.putKeyValue(responseBodyError, "user_existed", "user is already existed");
+      return new ResponseEntity<Object>(
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+    }
+
     System.out.println("Entry");
     System.out.println("Company name" + addCompanyDto.company.getName());
     System.out.println("Company description" + addCompanyDto.company.getDescription());
     System.out.println("user create email" + addCompanyDto.user.getEmail());
 
-    try {
-      FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
     Company company = addCompanyDto.company;
     User user = addCompanyDto.user;
-    company.setCompanyImageUrl(fileName);
     Company companyCreate = companyService.addCompany(company, user);
     return new ResponseEntity<Object>(companyCreate, HttpStatus.OK);
   }
@@ -97,12 +103,19 @@ public class AdminRestController {
   @Value("C:/Users/84866/Videos/swp391 (1)/swp391/src/main/resources/fileUpload/")
   private String fileUpload;
 
-  @PostMapping(
-      value = "/upload",
-      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-  public Company upload(
-      @RequestPart("company") String company, @RequestPart("file") MultipartFile file) {
-    Company companyJson = companyService.getJson(company, file);
-    return companyJson;
+  private boolean checkFileEmpty(MultipartFile file) {
+    return file.isEmpty();
+  }
+
+  private ResponseEntity<Object> validateFile(MultipartFile file) {
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode responseBodyError = mapper.createObjectNode();
+    if (checkFileEmpty(file)) {
+      helperUntil.putKeyValue(responseBodyError, "image", "Please select image");
+      System.out.println("file empty");
+      return new ResponseEntity<>(
+          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+    }
+    return null;
   }
 }

@@ -232,7 +232,7 @@
         var count = $('#myTable tr').length - 1;
         if(content!="" && title !="" ){
             $('#myTable tbody').append('<tr class="child"><td >'+count+'</td>' +
-                '<td th:value = "'+content+'" th:field="*{majorRules.get(0).getContent()}">'+content+'</td>' +
+                '<td th:value = "'+content+'" th:field="*{jobRules.get(0).getContent()}">'+content+'</td>' +
                 '<td th:value = "'+title+'" >'+title+'</td>' +
                 '<td><a href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a>' +
                 '</td>' +

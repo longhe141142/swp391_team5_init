@@ -1,9 +1,9 @@
 package com.fu.swp391.controller;
 
 
-import com.fu.swp391.entities.CompanyMajor;
+import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Major;
-import com.fu.swp391.service.MajorService;
+import com.fu.swp391.service.JobPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,20 +18,20 @@ import java.util.List;
 public class MajorController {
 
         @Autowired
-        MajorService majorService ;
+        JobPostService jobPostService;
 
         @GetMapping("add")
         public String add(Model model){
-            List<Major> majors = majorService.findAll();
-            model.addAttribute("company_major", new CompanyMajor());
+            List<Major> majors = jobPostService.findAll();
+            model.addAttribute("company_major", new JobPost());
             model.addAttribute("majors", majors);
 
             return "major/AddMajor";
         }
     @PostMapping("addmajor")
-    public String addMajor(CompanyMajor companyMajor){
+    public String addMajor(JobPost jobPost){
 
-        System.out.println(companyMajor.toString());
+        System.out.println(jobPost.toString());
 
         return "major/AddMajor";
     }

@@ -60,6 +60,7 @@ public class Company {
     @NotNull
     private Date foundingAt;
 
+    @Column(length = 1700)
     @NotEmpty
     @NotNull
     private String description;
@@ -112,7 +113,7 @@ public class Company {
         this.companyIntro = companyIntro;
     }
 
-    @Column(name = "company_intro")
+    @Column(name = "company_intro",length = 1700)
     @NotEmpty
     @NotNull
     private String companyIntro;

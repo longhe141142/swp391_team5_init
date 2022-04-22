@@ -14,10 +14,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-public class MajorServiceImpl implements MajorService {
+public class JobPostServiceImpl implements JobPostService {
     MajorRepository majorRepository;
 
-    public MajorServiceImpl(MajorRepository majorRepository) {
+    public JobPostServiceImpl(MajorRepository majorRepository) {
         this.majorRepository = majorRepository;
     }
 

@@ -1,10 +1,13 @@
-<div class="modal fade" id="addCompanyModal">
+
+
+
+<div id="addCompanyModal" class="modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form>
+			<form id="submit-now">
 				<div class="modal-header">
 					<h4 class="modal-title">Add Company</h4>
-					<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid px-1 py-5 mx-auto">
@@ -14,59 +17,41 @@
 									<h5 class="text-center mb-4">CREATE NEW COMPANY</h5>
 									<div>
 										<div class="row justify-content-between text-left">
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Company name<span
-													class="text-danger"> *</span></label> <input id="name"
-											                                                     name="name"
-											                                                     onblur="validate(1)"
-											                                                     placeholder="Enter your company name"
-											                                                     type="text">
-											</div>
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+													class="text-danger"> *</span></label> <input type="text"
+											                                                     id="name" name="name" placeholder="Enter your company name"
+											                                                     onblur="validate(1)"> </div>
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Phone Number<span
-													class="text-danger"> *</span></label> <input id="phone"
-											                                                     name="lname"
-											                                                     onblur="validate(2)"
-											                                                     placeholder="Enter company phone contact"
-											                                                     type="text">
+													class="text-danger"> *</span></label> <input type="text"
+											                                                     id="phone" name="lname"
+											                                                     placeholder="Enter company phone contact" onblur="validate(2)">
 											</div>
 										</div>
 										<div class="row justify-content-between text-left">
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Business email<span
-													class="text-danger"> *</span></label> <input id="email"
-											                                                     name="email"
-											                                                     onblur="validate(3)"
-											                                                     placeholder="business email"
-											                                                     type="text">
-											</div>
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+													class="text-danger"> *</span></label> <input type="text"
+											                                                     id="email" name="email" placeholder="business email"
+											                                                     onblur="validate(3)"> </div>
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Password<span
-													class="text-danger"> *</span></label> <input id="mob"
-											                                                     name="mob"
-											                                                     onblur="validate(4)"
-											                                                     placeholder=""
-											                                                     type="password">
-											</div>
+													class="text-danger"> *</span></label> <input type="password"
+											                                                     id="password" name="password" placeholder=""
+											                                                     onblur="validate(4)"> </div>
 										</div>
 										<div class="row justify-content-between text-left">
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Personnel Size<span
-													class="text-danger"> *</span></label> <input id="personnelSize"
-											                                                     name="personnelSize"
-											                                                     onblur="validate(3)"
-											                                                     placeholder="personnelSize"
-											                                                     required
-											                                                     type="number">
-											</div>
-											<div class="form-group col-sm-6 flex-column d-flex"><label
+													class="text-danger"> *</span></label> <input type="number"
+											                                                     required id="personnelSize" name="personnelSize"
+											                                                     placeholder="personnelSize" onblur="validate(3)"> </div>
+											<div class="form-group col-sm-6 flex-column d-flex"> <label
 													class="form-control-label px-3">Address<span
-													class="text-danger"> *</span></label> <input id="address"
-											                                                     name="address"
-											                                                     onblur="validate(4)"
-											                                                     placeholder="address"
-											                                                     type="text">
-											</div>
+													class="text-danger"> *</span></label> <input type="text"
+											                                                     id="address" name="address" placeholder="address"
+											                                                     onblur="validate(4)"> </div>
 										</div>
 
 
@@ -74,34 +59,59 @@
 											<div class="input-group col-12 flex-column d-flex">
 												<label class="label">Founding at</label>
 												<div class="input-group-icon">
-													<input class="input--style-4 js-datepicker" name="birthday"
-													       type="text">
+													<input class="input--style-4 js-datepicker" id="foundingAt"
+													       name="foundingAt" type="text">
 													<i
 															class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
 												</div>
 											</div>
 										</div>
 										<div class="row justify-content-between text-left">
-											<div class="form-group col-12 flex-column d-flex"><label
+											<div class="form-group col-12 flex-column d-flex"> <label
 													for="description">Description *</label> <textarea
-													class="form-control" data-error="Please, leave us a message." id="description"
-													name="message" placeholder="Write your message here."
+													id="description" name="message" class="form-control"
+													placeholder="Write your message here." rows="4"
 													required="required"
-													rows="4"></textarea></div>
+													data-error="Please, leave us a message."></textarea> </div>
 										</div>
 										<div class="row justify-content-between text-left">
-											<div class="form-group col-12 flex-column d-flex"><label
+											<div class="form-group col-12 flex-column d-flex"> <label
 													for="companyIntro">Intro Company *</label> <textarea
-													class="form-control" data-error="Please, leave us a message." id="companyIntro"
-													name="message" placeholder="Write your message here."
+													id="companyIntro" name="message" class="form-control"
+													placeholder="Write your message here." rows="4"
 													required="required"
-													rows="4"></textarea></div>
+													data-error="Please, leave us a message."></textarea> </div>
 										</div>
 
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-success" value="Add">
+				</div>
+				<div th:insert="/common/error.html"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+<div id="uploadImage" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="upload-file">
+				<div class="modal-header">
+					<h4 class="modal-title">Add Company</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid px-1 py-5 mx-auto">
 						<main class="main_full">
 							<div class="container">
 								<div class="panel">
@@ -121,11 +131,6 @@
 							</div>
 						</main>
 					</div>
-
-				</div>
-				<div class="modal-footer">
-					<input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
-					<input class="btn btn-success" type="submit" value="Add">
 				</div>
 			</form>
 		</div>
