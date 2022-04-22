@@ -2,7 +2,7 @@ package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.CompanyMajor;
+import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,7 +80,7 @@ CompanyMajorService companyMajorService;
     @GetMapping("/DetailCompany/{id}")
     public String DetailCompany(Model model, @PathVariable long id) {
 //
-        List<CompanyMajor> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
+        List<JobPost> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
         model.addAttribute("ListCompanyDetail",ListCompanyDetail);
 
         return "candidate/detailCompany";
