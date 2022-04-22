@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -24,11 +25,15 @@
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 =======
 
 >>>>>>> 712c016 (addUI company again 4)
+=======
+
+>>>>>>> 1f0453f (Duc_4_22_2022)
         table.table td a.edit {
             color: #FFC107;
         }
@@ -37,15 +42,21 @@
             color: #F44336;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> e6222d0 (addUI company again 2)
 =======
+=======
+>>>>>>> 1f0453f (Duc_4_22_2022)
 
         .action-form {
             display: flex;
             flex-direction: row;
         }
 
+<<<<<<< HEAD
 >>>>>>> 712c016 (addUI company again 4)
+=======
+>>>>>>> 1f0453f (Duc_4_22_2022)
         .table-responsive {
             margin: 30px 0;
         }
@@ -268,12 +279,15 @@
             padding: 0 6px;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         .action-form {
             display: flex;
             flex-direction: row;
         }
 =======
 >>>>>>> 712c016 (addUI company again 4)
+=======
+>>>>>>> 1f0453f (Duc_4_22_2022)
 
         .pagination li a:hover {
             color: #666;
@@ -386,12 +400,17 @@
                     </div>
                     <div class="col-sm-8">
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <a href="#addCompanyModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
 >>>>>>> e6222d0 (addUI company again 2)
 =======
                         <a href="#addCompanyModal" class="btn btn-success" data-toggle="modal"><i
                                 class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
 >>>>>>> 712c016 (addUI company again 4)
+=======
+                        <a href="#addCompanyModal" class="btn btn-success" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
+>>>>>>> 1f0453f (Duc_4_22_2022)
                     </div>
                 </div>
                 <div class="table-filter">
@@ -433,6 +452,27 @@
                             </div>
                             <span class="filter-icon"><i class="fa fa-filter"></i></span>
                         </div>
+<<<<<<< HEAD
+=======
+                        <div class="filter-group">
+                            <label>Major</label>
+                            <select class="form-control">
+                                <option>Testing</option>
+                                <option>Font-end</option>
+                                <option>Back-end</option>
+                                <option>BA</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <select class="form-control">
+                                <div th:each="x:${ListCompany}">
+                                <option th:text="${x.address}">Hà Nội</option>
+                                    </div>
+                            </select>
+                        </div>
+                        <span class="filter-icon"><i class="fa fa-filter"></i></span>
+>>>>>>> 1f0453f (Duc_4_22_2022)
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
@@ -697,6 +737,7 @@
                 </tr>
                 </thead>
                 <tbody>
+<<<<<<< HEAD
                 <tr>
                     <td>1</td>
                     <td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img
@@ -705,9 +746,19 @@
                    </td>
                     <td>Hà Nội, TP HCM, Đà Nẵng</td>
                     <td>Jun 15, 2007</td>
+=======
+                <tr th:each="o: ${ListCompany}">
+                    <td th:text="${o.id}"></td>
+                    <td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img
+                            th:src="${o.getCompanyImageUrl()}"
+                            class="avatar"  alt="Avatar" th:text="${o.name}"></a>
+                    </td>
+                    <td th:text="${o.address}">Hà Nội, TP HCM, Đà Nẵng</td>
+                    <td th:text="${o.foundingAt}">Jun 15, 2007</td>
+>>>>>>> 1f0453f (Duc_4_22_2022)
                     <td><span class="status text-success">&bull;</span> IsActive</td>
-                    <td>Software Company</td>
-                    <td>1500</td>
+                    <td th:text="${o.companyIntro}">Software Company</td>
+                    <td th:text="${o.personnelSize}"></td>
                     <td>
                         <div class="action-form">
                             <a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"
@@ -722,7 +773,11 @@
                 </tr>
                 <tr>
                     <td>2</td>
+<<<<<<< HEAD
                     <td><a href="#"><img
+=======
+                    <td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img
+>>>>>>> 1f0453f (Duc_4_22_2022)
                             src="https://static.wixstatic.com/media/9d8ed5_ca1487e8c972429aa4b338ac886cd1cc~mv2.jpg"
                             class="avatar" alt="Avatar"> Paula Wilson</a></td>
                     <td>Hà Nội</td>
@@ -745,7 +800,11 @@
                 </tr>
                 <tr>
                     <td>3</td>
+<<<<<<< HEAD
                     <td><a href="#"><img
+=======
+                    <td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img
+>>>>>>> 1f0453f (Duc_4_22_2022)
                             src="https://cdn.groovetechnology.com/wp-content/uploads/2020/09/20200803-Groove-logo-jpg.jpg"
                             class="avatar" alt="Avatar">Groove Technology</a></td>
                     <td>TP HCM</td>
@@ -762,13 +821,21 @@
                             <a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"
                                                                                                 data-toggle="tooltip"
                                                                                                 title="Delete">&#xE872;</i></a>
+<<<<<<< HEAD
                            </div>
+=======
+                        </div>
+>>>>>>> 1f0453f (Duc_4_22_2022)
 
                     </td>
                 </tr>
                 <tr>
                     <td>4</td>
+<<<<<<< HEAD
                     <td><a href="#"><img src="http://static.ybox.vn/2018/8/5/1535082763510-Untitled-221.jpg"
+=======
+                    <td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img src="http://static.ybox.vn/2018/8/5/1535082763510-Untitled-221.jpg"
+>>>>>>> 1f0453f (Duc_4_22_2022)
                                          class="avatar" alt="Avatar">KMS Technology</a></td>
                     <td>TP HCM</td>
                     <td>Jul 16, 2017</td>
@@ -866,22 +933,38 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea class="form-control" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" required>
-                    </div>
+                        <div class="form-group">
+                            <label>Compamy Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Founding at</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Persional size</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Discription</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Intro</label>
+                            <input type="text" class="form-control" required>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -892,10 +975,61 @@
     </div>
 </div>
 <div id="detailCompanyModal" class="modal fade">
+<<<<<<< HEAD
+=======
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:each="l:${ListCompanyDetail12}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detail Company</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label >Compamy Name</label>
+                        <input th:value="${l.name}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input th:value="${l.email}" type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea th:value="${l.address}" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input th:value="${l.phone}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Founding at</label>
+                        <input th:value="${l.foundingAt}" type="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Persional size</label>
+                        <input th:value="${l.personnelSize}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label><Description></Description></label>
+                        <input th:value="${l.description}" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Intro</label>
+                        <input th:value="${l.companyIntro}" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteCompanyModal" class="modal fade">
+>>>>>>> 1f0453f (Duc_4_22_2022)
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
                 <div class="modal-header">
+<<<<<<< HEAD
                     <h4 class="modal-title">Detail Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
@@ -927,6 +1061,8 @@
         <div class="modal-content">
             <form>
                 <div class="modal-header">
+=======
+>>>>>>> 1f0453f (Duc_4_22_2022)
                     <h4 class="modal-title">Delete Company</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>

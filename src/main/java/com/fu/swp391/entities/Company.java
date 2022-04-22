@@ -141,4 +141,12 @@ public class Company {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getCompanyImageUrl() {
+        return companyImageUrl;
+    }
+
+    public void setCompanyImageUrl(String companyImageUrl) {
+        this.companyImageUrl = companyImageUrl;
+    }
 }
