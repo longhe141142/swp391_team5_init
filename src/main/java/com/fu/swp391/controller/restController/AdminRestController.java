@@ -3,11 +3,11 @@ package com.fu.swp391.controller.restController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fu.swp391.config.entity.ApiError;
-import com.fu.swp391.config.entity.ResponseSuccess;
 import com.fu.swp391.controller.restController.dto.addCompany;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Validator;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("admin")
@@ -33,12 +34,14 @@ public class AdminRestController {
   @Autowired CompanyService companyService;
   @Autowired HelperUntil helperUntil;
   @Autowired UserService userService;
+  @Autowired CompanyRepository companyRepository;
 
   @PostMapping(
       value = "/upload-company-image",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
-  public ResponseEntity<Object> uploadImage(@RequestPart("file") MultipartFile file) {
+  public ResponseEntity<Object> uploadImage(
+      @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
     ResponseEntity<Object> isSomethingWrong = validateFile(file);
     if (isSomethingWrong != null) {
       return isSomethingWrong;
@@ -50,7 +53,23 @@ public class AdminRestController {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      return new ResponseSuccess("Upload Success");
+      ObjectMapper mapper = new ObjectMapper();
+      ObjectNode responseBody = mapper.createObjectNode();
+      if (id.isEmpty()) {
+        helperUntil.putKeyValue(responseBody, "error", "Company not found");
+        ApiError apiErr = new ApiError(HttpStatus.BAD_REQUEST, "Company not found", responseBody);
+        return new ResponseEntity<Object>(apiErr, apiErr.getStatus());
+      } else {
+        Long companyId = Long.parseLong(id);
+        Optional<Company> company = companyService.findbyId(companyId);
+        // lambda expression
+        System.out.println("company found:" + company.get().getName());
+        company.ifPresent(value -> value.setCompanyImageUrl(fileName));
+        companyRepository.save(company.get());
+      }
+      helperUntil.putKeyValue(responseBody, "message", "Upload Success");
+      helperUntil.putKeyValue(responseBody, "status", HttpStatus.OK.value());
+      return new ResponseEntity<Object>(responseBody, HttpStatus.OK);
     }
   }
 
@@ -60,7 +79,6 @@ public class AdminRestController {
       @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode responseBodyError = mapper.createObjectNode();
-
     if (bindingResult.hasErrors()) {
       System.out.println("entry");
       if (addCompanyDto.user == null || addCompanyDto.company == null) {

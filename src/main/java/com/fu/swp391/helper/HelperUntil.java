@@ -16,4 +16,8 @@ public class HelperUntil {
     public void putKeyValue(ObjectNode node,String key,String value){
        node.put(key,value);
     }
+
+    public void putKeyValue(ObjectNode node,String key,int value){
+        node.put(key,value);
+    }
 }
