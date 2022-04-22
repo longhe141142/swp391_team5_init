@@ -67,7 +67,7 @@
     </div>
   </div>
 </div>
-<div class="section" id="about"  th:each="list: ${listCandidateCV}">
+<div class="section" id="about"  th:each="list: ${listCandidateCV.get(1)}">
   <div class="container">
     <div class="card" data-aos="fade-up" data-aos-offset="10">
       <div class="row">
@@ -95,11 +95,11 @@
             </div>
             <div class="row mt-3">
               <div class="col-sm-4"><strong class="text-uppercase">Address:</strong></div>
-              <div class="col-sm-8">140, City Center, New York, U.S.A</div>
+              <div class="col-sm-8">140, City Center, Hanoi, VietNam</div>
             </div>
             <div class="row mt-3">
               <div class="col-sm-4"><strong class="text-uppercase">Language:</strong></div>
-              <div class="col-sm-8">English, German, French</div>
+              <div class="col-sm-8">English, TiengViet</div>
             </div>
           </div>
         </div>

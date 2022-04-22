@@ -2,6 +2,7 @@ package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.entities.CV;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.skillFake;
 import com.fu.swp391.service.*;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class CandidateController {
 ///candidate/HomeCandidate
     @GetMapping("/home")
     public String home(){
-        return "/company/index";
+        return "/candidate/HomeCandidate";
     }
     @GetMapping("/about-us")
     public String home1(){
@@ -76,10 +78,25 @@ public class CandidateController {
     public String detailOneCV(){
         return "/candidate/detailOneCV";
     }
+
+
     @GetMapping("/createCV")
-    public String createCV(){
+    public String createCV(Model model){
+        Candidate candidate =  candidateService.getCandidate();
+        model.addAttribute("candidate",candidate);
+
+        CV cv = new CV();
+        model.addAttribute("cv", cv);
         return "/candidate/CreateCV";
     }
+
+    @PostMapping("/postCV")
+    public String PostCV(Model model){
+
+        return "/candidate/CreateCV";
+    }
+
+
 
     @GetMapping("/ListCompanyCandidate")
     public String ListCompanyCandidate(Model model) {

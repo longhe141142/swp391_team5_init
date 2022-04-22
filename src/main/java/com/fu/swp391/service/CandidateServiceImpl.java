@@ -17,10 +17,16 @@ public class CandidateServiceImpl implements CandidateService {
         this.candidateRepository = _candidateRepository;
     }
 
+//    @Override
+//    public List<Candidate> getAllCandidate(){
+//        return (List<Candidate>) candidateRepository.listAllCandidate();
+//    }
+
     @Override
-    public List<Candidate> getAllCandidate(){
-        return (List<Candidate>) candidateRepository.findAll();
+    public Candidate getCandidate() {
+        return candidateRepository.getCandidate();
     }
+
     @Override
     public void addNewCandidate(Candidate candidate){
     }

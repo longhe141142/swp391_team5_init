@@ -8,7 +8,10 @@ import java.util.List;
 @Service
 public interface CandidateService {
 
-    List<Candidate> getAllCandidate();
+   // List<Candidate> getAllCandidate();
+
+    Candidate getCandidate();
+
 
      void addNewCandidate(Candidate candidate);
 }
