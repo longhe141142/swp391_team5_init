@@ -23,7 +23,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   protected void handle(
       HttpServletRequest request, HttpServletResponse response, Authentication authentication)
       throws IOException {
-    System.out.println("Starting hanling");
+    System.out.println("Starting handling");
     String targetUrl = determineTargetUrl(authentication);
 
     //IMPORTANT

@@ -8,6 +8,7 @@ import com.fu.swp391.entities.User;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +20,8 @@ import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
-
+  @Autowired
+  PasswordEncoder encoder;
   @Autowired RoleService roleService;
     @Autowired
     CompanyRepository companyRepository;
@@ -44,6 +46,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public Company addCompany(Company company, User user) {
     user = this.addUCompanyUserRole(user);
+    user.setPasswordEncoder(encoder.encode(user.getPassword()));
     company.setUser(user);
     company = this.companyRepository.save(company);
     return company;

@@ -31,7 +31,7 @@ public class Request {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "content")
+    @Column(name = "content",length = 1700)
     private String content;
 
     @Column(name = "subject")

@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     User save(User user) throws Exception;
     List<String> getListGender();
     User addRoleToUser(List<String> roles, UserCandidate userCandidate);
+    Optional<User> findUserByEmail(String email);
+
 }
