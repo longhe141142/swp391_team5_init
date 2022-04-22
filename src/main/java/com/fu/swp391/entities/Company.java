@@ -26,8 +26,19 @@ public class Company {
     @Column(name = "company_image",nullable = true)
     private String companyImageUrl;
 
+    @Column(name = "company_status",nullable = true)
+    private String status;
+
     @Transient
     MultipartFile image;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public MultipartFile getImage() {
         return image;
@@ -73,45 +84,6 @@ public class Company {
         this.companyImageUrl = companyImageUrl;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPersonnelSize() {
-        return personnelSize;
-    }
-
-    public void setPersonnelSize(int personnelSize) {
-        this.personnelSize = personnelSize;
-    }
-
-    public Date getFoundingAt() {
-        return foundingAt;
-    }
-
-    public void setFoundingAt(Date foundingAt) {
-        this.foundingAt = foundingAt;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCompanyIntro() {
-        return companyIntro;
-    }
-
-    public void setCompanyIntro(String companyIntro) {
-        this.companyIntro = companyIntro;
-    }
 
     @Column(name = "company_intro",length = 1700)
     @NotEmpty
@@ -210,11 +182,4 @@ public class Company {
         this.user = user;
     }
 
-    public String getCompanyImageUrl() {
-        return companyImageUrl;
-    }
-
-    public void setCompanyImageUrl(String companyImageUrl) {
-        this.companyImageUrl = companyImageUrl;
-    }
 }

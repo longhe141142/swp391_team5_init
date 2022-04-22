@@ -5,9 +5,11 @@ import com.fu.swp391.common.enumConstants.roleEnum;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.entities.User;
+import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,8 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyRepository companyRepository;
 
   @Autowired UserRepository userRepository;
+
+  @Autowired HelperUntil<Company> helperUntil;
 
     public CompanyServiceImpl(CompanyRepository _compaCompanyRepository){
         this.companyRepository = _compaCompanyRepository;
@@ -74,5 +78,19 @@ public class CompanyServiceImpl implements CompanyService {
           roleUser.ifPresent(user::setRole);
         });
     return user;
+  }
+
+  @Override
+  public List<Company> ListCompanyByPaging(int page, int size) {
+    PageRequest pageRequest = PageRequest.of(page, size);
+    return companyRepository.findAllCompany(pageRequest);
+  }
+
+
+  //method2
+  @Override
+  public ArrayList<Company> getAllCompanyByPaging(
+      ArrayList<Company> companies, int page, int size) {
+    return helperUntil.PagingElement(companies, page, size);
   }
 }

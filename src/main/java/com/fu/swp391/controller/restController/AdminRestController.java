@@ -2,6 +2,7 @@ package com.fu.swp391.controller.restController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fu.swp391.common.enumConstants.StatusEnum;
 import com.fu.swp391.config.entity.ApiError;
 import com.fu.swp391.controller.restController.dto.addCompany;
 import com.fu.swp391.entities.Company;
@@ -64,7 +65,11 @@ public class AdminRestController {
         Optional<Company> company = companyService.findbyId(companyId);
         // lambda expression
         System.out.println("company found:" + company.get().getName());
-        company.ifPresent(value -> value.setCompanyImageUrl(fileName));
+        company.ifPresent(
+            value -> {
+              value.setCompanyImageUrl(fileName);
+              value.setStatus(StatusEnum.CREATED);
+            });
         companyRepository.save(company.get());
       }
       helperUntil.putKeyValue(responseBody, "message", "Upload Success");

@@ -57,6 +57,7 @@ public class AdminController {
     public String renderCompanyManagement(@RequestParam(value = "page", required = false) Long page){
 //        model.addAttribute("employees", this.employeeService.getEmployees(page));
 //        return "listing";
+
         return "company/ListAllCompany";
     }
 

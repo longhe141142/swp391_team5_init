@@ -16,8 +16,7 @@ public class CompanyController {
 }
 =======
 import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.CompanyMajor;
-import com.fu.swp391.service.CandidateService;
+import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class CompanyController {
     }
     @GetMapping("/DetailCompany12/{id}")
     public String DetailCompany(Model model, @PathVariable long id) {
-        List<CompanyMajor> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
+        List<JobPost> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);
         model.addAttribute("ListCompanyDetail12",ListCompanyDetail);
         return "company/ListAllCompany";
     }
