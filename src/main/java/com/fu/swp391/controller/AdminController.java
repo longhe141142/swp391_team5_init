@@ -2,20 +2,20 @@ package com.fu.swp391.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fu.swp391.config.entity.ApiError;
+import com.fu.swp391.common.enumConstants.PagingParameter;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
+import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class AdminController {
 
     @Autowired
     RoleService roleService;
+  @Autowired CandidateService candidateService;
 
   @Autowired CompanyService companyService;
 
@@ -51,14 +52,19 @@ public class AdminController {
         return "/admin/forgot-password";
     }
 
-
-
-    @GetMapping("/company")
-    public String renderCompanyManagement(@RequestParam(value = "page", required = false) Long page){
-//        model.addAttribute("employees", this.employeeService.getEmployees(page));
-//        return "listing";
-
-        return "company/ListAllCompany";
+  @GetMapping("/company")
+  public String renderCompanyManagement(
+      @RequestParam(value = "page", required = false) int page, Model model) {
+    ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
+    int pageIndex = 1;
+    if (page != 0) {
+      pageIndex = page;
+    }
+    companyList =
+        companyService.getAllCompanyByPaging(
+            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+    model.addAttribute("companies", companyList);
+    return "company/ListAllCompany2";
     }
 
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
@@ -88,4 +94,16 @@ public class AdminController {
         return new ResponseEntity<Object>(entities, HttpStatus.OK);
     }
 
+  @RequestMapping(value = "/candidate", method = RequestMethod.GET)
+  public String getCandidates(
+      @RequestParam(value = "page", required = false) int page,
+      @RequestParam(value = "size", required = false) int size,
+      Model model) {
+    int pageIndex = page != 0 ? page : 1;
+    int sizeDef = size != 0 ? size : PagingParameter.PAGE_SIZE_COMPANY_ADMIN;
+    ArrayList<Candidate> candidates = candidateService.findAllCandidates();
+    model.addAttribute(
+        "candidates", candidateService.getAllCandidateByPaging(candidates, pageIndex, sizeDef));
+    return "/admin/candidatesList";
+  }
 }

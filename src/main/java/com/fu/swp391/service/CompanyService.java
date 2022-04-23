@@ -1,5 +1,6 @@
 package com.fu.swp391.service;
 
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,13 +12,17 @@ import java.util.Optional;
 public interface CompanyService {
 
     List<Company> findAllCompany();
-    Optional<Company> findbyId(Long id);
+  //    ArrayList<Company> findAllCompany();
 
-  List<Company> ListCompanyByPaging(int page, int size);
+  Optional<Company> findbyId(Long id);
 
-    Company addCompany(Company company, User user);
+  //  List<Company> ListCompanyByPaging(int page, int size);
 
-    public Company getJson(String user, MultipartFile file);
+  Company addCompany(Company company, User user);
 
-  public ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
+  Company getJson(String user, MultipartFile file);
+
+  ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
+
+
 }
