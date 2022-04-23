@@ -2,6 +2,7 @@ package com.fu.swp391.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.swp391.common.enumConstants.roleEnum;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.entities.User;
@@ -10,6 +11,7 @@ import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +32,8 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Autowired UserRepository userRepository;
 
-  @Autowired HelperUntil<Company> helperUntil;
+  @Autowired HelperUntil<Company> helperUntilCompany;
+  @Autowired HelperUntil<Candidate> helperUntilCandidate;
 
     public CompanyServiceImpl(CompanyRepository _compaCompanyRepository){
         this.companyRepository = _compaCompanyRepository;
@@ -80,17 +83,21 @@ public class CompanyServiceImpl implements CompanyService {
     return user;
   }
 
-  @Override
-  public List<Company> ListCompanyByPaging(int page, int size) {
-    PageRequest pageRequest = PageRequest.of(page, size);
-    return companyRepository.findAllCompany(pageRequest);
-  }
+//  @Override
+//  public List<Company> ListCompanyByPaging(int page, int size) {
+//    Pageable pageRequest = PageRequest.of(page, size);
+//    return companyRepository.findAllCompany(pageRequest);
+//  }
 
 
   //method2
   @Override
   public ArrayList<Company> getAllCompanyByPaging(
       ArrayList<Company> companies, int page, int size) {
-    return helperUntil.PagingElement(companies, page, size);
+    return helperUntilCompany.PagingElement(companies, page, size);
   }
+
+
+
+
 }
