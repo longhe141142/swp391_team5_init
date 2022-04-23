@@ -68,3 +68,5 @@
     
 
 })(jQuery);
+
+// let socket = new WebSocket()

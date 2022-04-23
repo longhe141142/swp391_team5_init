@@ -1,6 +1,7 @@
 
 package com.fu.swp391.config;
 
+import com.fu.swp391.config.entity.CORSFilter;
 import com.fu.swp391.service.UserService;
 import com.fu.swp391.service.UserServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -38,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
@@ -46,6 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
+
+//  @Bean
+//  CORSFilter corsFilter() {
+//    CORSFilter filter = new CORSFilter();
+//    return filter;
+//  }
+
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http.cors().and().csrf().disable();
-        http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
+
+      http.authorizeRequests().antMatchers("/gs-guide-websocket","/registerTest","/login","*/candidate/*","/admin/*").permitAll()
 //                .antMatchers(HttpMethod.POST).permitAll()
 //        .antMatchers("/login").access("hasAnyRole('USER')")
 ////                .antMatchers("/admin/*").access("hasRole('ADMIN')")
