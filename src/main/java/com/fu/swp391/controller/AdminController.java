@@ -54,15 +54,17 @@ public class AdminController {
 
   @GetMapping("/company")
   public String renderCompanyManagement(
-      @RequestParam(value = "page", required = false) int page, Model model) {
+      @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
-    if (page != 0) {
+    if (page != null) {
       pageIndex = page;
     }
     companyList =
         companyService.getAllCompanyByPaging(
             companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+
+    System.out.println(page);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany2";
     }
@@ -96,11 +98,11 @@ public class AdminController {
 
   @RequestMapping(value = "/candidate", method = RequestMethod.GET)
   public String getCandidates(
-      @RequestParam(value = "page", required = false) int page,
-      @RequestParam(value = "size", required = false) int size,
+      @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size,
       Model model) {
-    int pageIndex = page != 0 ? page : 1;
-    int sizeDef = size != 0 ? size : PagingParameter.PAGE_SIZE_COMPANY_ADMIN;
+    int pageIndex = page != null ? page : 1;
+    int sizeDef = size != null ? size : PagingParameter.PAGE_SIZE_COMPANY_ADMIN;
     ArrayList<Candidate> candidates = candidateService.findAllCandidates();
     model.addAttribute(
         "candidates", candidateService.getAllCandidateByPaging(candidates, pageIndex, sizeDef));
