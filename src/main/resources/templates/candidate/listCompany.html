@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creative CV</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/home/css/aos.css?ver=1.1.0" rel="stylesheet">
+  <link href="/home/css/bootstrap.min.css?ver=1.1.0" rel="stylesheet">
+  <link href="/home/css/main.css?ver=1.1.0" rel="stylesheet">
+
+
+  <noscript>
+    <style type="text/css">
+      [data-aos] {
+        opacity: 1 !important;
+        transform: translate(0) scale(1) !important;
+      }
+    </style>
+  </noscript>
+  <script src="/home/js/owl-carousel.js"></script>
+</head>
+<body id="top">
+<header>
+  <div class="profile-page sidebar-collapse">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary" color-on-scroll="400">
+      <div class="container">
+        <div class="navbar-translate"><a class="navbar-brand" href="#" rel="tooltip">Creative CV</a>
+          <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-bar bar1"></span><span class="navbar-toggler-bar bar2"></span><span class="navbar-toggler-bar bar3"></span></button>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <ul class="navbar-nav">
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<div class="page-content">
+  <div>
+    <div class="profile-page">
+      <div class="wrapper">
+        <div class="page-header page-header-small" filter-color="green">
+          <div class="page-header-image" data-parallax="true" style="background-image: url('/home/images/cc-bg-1.jpg')"></div>
+          <div class="container">
+            <div class="content-center">
+              <div class="cc-profile-image"></div>
+              <div class="h2 title">List Company</div>
+              <p class="category text-white"></p>
+            </div>
+          </div>
+          <div class="section">
+            <div class="container">
+              <div class="button-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="experience">
+      <div class="container cc-experience">
+        <div class="h4 text-center mb-4 title">List Company</div>
+        <div th:each="x: ${ListCompany}">
+
+        <div class="card">
+          <div class="row">
+            <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+              <div class="card-body cc-experience-header">
+                <p>April 2014 - March 2016</p>
+                <div th:text="${x.name}">Tên Công ty</div>
+              </div>
+            </div>
+            <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+              <div class="card-body">
+<!--                <a></a>-->
+                <div class="h5">
+                  <a th:href="@{DetailCompany/(${x.getId()})}" th:text="${x.name}">
+                    Web Developer</a></div>
+
+                <p ><a th:text="${x.getDescription()}"/></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+</div>
+<footer class="footer">
+  <div class="container text-center"><a class="cc-facebook btn btn-link" href="#"><i class="fa fa-facebook fa-2x " aria-hidden="true"></i></a><a class="cc-twitter btn btn-link " href="#"><i class="fa fa-twitter fa-2x " aria-hidden="true"></i></a><a class="cc-google-plus btn btn-link" href="#"><i class="fa fa-google-plus fa-2x" aria-hidden="true"></i></a><a class="cc-instagram btn btn-link" href="#"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a></div>
+  <div class="h4 title text-center">Anthony Barnett(Profile main)</div>
+  <div class="text-center text-muted">
+    <p>&copy; Creative CV. All rights reserved.<br>Design - <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
+  </div>
+</footer>
+<script src="/home/js/core/jquery.3.2.1.min.js?ver=1.1.0"></script>
+<script src="/home/js/core/popper.min.js?ver=1.1.0"></script>
+<script src="/home/js/core/bootstrap.min.js?ver=1.1.0"></script>
+<script src="/home/js/now-ui-kit.js?ver=1.1.0"></script>
+<script src="/home/js/aos.js?ver=1.1.0"></script>
+<script src="/home/scripts/main.js?ver=1.1.0"></script>
+</body>
+</html>
