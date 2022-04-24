@@ -106,10 +106,6 @@ $(".file_remove").on("click", function (e) {
 });
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d6c270e (long add company)
 function getElmByClass(className) {
     return document.getElementsByClassName(className);
 }
@@ -267,7 +263,6 @@ $(document).ready(function () {
         if (!isValidDate(foundingAt)) {
             getAll.error = true;
             getAll.msgErr+='Invalid date format of founding field\n'
-<<<<<<< HEAD
             console.log("foundingAt"+foundingAt)
         }else{
             console.log("foundingAt"+foundingAt)
@@ -275,11 +270,6 @@ $(document).ready(function () {
             company.foundingAt = foundingAt;
         }
         console.log(company)
-=======
-        }else{
-            company.foundingAt = foundingAt;
-        }
->>>>>>> d6c270e (long add company)
         const dataPendingToSend = {
             user, company
         }
@@ -288,19 +278,13 @@ $(document).ready(function () {
         // $('[data-toggle="tooltip"]').tooltip();
         if (!getAll.error) {
             $.ajax({
-<<<<<<< HEAD
                 url: '/admin/addCompany',
                 data: JSON.stringify({...dataPendingToSend}),
-=======
-                url: 'http://localhost:8002/admin/addCompany',
-                data: JSON.stringify({ ...dataPendingToSend }),
->>>>>>> d6c270e (long add company)
                 processData: false,
                 dataType: 'json',
                 contentType: 'application/json',
                 type: 'POST',
                 success: function (data) {
-<<<<<<< HEAD
                     $('#uploadImage').modal({
                         backdrop: 'static',
                         keyboard: false
@@ -308,26 +292,14 @@ $(document).ready(function () {
                     $("#uploadImage").modal('show');
                     $("#addCompanyModal").modal('hide');
                     document.getElementById("companyId").innerText = `${data.id}`
-=======
-                    alert(data);
-                    $("#uploadImage").modal('show');
-                    $("#addCompanyModal").modal('hide');
->>>>>>> d6c270e (long add company)
                 },
                 error: function (xhr, status, error) {
                     const response = JSON.parse(xhr.responseText);
                     console.log(response);
                     let errMsg = "";
-<<<<<<< HEAD
                     if (("responseBody" in response)) {
                         errMsg = "user_existed" in response.responseBody ? "User already existed" : "Internal Server error";
                     } else {
-=======
-                    if(!("responseBody" in response)){
-                        errMsg = "Internal server error";
-                        errMsg = "user_existed" in response.responseBody ? "User already existed" : "Internal Server error";
-                    }else{
->>>>>>> d6c270e (long add company)
                         errMsg = "Internal server error";
                     }
                     handle_errors(errMsg);
@@ -339,7 +311,6 @@ $(document).ready(function () {
         }
     });
 
-<<<<<<< HEAD
     //upload file
     $('#upload-file').submit(function (e) {    // $('[data-toggle="tooltip"]').tooltip();
         e.preventDefault();
@@ -378,37 +349,8 @@ $(document).ready(function () {
 
     //redirect to page
 
-=======
-
-    $('#upload-file').submit(function (e) {    // $('[data-toggle="tooltip"]').tooltip();
-        e.preventDefault();
-        console.log(JSON.stringify(getAllInput()));
-        $.ajax({
-            url: '/admin/addCompany',
-            data: null,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            success: function (data) {
-                alert(data);
-            },
-            error: function (xhr, status, error) {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response);
-                console.log("999999");
-            }
-        });
-        $("#uploadImage").modal('show');
-        $("#addCompanyModal").modal('hide');
-    });
->>>>>>> d6c270e (long add company)
 });
 
 
 
 
-<<<<<<< HEAD
-=======
->>>>>>> 4c16774 (add Company)
-=======
->>>>>>> d6c270e (long add company)
