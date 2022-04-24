@@ -320,3 +320,10 @@ body {
     display: inline-block;
     margin: 100px auto;
 }
+
+#showEntries{
+    font-size: 1.1em;
+    padding: 0.1em;
+}
+
+

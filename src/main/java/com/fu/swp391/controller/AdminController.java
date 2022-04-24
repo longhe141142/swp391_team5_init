@@ -2,22 +2,29 @@ package com.fu.swp391.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fu.swp391.binding.entiity.PagingParam;
+import com.fu.swp391.binding.entiity.SortParam;
 import com.fu.swp391.common.enumConstants.PagingParameter;
+import com.fu.swp391.common.enumConstants.SortEnum;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("admin")
@@ -100,12 +107,63 @@ public class AdminController {
   public String getCandidates(
       @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size,
+      @RequestParam(value = "orderBy", required = false) String sortBy,
+      @RequestParam(value = "orderType", required = false) String orderType,
+
       Model model) {
+    ArrayList<Candidate> candidates = null;
     int pageIndex = page != null ? page : 1;
     int sizeDef = size != null ? size : PagingParameter.PAGE_SIZE_COMPANY_ADMIN;
-    ArrayList<Candidate> candidates = candidateService.findAllCandidates();
+
+    //if no sortBy provide findAll no sort
+    //default is ascending
+    candidates = sortBy==null || sortBy.isEmpty() ? candidateService.findAllCandidates()
+        : orderType == null ? candidateService.findAllCandidatesSortBy(sortBy,
+            SortEnum.DESCENDING) : candidateService.findAllCandidatesSortBy(sortBy, orderType);
+    List<String> fieldSort = Arrays.asList("name","age");
+    SortParam sortParam = new SortParam();
+    if(sortBy!=null)
+    if(!sortBy.isEmpty()){
+      sortParam = orderType==null?new SortParam(orderType,SortEnum.DESCENDING): new SortParam(orderType,sortBy);
+    }
+    //phai de o day vi sortParam se tai khoi tao
+    sortParam.setOrderFields(fieldSort);
+
+    PagingParam pageParam = new PagingParam(
+        candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
+        candidates.size(), sizeDef, pageIndex);
+    model.addAttribute("pageParam", pageParam);
+    ArrayList<Candidate> getCandidatesByPaging = candidateService.getAllCandidateByPaging(
+        candidates, pageIndex, sizeDef);
+    pageParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
     model.addAttribute(
-        "candidates", candidateService.getAllCandidateByPaging(candidates, pageIndex, sizeDef));
+        "candidates", getCandidatesByPaging);
+    model.addAttribute("sortParam", sortParam);
     return "/admin/candidatesList";
   }
+
+  @RequestMapping(value = "/candidateFilter", method = RequestMethod.GET)
+  public String searchCandidate(
+      @RequestParam(value = "searchBy", required = false) String searchBy,
+      @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size,
+      Model model) {
+    ArrayList<Candidate> candidates = candidateService.findAllCandidates();
+    int pageIndex = page != null ? page : 1;
+    //if no sortBy provide findAll no sort
+    //default is ascending
+    candidates =  candidateService.findAllCandidatesByFilter(searchBy);
+    int sizeDef = size != null ? size : candidates.size();
+    PagingParam pageParam = new PagingParam(
+        candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
+        candidates.size(), sizeDef, pageIndex);
+    model.addAttribute("pageParam", pageParam);
+    ArrayList<Candidate> getCandidatesByPaging = candidateService.getAllCandidateByPaging(
+        candidates, pageIndex, sizeDef);
+    pageParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
+    model.addAttribute(
+        "candidates", getCandidatesByPaging);
+    return "/admin/candidatesList";
+  }
+
 }

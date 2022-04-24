@@ -24,22 +24,24 @@ public class WebMVCConfig implements WebMvcConfigurer {
         return configurer;
     }
 
-//    @Bean(name="simpleMappingExceptionResolver")
-//    public SimpleMappingExceptionResolver
-//    createSimpleMappingExceptionResolver() {
-//        SimpleMappingExceptionResolver r =
-//                new SimpleMappingExceptionResolver();
-//
-//        Properties mappings = new Properties();
-//        mappings.setProperty("DatabaseException", "databaseError");
-//        mappings.setProperty("InvalidCreditCardException", "creditCardError");
-//        mappings.setProperty("InvalidCreditCardException", "creditCardError");
-//
-//        mappings.setProperty("Exception", "404Page/404");
-//        r.setExceptionMappings(mappings);  // None by default
-//        r.setDefaultErrorView("404Page/404");    // No default
-//        r.setExceptionAttribute("Exception");     // Default is "exception"
-//        r.setWarnLogCategory("Some thing wrong");     // No default
-//        return r;
-//    }
+    @Bean(name="simpleMappingExceptionResolver")
+    public SimpleMappingExceptionResolver
+    createSimpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver r =
+                new SimpleMappingExceptionResolver();
+
+        Properties mappings = new Properties();
+        mappings.setProperty("DatabaseException", "databaseError");
+        mappings.setProperty("InvalidCreditCardException", "creditCardError");
+        mappings.setProperty("InvalidCreditCardException", "creditCardError");
+
+        mappings.setProperty("UserBlockedException", "/404Page/account-denied");
+
+        mappings.setProperty("Exception", "/accessDenied");
+        r.setExceptionMappings(mappings);  // None by default
+        r.setDefaultErrorView("404Page/404");    // No default
+        r.setExceptionAttribute("Exception");     // Default is "exception"
+        r.setWarnLogCategory("Some thing wrong");     // No default
+        return r;
+    }
 }
