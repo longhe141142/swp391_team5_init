@@ -1,8 +1,6 @@
 package com.fu.swp391.service;
 
-import com.fu.swp391.entities.CV;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.skillFake;
+import com.fu.swp391.entities.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +12,20 @@ public interface CvService {
 
     List<CV> getAllCVSkill();
 
+    List<CV> listDetailAllOneCV();
+
    // List<skillFake> getSkillFake();
 
     void addNewCVe(CV cv);
 
-    Optional<CV> findbyId(Long id);
+
+    List<ExperienceCV> getExperienceCVById(long id);
+
+    List<EducateCV> getEducateCVById(long id);
+
+    List<CertificateCV> getCertificateCVById(long id);
+
+    List<SkillCV> getSkillCVById(long id);
+
+   // Optional<CV> findbyId(Long id);
 }

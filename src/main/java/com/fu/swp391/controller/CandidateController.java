@@ -1,15 +1,14 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
-import com.fu.swp391.entities.CV;
-import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.skillFake;
+import com.fu.swp391.entities.*;
+import com.fu.swp391.repository.ExperienceRepository;
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -67,15 +66,29 @@ public class CandidateController {
     public String listAllCV(Model model){
         List<CV> cvList =  cvService.getAllCV();
         List<CV> cvListSkill =  cvService.getAllCVSkill();
+        Candidate candidate =  candidateService.getCandidate();
+
         //List<skillFake> skillFakes =  cvService.getSkillFake();
         model.addAttribute("listCandidateCV",cvList);
         model.addAttribute("listCandidateCVSkill",cvListSkill);
+        model.addAttribute("candidate",candidate);
         //model.addAttribute("skillFakes",skillFakes);
         return "/candidate/listAllCV";
     }
 
-    @GetMapping("/detailOneCV")
-    public String detailOneCV(){
+    @GetMapping("/detailOneCV/{id}")
+    public String detailOneCV(@PathVariable (value = "id") long id, Model model){
+        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
+        List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
+        List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
+        List<SkillCV> skillCVList = cvService.getSkillCVById(id);
+        Candidate candidate =  candidateService.getCandidate();
+
+        model.addAttribute("experienceCVList",experienceCVList);
+        model.addAttribute("educateCVList1",educateCVList1);
+        model.addAttribute("certificateCVS",certificateCVS);
+        model.addAttribute("skillCVList",skillCVList);
+        model.addAttribute("candidate",candidate);
         return "/candidate/detailOneCV";
     }
 
