@@ -1,6 +1,8 @@
 package com.fu.swp391.config.entity;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +11,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
-public class CORSFilter implements Filter {
+@Component
+public class CORSFilter implements FilterChain {
 
     // This is to be replaced with a list of domains allowed to access the server
     //You can include more than one origin here
@@ -20,8 +22,11 @@ public class CORSFilter implements Filter {
 
     }
 
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        // Lets make sure that we are working with HTTP (that is, against HttpServletRequest and HttpServletResponse objects)
+    public void init(FilterConfig filterConfig) {
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res) throws IOException, ServletException {
         if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
             HttpServletRequest request = (HttpServletRequest) req;
             HttpServletResponse response = (HttpServletResponse) res;
@@ -45,9 +50,6 @@ public class CORSFilter implements Filter {
                     "Origin, X-Requested-With, Content-Type, Accept, " + "X-CSRF-TOKEN");
         }
 
-        chain.doFilter(req, res);
-    }
-
-    public void init(FilterConfig filterConfig) {
+        this.doFilter(req, res);
     }
 }

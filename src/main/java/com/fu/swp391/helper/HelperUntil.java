@@ -36,4 +36,11 @@ public class HelperUntil<E> {
         }
         return newList;
     }
+
+    public int getTotalSize(int sizeList,int perPage){
+        if(sizeList==0)
+            return 1;
+        double checkParam = ((double)sizeList/perPage - (double)(sizeList/perPage));
+        return  checkParam==0? sizeList/perPage : sizeList/perPage+1;
+    }
 }

@@ -368,39 +368,22 @@
 						<div class="col-sm-3">
 							<div class="show-entries">
 								<span>Show</span>
-								<select class="form-control">
-									<option>5</option>
-									<option>10</option>
-									<option>15</option>
-									<option>20</option>
+								<select class="form-control" id="showEntries" onchange="onSelectShowEntry()">
+									<option th:text="${pageParam.getPerPage()}"></option>
+									<option th:if="${pageParam.getPerPage() != 5}">5</option>
+									<option th:if="${pageParam.getPerPage() != 15}">15</option>
+									<option th:if="${pageParam.getPerPage() != 20}">20</option>
+									<option th:if="${pageParam.getPerPage() != 25}">25</option>
 								</select>
 								<span>entries</span>
 							</div>
 						</div>
 						<div class="col-sm-9">
-							<button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+							<button class="btn btn-primary" onclick="searchName()" type="button"><i class="fa fa-search"></i></button>
 							<div class="filter-group">
-								<label>Name Company</label>
-								<input class="form-control" type="text">
+								<label>Name Candidate</label>
+								<input class="form-control" type="text" id="searchCandidate">
 							</div>
-							<div class="filter-group">
-								<label>Major</label>
-								<select class="form-control">
-									<option>Testing</option>
-									<option>Font-end</option>
-									<option>Back-end</option>
-									<option>BA</option>
-								</select>
-							</div>
-							<div class="filter-group">
-								<label>Location</label>
-								<select class="form-control">
-									<div th:each="x:${ListCompany}">
-										<option th:text="${x.address}">Hà Nội</option>
-									</div>
-								</select>
-							</div>
-							<span class="filter-icon"><i class="fa fa-filter"></i></span>
 						</div>
 					</div>
 				</div>
@@ -408,49 +391,47 @@
 					<thead>
 					<tr>
 						<th>#</th>
-						<th>Company</th>
-						<th>Location</th>
-						<th>Date founding</th>
-						<th>Status</th>
-						<th>Introduce company</th>
-						<th>Persional size</th>
-						<th>Action</th>
+						<th>User name</th>
+						<th>Age</th>
+						<th>Name</th>
+						<th>Phone number</th>
+						<th>Date of birth</th>
+						<th>User Id</th>
 					</tr>
 					</thead>
 					<tbody>
-					<th:block th:each="company:  ${companies} ">
+					<th:block th:each="candidate:  ${candidates} ">
 						<tr>
-							<td th:text="${company.getId()}"></td>
+							<td th:text="${candidate.getId()}"></td>
 							<td>
 								<img
 										alt="Avatar"
-										class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
+										class="avatar" th:src="${'/default/avt/'+candidate.getAvatar()}">
 								<a data-toggle="modal"
-								   href="#detailCompanyModal"
-								   th:text="${company.getName()}"
+								   th:text="${candidate.getUser().getEmail()}"
 								   title="Detail">
 								</a>
 							</td>
-							<td th:text="${company.getAddress()}"></td>
-							<td>Jun 21, 2017</td>
-							<td th:text="${company.getStatus()}"><span class="status text-success">&bull;</span></td>
-							<td>Software Company</td>
-							<td th:text="${company.getPersonnelSize()}"></td>
-							<td>
-								<div class="action-form">
-									<a class="edit"
-									   data-toggle="modal"
-									   href="#editCompanyModal"><i class="material-icons"
-									                          data-toggle="tooltip"
-									                          title="Change status">&#xE254;</i></a>
+							<td th:text="${candidate.getAge()}"></td>
+							<td th:text="${candidate.getName()}"></td>
+							<td th:text="${candidate.getPhoneNumber()}"><span class="status text-success">&bull;</span></td>
+							<td th:text="${candidate.getDob()}"></td>
+							<td th:text="${candidate.getUser().getId()}"></td>
+<!--							<td>-->
+<!--								<div class="action-form">-->
+<!--									<a class="edit"-->
+<!--									   data-toggle="modal"-->
+<!--									   href="#editCompanyModal"><i class="material-icons"-->
+<!--									                          data-toggle="tooltip"-->
+<!--									                          title="Change status">&#xE254;</i></a>-->
 
-									<a class="delete"
-									   data-toggle="modal"
-									   href="#deleteCompanyModal"><i class="material-icons"
-									                          data-toggle="tooltip"
-									                          title="Delete">&#xE872;</i></a>
-								</div>
-							</td>
+<!--									<a class="delete"-->
+<!--									   data-toggle="modal"-->
+<!--									   href="#deleteCompanyModal"><i class="material-icons"-->
+<!--									                          data-toggle="tooltip"-->
+<!--									                          title="Delete">&#xE872;</i></a>-->
+<!--								</div>-->
+<!--							</td>-->
 						</tr>
 					</th:block>
 
@@ -549,51 +530,28 @@
 					</tbody>
 				</table>
 				<div class="clearfix">
-					<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+					<div class="hint-text">Showing <b th:text="${pageParam.getTotalElementInCurrentPage()}"></b> out of <b th:text="${pageParam.getTotalElement()}"></b> entries</div>
 					<ul class="pagination">
-						<li class="page-item disabled"><a href="#">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item active"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">6</a></li>
-						<li class="page-item"><a class="page-link" href="#">7</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+						<li class="page-item disabled" th:if="${pageParam.getPageIndex()==1}"><a  href="#">Previous</a></li>
+						<li class="page-item" th:if="${pageParam.getPageIndex()>1}"><a  th:href="@{'/admin/candidate?page='+${pageParam.getPageIndex()-1}}">Previous</a></li>
+
+						<th:block  th:each="pageParameter : ${pageParam.getPageList()}">
+							<li class="page-item active"><a class="page-link " th:href="@{'/admin/candidate?page='+${pageParameter}}" th:if="${pageParameter eq pageParam.getPageIndex()}" th:text="${pageParameter}"></a></li>
+
+							<li class="page-item"><a class="page-link" th:href="@{'/admin/candidate?page='+${pageParameter}}" th:if="${pageParameter != pageParam.getPageIndex()}" th:text="${pageParameter}"></a></li>
+						</th:block>
+<!--						<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--						<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--						<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--						<li class="page-item active"><a class="page-link" href="#">4</a></li>-->
+<!--						<li class="page-item"><a class="page-link" href="#">5</a></li>-->
+<!--						<li class="page-item"><a class="page-link" href="#">6</a></li>-->
+<!--						<li class="page-item"><a class="page-link" href="#">7</a></li>-->
+						<li class="page-item disabled" th:if="${pageParam.getPageIndex() eq pageParam.getTotalPage()}"><a class="page-link" href="#">Next</a></li>
+						<li class="page-item" th:if="${pageParam.getPageIndex() < pageParam.getTotalPage()}"><a class="page-link" th:href="@{'/admin/candidate?page='+${pageParam.getPageIndex()+1}}">Next</a></li>
+
 					</ul>
-				</div>
-			</div>
-
-
-			<div class="modal fade" id="detailCompanyModal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form>
-							<div class="modal-header">
-								<h4 class="modal-title">Detail Company</h4>
-								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
-								</button>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<label>Name</label>
-									<input class="form-control" required type="text">
-								</div>
-								<div class="form-group">
-									<label>Email</label>
-									<input class="form-control" required type="email">
-								</div>
-								<div class="form-group">
-									<label>Address</label>
-									<textarea class="form-control" required></textarea>
-								</div>
-								<div class="form-group">
-									<label>Phone</label>
-									<input class="form-control" required type="text">
-								</div>
-							</div>
-						</form>
-					</div>
 				</div>
 			</div>
 
@@ -618,6 +576,17 @@
 
 	<script>
         $('[data-toggle="tooltip"]').tooltip();
+				function onSelectShowEntry(){
+					let listEntriesElement = document.getElementById("showEntries");
+					let selected = listEntriesElement.options[listEntriesElement.selectedIndex].value;
+					selected = Number(selected);
+					window.location.href = `/admin/candidate?page=1&size=${selected}`;
+				}
+
+				function searchName(){
+				 let filer =	document.getElementById("searchCandidate").value;
+					window.location.href = `/admin/candidateFilter?searchBy=${filer}&page=1`;
+				}
 	</script>
 
 	<script src="/company/custom/index.js"></script>

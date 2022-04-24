@@ -37,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
+//  @Bean
+//  CORSFilter corsFilter() {
+//    CORSFilter filter = new CORSFilter();
+//    return filter;
+//  }
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
@@ -44,16 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+    configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-
-//  @Bean
-//  CORSFilter corsFilter() {
-//    CORSFilter filter = new CORSFilter();
-//    return filter;
-//  }
 
 
   @Autowired
@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.cors().and().csrf().disable();
+      http.cors().and().csrf();
 
-      http.authorizeRequests().antMatchers("/gs-guide-websocket","/registerTest","/login","*/candidate/*","/admin/*").permitAll()
+      http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
 //                .antMatchers(HttpMethod.POST).permitAll()
 //        .antMatchers("/login").access("hasAnyRole('USER')")
 ////                .antMatchers("/admin/*").access("hasRole('ADMIN')")

@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.HtmlUtils;
 
 @Controller
@@ -29,14 +30,20 @@ public class NotificationsController {
     }
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+    @SendTo("/notification/greetings")
     public ResponseEntity<Object> greeting(String message) throws Exception {
         Thread.sleep(1000); // simulated delay
-
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node =mapper.createObjectNode();
-        node.put("messgae","you have new notification");
+        node.put("message",message+ HtmlUtils.htmlEscape(message));
         return new ResponseEntity<Object>(node, HttpStatus.OK);
+    }
+
+    @GetMapping("/notification/greetings")
+    public String greet(String message){
+        System.out.println(message);
+        System.out.println("entry");
+          return "/notification/noti";
     }
 
 }
