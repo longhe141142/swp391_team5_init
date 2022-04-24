@@ -32,6 +32,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//For Gradle, add to dependencies section of build.gradle
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 }
 
 tasks.named('test') {

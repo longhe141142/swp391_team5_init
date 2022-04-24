@@ -14,6 +14,8 @@ import java.util.function.Function;
 public interface MajorService {
     List<Major> findAll();
 
+    List<Major> findById(long id);
+
     List<Major> findAll(Sort sort);
 
     List<Major> findAllById(Iterable<Long> longs);

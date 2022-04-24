@@ -27,6 +27,11 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
+    public List<Major> findById(long id) {
+        return majorRepository.findById(id);
+    }
+
+    @Override
     public List<Major> findAll(Sort sort) {
         return majorRepository.findAll(sort);
     }

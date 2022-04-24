@@ -1,23 +1,21 @@
-package com.fu.swp391.entities;
+package com.fu.swp391.controller.restController.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "major_rules")
-public class MajorRule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+@Data
+
+public class ruleDTO {
+    @NotEmpty
+    @NotNull
     private Long id;
 
     @NotEmpty
@@ -27,10 +25,14 @@ public class MajorRule {
     @NotEmpty
     @NotNull
     private String content;
+    public ruleDTO(){
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_major_id")
-    private CompanyMajor companyMajor;
+    }
+    public ruleDTO(Long id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
 
     public Long getId() {
         return id;
@@ -54,13 +56,5 @@ public class MajorRule {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public CompanyMajor getCompanyMajor() {
-        return companyMajor;
-    }
-
-    public void setCompanyMajor(CompanyMajor companyMajor) {
-        this.companyMajor = companyMajor;
     }
 }

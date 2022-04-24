@@ -55,4 +55,12 @@ public class Major implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
 }

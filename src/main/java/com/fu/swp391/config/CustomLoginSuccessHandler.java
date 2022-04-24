@@ -21,8 +21,8 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
   @Override
   protected void handle(
-      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-      throws IOException {
+          HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+          throws IOException {
     System.out.println("Starting hanling");
     String targetUrl = determineTargetUrl(authentication);
 
@@ -66,9 +66,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     return roles.contains(roleEnum.CANDIDATE);
   }
 
-    private boolean isAdmin(List<String> roles) {
-        return roles.contains(roleEnum.ADMIN);
-    }
+  private boolean isAdmin(List<String> roles) {
+    return roles.contains(roleEnum.ADMIN);
+  }
 
 //  private boolean isAdmin(List<String> roles) {
 //    if (roles.contains("ROLE_ADMIN")) {
@@ -84,3 +84,4 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
   protected RedirectStrategy getRedirectStrategy() {
     return redirectStrategy;
   }
+}

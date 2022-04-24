@@ -22,6 +22,7 @@
     <form class="needs-validation" th:action="@{/company/major/addmajor}"  method="post" th:object="${company_major}" novalidate>
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
+
             <div class="w3-col ">
                 <div id="id01" class="w3-modal">
                     <div class="w3-modal-content w3-card-4">
@@ -60,9 +61,51 @@
                     </tbody>
                 </table>
             </div>
+
+            <br>
+            <br>
+
+            <div class="w3-col ">
+                <div id="id02" class="w3-modal">
+                    <div class="w3-modal-content w3-card-4">
+                        <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id02').style.display='none'"
+              class="w3-button w3-display-topright">×</span>
+                            <h2>Add Benefit</h2>
+                        </header>
+                        <div class="w3-container">
+
+                            <p>
+                                <label>Content</label>
+                                <input class="w3-input" type="text" id="benefit"></p>
+                            <p>
+                                <label>Title</label>
+                                <input class="w3-input" type="text" id="titleb"></p>
+                            <p>
+                            <P><a type="button" class="w3-btn w3-blue" id="save2">Save</a>
+
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <a onclick="document.getElementById('id02').style.display='block'" class="w3-button  w3-blue">Add Benefit</a>
+                <table class="w3-table-all" id="myTable2">
+                    <thead>
+                    <tr class="w3-blue">
+                        <th nowrap>Sl.No</th>
+                        <th nowrap>Benefit</th>
+                        <th nowrap>Title</th>
+                        <th nowrap>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    </tbody>
+                </table>
+            </div>
        </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">Add Major</h4>
+            <h4 class="mb-3">Add Job post</h4>
 
 
 
@@ -112,7 +155,7 @@
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label >Major</label>
-                        <select th:field="*{major}" >
+                        <select th:field="*{major}" onchange="myFunction()">
                             <option value=""> --- </option>
                             <option th:each="major : ${majors}"
                                     th:value="${major.getId()}"
@@ -140,6 +183,18 @@
                       </div>
                     </div> -->
                 </div>
+
+            <div class="mb-3">
+                <table class="w3-table-all" id="myTableSkill">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
                 <hr class="mb-4">
 
                 <h4 class="mb-3">Gender</h4>
@@ -175,8 +230,8 @@
                         </div>
                     </div>
                 </div>
-                <hr class="mb-4">
-                <h4 class="mb-3">Rule</h4>
+
+
 
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">ADD MAJOR</button>
@@ -197,11 +252,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="../../../../assets/js/vendor/popper.min.js"></script>
-<script src="../../../../dist/js/bootstrap.min.js"></script>
-<script src="../../../../assets/js/vendor/holder.min.js"></script>
 <!--<script>-->
 <!--    // Example starter JavaScript for disabling form submissions if there are invalid fields-->
 <!--    (function() {-->
@@ -224,27 +274,264 @@
 <!--        }, false);-->
 <!--    })();-->
 <!--</script>-->
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 <script th:inline="javascript">
+
+    const checkbox = document.getElementById('skill')
+
+
+    $(document).on('change','.skills',function(){
+        var name = $(this).attr('value');
+        if ($(this).is(':checked')) {
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/addSkill",
+                data : {
+                    name: name,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }else{
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/deleteSkill",
+                data : {
+                    name: name,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+
+    });
+
     $('#save').on('click', function() {
+        var rules = new Array();
+
         var content =$('#content').val();
         var title =$('#title').val();
 
-        var count = $('#myTable tr').length - 1;
+        var count = $('#myTable tr').length ;
         if(content!="" && title !="" ){
             $('#myTable tbody').append('<tr class="child"><td >'+count+'</td>' +
-                '<td th:value = "'+content+'" th:field="*{majorRules.get(0).getContent()}">'+content+'</td>' +
-                '<td th:value = "'+title+'" >'+title+'</td>' +
-                '<td><a href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a>' +
+                '<td>'+content+'</td>' +
+                '<td>'+title+'</td>' +
+                '<td><a value="'+count+'" href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a>' +
                 '</td>' +
                 '</tr>');
+
         }
+
+
+//         var selected = new Array();
+//         $('#myTableSkill input[type="checkbox"]:checked').each(function() {
+//             selected.push($(this).attr('value'));
+//         });
+//         $.ajax({
+//             url: '/company/major/rule',
+//             data: JSON.stringify({selected}),
+//             type: "POST",
+//             async: false,
+//             dataType: 'json',
+//             contentType: 'application/json',
+// //            data: jData,
+//             timeout : 100000,
+//             success : function(data) {
+//                 console.log("SUCCESS: ", data);
+//             },
+//             error : function(e) {
+//                 console.log("ERROR: ", e);
+//             }
+//         });
+
+
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/addRule",
+            data : {
+                content : content,
+                title : title,
+                count: count
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+        // $.ajax({
+        //     Type: "POST",
+        //     Url: "/company/major/rule",
+        //     dataType: "json",
+        //     contentType: 'application/json; charset=utf-8',
+        //     Data:JSON.stringify(rules),
+        //     Success:function(data){
+        //         console.log(data);
+        //     },
+        //     error:function(data){
+        //         console.log(data);
+        //     }
+        // });
+
     });
     $(document).on('click','.remCF1',function(){
+        var id = $( $(this).parent().parent().find('td')[0]).html();
         $(this).parent().parent().remove();
         $('#myTable tbody tr').each(function(i){
+
             $($(this).find('td')[0]).html(i+1);
         });
+
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/deleteRule",
+            data : {
+                id:id,
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
     });
+    $('#save2').on('click', function() {
+        var rules = new Array();
+
+        var benefit =$('#benefit').val();
+        var title =$('#titleb').val();
+
+        var count = $('#myTable2 tr').length ;
+        if(benefit!="" && title !="" ){
+            $('#myTable2 tbody').append('<tr class="child"><td >'+count+'</td>' +
+                '<td>'+benefit+'</td>' +
+                '<td>'+title+'</td>' +
+                '<td><a href="javascript:void(0);" class="remCF2 btn btn-small btn-danger">Remove</a>' +
+                '</td>' +
+                '</tr>');
+
+        }
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/addBenefit",
+            data : {
+                benefit : benefit,
+                title : title,
+                count: count
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+
+
+    });
+
+    $(document).on('click','.remCF2',function(){
+        var id = $( $(this).parent().parent().find('td')[0]).html();
+        $(this).parent().parent().remove();
+        $('#myTable2 tbody tr').each(function(i){
+
+            $($(this).find('td')[0]).html(i+1);
+        });
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/deleteBenefit",
+            data : {
+                id:id,
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    function myFunction() {
+        $('#myTableSkill thead tr').remove();
+        $('#myTableSkill tbody tr').remove();
+        var id = document.getElementById("major").value;
+        if(id!=''){
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/getSkill",
+                data : {
+                    id:id,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                    $('#myTableSkill thead').append(
+
+                        '<tr className="w3-blue">'+
+                        '<th nowrap>Sl.No</th>'+
+                        '<th nowrap>Skill Name</th>'+
+                        '<th nowrap>Title</th>'+
+                        '<th nowrap>Action</th>'+
+                        '</tr>');
+                    var i = 0;
+                    data.forEach((element) => {
+                        i++;
+                        $('#myTableSkill tbody').append('<tr class="child"><td >'+i+'</td>' +
+                            '<td>'+element.name+'</td>' +
+                            '<td>'+element.title+'</td>' +
+                            '<td><input class="skills" type="checkbox"  id="skill" value="'+element.name+'" >' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+
+        }
+
+
+
+    }
+
 </script>
+
 </body>
 </html>

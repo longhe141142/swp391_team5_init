@@ -29,6 +29,9 @@ public class Company {
     @Transient
     MultipartFile image;
 
+    public Company(int i) {
+    }
+
     public MultipartFile getImage() {
         return image;
     }
@@ -126,6 +129,11 @@ public class Company {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+
+
+
+
 
     public Long getId() {
         return id;
