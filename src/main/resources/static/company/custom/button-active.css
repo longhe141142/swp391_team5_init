@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+
+* {
+  text-align: center;
+  box-sizing: border-box;
+}
+
+label {
+  margin: 0px 15px;
+}
+
+/*body {*/
+/*  margin-top: 50px;*/
+/*}*/
+
+h1 {
+  font-family: 'Segoe UI';
+  font-weight: lighter;
+  font-size: 28px;
+}
+
+/*SWITCH 3 ------------------------------------------------*/
+
+.switch-status {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  height: 37px;
+  border-radius: 37px;
+  background-color: #c72e1d;
+  cursor: pointer;
+  transition: all .3s;
+  overflow: hidden;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, .3);
+}
+
+.switch-status input {
+  display: none;
+}
+
+.switch-status input:checked+div {
+  left: calc(160px - 32px);
+  box-shadow: 0px 0px 0px white;
+}
+
+.switch-status div {
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  border-radius: 27px;
+  background-color: white;
+  top: 5px;
+  left: 5px;
+  box-shadow: 0px 0px 1px rgb(150, 150, 150);
+  transition: all .3s;
+}
+
+.switch-status div:before,
+.switch-status div:after {
+  position: absolute;
+  content: 'ON';
+  width: calc(80px - 40px);
+  height: 37px;
+  line-height: 37px;
+  font-family: 'Varela Round';
+  font-size: 14px;
+  font-weight: bold;
+  top: -5px;
+}
+
+.switch-status div:before {
+  content: 'INACTIVATED';
+  /* color: rgb(120, 120, 120); */
+  color: rgb(239, 239, 239);
+  left: 160%;
+}
+
+.switch-status div:after {
+  content: 'ACTIVATED';
+  right: 300%;
+  color: white;
+}
+
+.switch3-checked {
+  background-color: #94d22a;
+  box-shadow: none;
+}

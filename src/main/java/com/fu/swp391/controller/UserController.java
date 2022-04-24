@@ -79,7 +79,7 @@ public class UserController {
       List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));
       User user = userService.addRoleToUser(roleList, userCandidate);
       user.setToken("user");
-      user.setStatus(accountStatusEnum.USER_CREATED);
+      user.setStatus(accountStatusEnum.USER_ACTIVATED);
       user.getRoles()
           .forEach(
               role -> {
