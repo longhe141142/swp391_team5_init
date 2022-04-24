@@ -51,21 +51,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     if (isCandidate(roles)) {
-<<<<<<< HEAD
       url = "/candidate/home";
     } else if (isAdmin(roles)) {
       url = "/candidate/home";
-=======
-      url = "/";
-    } else if (isAdmin(roles)) {
-      url = "/";
->>>>>>> 5d5c039 (longnt::Exception Controller base)
-    } else if (isAdmin(roles)) {
-<<<<<<< HEAD
-      url = "/candidate/home";
-=======
-      url = "/admin/home";
->>>>>>> 3407486 (Long add company)
     } else {
       url = "/accessDenied";
     }

@@ -10,11 +10,7 @@ import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-=======
->>>>>>> d6c270e (long add company)
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

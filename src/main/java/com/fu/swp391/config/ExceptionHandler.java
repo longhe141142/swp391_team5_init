@@ -65,7 +65,6 @@ public class ExceptionHandler {
         return mav;
     }
 
-<<<<<<< HEAD
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ModelAndView handleError2(HttpServletRequest req, Exception ex) {
         System.out.println("entryy");
@@ -76,23 +75,5 @@ public class ExceptionHandler {
         mav.addObject("url", req.getRequestURL());
         mav.setViewName("/404Page/404");
         return mav;
-=======
-    @org.springframework.web.bind.annotation.ExceptionHandler({ ConstraintViolationException.class })
-    public ResponseEntity<Object> handleConstraintViolation(
-            ConstraintViolationException ex, WebRequest request) {
-        List<String> errors = new ArrayList<String>();
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode responseBody = mapper.createObjectNode();
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            responseBody.put(violation.getPropertyPath().toString(),violation.getMessage());
-            errors.add(violation.getRootBeanClass().getName() + " " +
-                    violation.getPropertyPath() + ": " + violation.getMessage());
-        }
-
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors,responseBody);
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
->>>>>>> d6c270e (long add company)
     }
 }
