@@ -67,7 +67,7 @@
     </div>
   </div>
 </div>
-<div class="section" id="about"  th:each="list: ${listCandidateCV.get(1)}">
+<div class="section" id="about"  th:each="list: ${listCandidateCV.get(0)}">
   <div class="container">
     <div class="card" data-aos="fade-up" data-aos-offset="10">
       <div class="row">
@@ -203,9 +203,11 @@
                       <a th:href="@{/candidate/detailOneCV/{id}(id = ${listCa.id})}" class="a">CV1</a>
                       <p>My CV <a th:text="${listCa.id}"/> </p><br/>
                       <button>Put Main CV</button><br/><br/>
-                      <button th:href="@{/candidate/createCV}">Delete</button>
                     </figcaption>
-                  </figure></a></div>
+                  </figure>
+              </a>
+                <a class="a" th:href="@{/candidate/delete/{id}(id = ${listCa.id})}">Delete</a>
+              </div>
           </div>
         </div>
       </div>

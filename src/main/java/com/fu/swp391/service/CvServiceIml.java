@@ -88,6 +88,11 @@ public class CvServiceIml implements CvService {
         return optional3;
     }
 
+    @Override
+    public void deleteCVById(Long id) {
+        cvRepository.deleteById(id);
+    }
+
 
 //    @Override
 //    public Optional<CV> findbyId(Long id) {

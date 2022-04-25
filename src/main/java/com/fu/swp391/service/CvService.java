@@ -27,5 +27,6 @@ public interface CvService {
 
     List<SkillCV> getSkillCVById(long id);
 
+    void deleteCVById(Long id);
    // Optional<CV> findbyId(Long id);
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 @Repository
-public interface CVRepository extends JpaRepository<CV, Long> {
+public interface CVRepository extends CrudRepository<CV, Long> {
     @Query(value = "SELECT * FROM skills_cv join cv where cv.id = skills_cv.cv_id", nativeQuery = true)
     List<CV> findAllCVSkill();
 
@@ -29,6 +29,10 @@ public interface CVRepository extends JpaRepository<CV, Long> {
             "where cv.id = edu.cv_id and edu.id = exc.cv_id " +
             "and exc.id= cev.cv_id and cev.id = skc.cv_id ", nativeQuery = true)
     List<CV> listDetailAllOneCV();
+
+//    @Query(value = "SET FOREIGN_KEY_CHECKS=0; \n" +
+//            "DELETE FROM cv WHERE cv.id = ?1 LIMIT 1 ", nativeQuery = true)
+//    void deleteAllById(Long id);
 
 
 //    @Query(value = " ", nativeQuery = true)

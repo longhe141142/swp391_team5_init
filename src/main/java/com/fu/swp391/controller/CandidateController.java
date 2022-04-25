@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+
 @Controller
 @RequestMapping("candidate")
 public class CandidateController {
@@ -34,7 +35,7 @@ public class CandidateController {
     @Autowired
     CompanyService companyService;
 
-    public CandidateController(CandidateService candidateService,CompanyService companyService,CvService cvService) {
+    public CandidateController(CandidateService candidateService, CompanyService companyService, CvService cvService) {
         this.candidateService = candidateService;
         this.companyService = companyService;
         this.cvService = cvService;
@@ -47,75 +48,84 @@ public class CandidateController {
 //        return "candidate/listAllCV";
 //    }
 
-///candidate/HomeCandidate
+    ///candidate/HomeCandidate
     @GetMapping("/home")
-    public String home(){
+    public String home() {
         return "/candidate/HomeCandidate";
     }
+
     @GetMapping("/about-us")
-    public String home1(){
+    public String home1() {
         return "/candidate/about-us";
     }
+
     @GetMapping("/contact-us")
-    public String home2(){
+    public String home2() {
         return "/candidate/contact-us";
     }
 
 
     @GetMapping("/listAllCV")
-    public String listAllCV(Model model){
-        List<CV> cvList =  cvService.getAllCV();
-        List<CV> cvListSkill =  cvService.getAllCVSkill();
-        Candidate candidate =  candidateService.getCandidate();
+    public String listAllCV(Model model) {
+        List<CV> cvList = cvService.getAllCV();
+        List<CV> cvListSkill = cvService.getAllCVSkill();
+        Candidate candidate = candidateService.getCandidate();
 
         //List<skillFake> skillFakes =  cvService.getSkillFake();
-        model.addAttribute("listCandidateCV",cvList);
-        model.addAttribute("listCandidateCVSkill",cvListSkill);
-        model.addAttribute("candidate",candidate);
+        model.addAttribute("listCandidateCV", cvList);
+        model.addAttribute("listCandidateCVSkill", cvListSkill);
+        model.addAttribute("candidate", candidate);
         //model.addAttribute("skillFakes",skillFakes);
         return "/candidate/listAllCV";
     }
 
     @GetMapping("/detailOneCV/{id}")
-    public String detailOneCV(@PathVariable (value = "id") long id, Model model){
+    public String detailOneCV(@PathVariable(value = "id") long id, Model model) {
         List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
         List<SkillCV> skillCVList = cvService.getSkillCVById(id);
-        Candidate candidate =  candidateService.getCandidate();
+        Candidate candidate = candidateService.getCandidate();
 
-        model.addAttribute("experienceCVList",experienceCVList);
-        model.addAttribute("educateCVList1",educateCVList1);
-        model.addAttribute("certificateCVS",certificateCVS);
-        model.addAttribute("skillCVList",skillCVList);
-        model.addAttribute("candidate",candidate);
+        model.addAttribute("experienceCVList", experienceCVList);
+        model.addAttribute("educateCVList1", educateCVList1);
+        model.addAttribute("certificateCVS", certificateCVS);
+        model.addAttribute("skillCVList", skillCVList);
+        model.addAttribute("candidate", candidate);
         return "/candidate/detailOneCV";
     }
 
 
     @GetMapping("/createCV")
-    public String createCV(Model model){
-        Candidate candidate =  candidateService.getCandidate();
-        model.addAttribute("candidate",candidate);
+    public String createCV(Model model) {
+        Candidate candidate = candidateService.getCandidate();
+        model.addAttribute("candidate", candidate);
 
         CV cv = new CV();
         model.addAttribute("cv", cv);
         return "/candidate/CreateCV";
     }
 
+
+    @GetMapping("/delete/{id}")
+    public String deleteCV(Model model, @PathVariable(value = "id") long id) {
+        cvService.deleteCVById(id);
+        return "redirect:/candidate/listAllCV";
+    }
+
+
     @PostMapping("/postCV")
-    public String PostCV(Model model){
+    public String PostCV(Model model) {
 
         return "/candidate/CreateCV";
     }
-
 
 
     @GetMapping("/ListCompanyCandidate")
     public String ListCompanyCandidate(Model model) {
 
         List<Company> ListCompany = companyService.findAllCompany();
-        model.addAttribute("ListCompany",ListCompany);
+        model.addAttribute("ListCompany", ListCompany);
         return "candidate/listCompany";
     }
 
