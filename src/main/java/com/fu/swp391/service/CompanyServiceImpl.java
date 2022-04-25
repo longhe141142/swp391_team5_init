@@ -53,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public Company addCompany(Company company, User user) {
     user = this.addUCompanyUserRole(user);
-    user.setPasswordEncoder(encoder.encode(user.getPassword()));
+    user.setPasswordEncoder(encoder.encode(user.getPasswordEncoder()));
     company.setUser(user);
     company = this.companyRepository.save(company);
     return company;

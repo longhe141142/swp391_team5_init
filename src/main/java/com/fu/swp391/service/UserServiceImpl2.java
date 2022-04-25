@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.fu.swp391.common.enumConstants.StatusEnum;
@@ -73,7 +74,7 @@ public class UserServiceImpl2 implements UserService {
                 System.out.println(username + "Has been blocked");
                 throw new UserBlockedException(username + "Has been blocked");
             }
-            System.out.println(user.getPassword());
+            System.out.println(user.getResetPasswordToken());
             return AuthPrinciple.built(user);
         } catch (UserBlockedException e) {
             e.printStackTrace();
@@ -134,4 +135,28 @@ public class UserServiceImpl2 implements UserService {
     }
 
 
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any customer with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token);
+        return user;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPasswordEncoder(encodedPassword);
+
+//        user.setPasswordEncoder(null);
+        userRepository.save(user);
+    }
 }
+
