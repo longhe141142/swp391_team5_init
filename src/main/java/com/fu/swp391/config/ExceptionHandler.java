@@ -67,7 +67,6 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ModelAndView handleError2(HttpServletRequest req, Exception ex) {
-        System.out.println("entryy");
         ex.printStackTrace();
         System.out.println("Request: " + req.getRequestURL() + " raised " + ex);
         ModelAndView mav = new ModelAndView();

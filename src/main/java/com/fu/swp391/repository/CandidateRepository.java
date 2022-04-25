@@ -22,11 +22,8 @@ public interface CandidateRepository extends CrudRepository<Candidate,Long> {
   ArrayList<Candidate> search(String keyword);
 //    @Query()
 //    Optional<Candidate> addCandidate();
-<<<<<<< HEAD
-
     @Query(value = " SELECT * FROM candidates where name = 'Nguyễn Anh Tuấn' ", nativeQuery = true)
     Candidate getCandidate();
 
-=======
->>>>>>> 5d5c039 (longnt::Exception Controller base)
+
 }

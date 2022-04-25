@@ -9,14 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CandidateService {
 
-<<<<<<< HEAD
    // List<Candidate> getAllCandidate();
 
     Candidate getCandidate();
-
-=======
-  List<Candidate> getAllCandidate();
->>>>>>> 5d5c039 (longnt::Exception Controller base)
+//  List<Candidate> getAllCandidate();
 
   void addNewCandidate(Candidate candidate);
 

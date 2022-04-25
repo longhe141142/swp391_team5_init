@@ -124,16 +124,10 @@
 							<td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
 							</td>
 							<td>
-								<label class="switch-status switch3-checked"
-											 th:id="${company.getId()}"
-												 th:if="${company.getUser().getStatus()== 'ACTIVATED'}">
-									<input checked type="checkbox"/>
-									<div></div>
-								</label>
-								<label class="switch-status" th:id="${company.getId()}" th:if="${company.getUser().getStatus()!= 'ACTIVATED'}">
-									<input checked type="checkbox"/>
-									<div></div>
-								</label>
+								<div class="status-container">
+									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'INACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-danger">INACTIVATED</button>
+									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'ACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-success">ACTIVATED</button>
+								</div>
 							</td>
 							<td>Software Company</td>
 							<td th:text="${company.getPersonnelSize()}"></td>
@@ -146,10 +140,10 @@
 																								 title="Edit">&#xE254;</i></a>
 
 									<a class="delete"
-									   data-toggle="modal"
-									   href="#deleteCompanyModal"><i class="material-icons"
-									                          data-toggle="tooltip"
-									                          title="Delete">&#xE872;</i></a>
+										 data-toggle="modal"
+										 href="#deleteCompanyModal"><i class="material-icons"
+																									 data-toggle="tooltip"
+																									 title="Delete">&#xE872;</i></a>
 								</div>
 							</td>
 						</tr>
@@ -383,41 +377,11 @@
 	<script src="/company/custom/index.js"></script>
 	<script>
 		$('[data-toggle="tooltip"]').tooltip();
-		$(document).ready(function () {
-			$('.switch-status input').on('change', function () {
-				var dad = $(this).parent();
-				$.ajax({
-					url: `/admin/change-company-status?id=${dad.id}`,
-					data: JSON.stringify({...dataPendingToSend}),
-					processData: false,
-					dataType: 'json',
-					contentType: 'application/json',
-					type: 'GET',
-					success: function (data) {
-					},
-					error: function (xhr, status, error) {
-						const response = JSON.parse(xhr.responseText);
-						console.log(response);
-						let errMsg = "";
-						if (("responseBody" in response)) {
-							errMsg = "message" in response.responseBody ? "Company not found" : "Internal Server error";
-						} else {
-							errMsg = "Internal server error";
-						}
-						handle_errors(errMsg);
-					}
-				});
-				if ($(this).is(':checked')) {
-					dad.addClass('switch3-checked');
-
-				} else {
-					dad.removeClass('switch3-checked');
-				}
-
-			});
-		});
 
 	</script>
+
+	<script src="/company/custom/activebutton.js"></script>
+
 
 </body>
 </html>

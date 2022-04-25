@@ -1,87 +1,74 @@
-@import url('https://fonts.googleapis.com/css?family=Varela+Round');
-
-* {
-  text-align: center;
-  box-sizing: border-box;
-}
-
-label {
-  margin: 0px 15px;
-}
-
-/*body {*/
-/*  margin-top: 50px;*/
+/*
+.active-switch{
+    display: block;
+    width: 6em;
+    border: 1px solid black;
+    border-radius: 25%;
+    text-align: center;
+} */
+/*html .status-container {*/
+/*  height: 8em;*/
+/*  width: 100vw;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*}*/
+/*div {*/
+/*  width: 50%;*/
+/*  height: 10%;*/
+/*  display: flex;*/
+/*  justify-content: flex-start;*/
+/*  margin-bottom: 20px;*/
 /*}*/
 
-h1 {
-  font-family: 'Segoe UI';
-  font-weight: lighter;
-  font-size: 28px;
-}
 
-/*SWITCH 3 ------------------------------------------------*/
 
-.switch-status {
-  position: relative;
-  display: inline-block;
-  width: 160px;
-  height: 37px;
-  border-radius: 37px;
-  background-color: #c72e1d;
+.btn-status {
+  width: 100px;
+  height: 40px;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
   cursor: pointer;
-  transition: all .3s;
-  overflow: hidden;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, .3);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #fff;
+  margin-right: 10px;
+}
+/*
+
+.btn-outline-danger {
+    border: 1.5px solid #f55353;
+    color: #f55353;
+    transition: 0.15s ease-out;
+  }
+
+  .btn-outline-danger:hover {
+    background-color: #df4c4c;
+    transition: 0.15s ease-out;
+    color: #fff;
+  } */
+
+.btn-danger {
+  background-color: #f55353;
+  transition: 0.5ms;
 }
 
-.switch-status input {
-  display: none;
+.btn-danger:hover {
+  background-color: #df4c4c;
+  transition: 0.5ms;
 }
 
-.switch-status input:checked+div {
-  left: calc(160px - 32px);
-  box-shadow: 0px 0px 0px white;
-}
 
-.switch-status div {
-  position: absolute;
-  width: 27px;
-  height: 27px;
-  border-radius: 27px;
-  background-color: white;
-  top: 5px;
-  left: 5px;
-  box-shadow: 0px 0px 1px rgb(150, 150, 150);
-  transition: all .3s;
+.btn-success {
+  background-color: #91b841;
+  transition: 0.5ms;
 }
-
-.switch-status div:before,
-.switch-status div:after {
-  position: absolute;
-  content: 'ON';
-  width: calc(80px - 40px);
-  height: 37px;
-  line-height: 37px;
-  font-family: 'Varela Round';
-  font-size: 14px;
-  font-weight: bold;
-  top: -5px;
-}
-
-.switch-status div:before {
-  content: 'INACTIVATED';
-  /* color: rgb(120, 120, 120); */
-  color: rgb(239, 239, 239);
-  left: 160%;
-}
-
-.switch-status div:after {
-  content: 'ACTIVATED';
-  right: 300%;
-  color: white;
-}
-
-.switch3-checked {
-  background-color: #94d22a;
-  box-shadow: none;
+.btn-success:hover {
+  background-color: #81a43a;
+  transition: 0.5ms;
 }

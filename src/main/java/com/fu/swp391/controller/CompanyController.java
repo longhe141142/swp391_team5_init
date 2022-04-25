@@ -1,24 +1,10 @@
 package com.fu.swp391.controller;
 
-<<<<<<< HEAD
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-@Controller
-@RequestMapping("company")
-public class CompanyController {
-
-    @GetMapping("/home")
-    public String home(){
-        return "/company/index";
-    }
-}
-=======
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 @Controller
-@RequestMapping("company12")
+@RequestMapping("company")
 public class CompanyController {
     @Autowired
     CompanyService companyService;
@@ -41,6 +26,10 @@ public class CompanyController {
         this.companyMajorService = companyMajorService;
     }
 
+    @GetMapping("/home")
+    public String home(){
+        return "/company/index";
+    }
     @GetMapping("/ListCompanyAdmin12")
     public String ListCompanyAdmin(Model model) {
 
@@ -57,4 +46,3 @@ public class CompanyController {
     }
 }
 
->>>>>>> 1f0453f (Duc_4_22_2022)
