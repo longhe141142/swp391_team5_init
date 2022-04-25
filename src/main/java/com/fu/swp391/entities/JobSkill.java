@@ -27,4 +27,28 @@ public class JobSkill {
     @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id")
     private JobPost jobPost;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public JobPost getJobPost() {
+        return jobPost;
+    }
+
+    public void setJobPost(JobPost jobPost) {
+        this.jobPost = jobPost;
+    }
 }

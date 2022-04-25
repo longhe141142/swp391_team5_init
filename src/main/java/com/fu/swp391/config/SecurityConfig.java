@@ -61,11 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable();
 
-    http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
-//                .antMatchers(HttpMethod.POST).permitAll()
-//        .antMatchers("/login").access("hasAnyRole('USER')")
+    http.authorizeRequests().antMatchers("/registerTest","login","*/candidate/*").permitAll()
+            .antMatchers(HttpMethod.POST).permitAll()
+            .antMatchers("/login/").access("hasAnyRole('USER')")
 //                .antMatchers("/admin/*").access("hasRole('ADMIN')")
-//                .antMatchers("/company/*").access("hasRole('ROLE_USER')")
+            .antMatchers("/admin/company").access("hasRole('COMPANY')")
             .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
             .and().formLogin().failureUrl("/fail_login");
 //                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));

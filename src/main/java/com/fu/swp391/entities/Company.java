@@ -2,6 +2,7 @@ package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,6 +84,10 @@ public class Company {
     public void setCompanyImageUrl(String companyImageUrl) {
         this.companyImageUrl = companyImageUrl;
     }
+
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    private List<JobPost> jobPosts;
+
 
 
     @Column(name = "company_intro",length = 1700)

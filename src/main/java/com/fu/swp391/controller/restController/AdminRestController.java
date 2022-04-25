@@ -71,10 +71,12 @@ public class AdminRestController {
         Optional<Company> company = companyService.findbyId(companyId);
         // lambda expression
         System.out.println("company found:" + company.get().getName());
+
         company.ifPresent(
                 value -> {
                   value.setCompanyImageUrl(fileName);
                   value.setStatus(StatusEnum.ACTIVATED);
+                  value.getUser().setStatus(StatusEnum.ACTIVATED);
                 });
         companyRepository.save(company.get());
       }
