@@ -263,6 +263,11 @@ $(document).ready(function () {
         if (!isValidDate(foundingAt)) {
             getAll.error = true;
             getAll.msgErr+='Invalid date format of founding field\n'
+<<<<<<< HEAD
+        }else{
+            company.foundingAt = foundingAt;
+        }
+=======
             console.log("foundingAt"+foundingAt)
         }else{
             console.log("foundingAt"+foundingAt)
@@ -270,6 +275,7 @@ $(document).ready(function () {
             company.foundingAt = foundingAt;
         }
         console.log(company)
+>>>>>>> c51aaacef9e830d249ca2b8430896bb046edc0fb
         const dataPendingToSend = {
             user, company
         }

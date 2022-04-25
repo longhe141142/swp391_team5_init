@@ -33,11 +33,6 @@ public class User {
 
 
 
-    @NotEmpty
-    @Size(min = 6, message = "Password should be more than 5 letters" )
-    private String password;
-
-
     private String status;
 
   public String getPasswordEncoder() {
@@ -55,12 +50,11 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    public User(String email, String password, String status, Integer age, String phoneNumber, String name, Date birthDate, String token, String passwordToken, String avatar) {
+    public User(String email, String status, Integer age, String phoneNumber, String name, Date birthDate, String token, String passwordToken, String avatar) {
         this.email = email;
-        this.password = password;
         this.status = status;
         this.token = token;
-        this.passwordToken = passwordToken;
+        this.resetPasswordToken = passwordToken;
     }
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -76,19 +70,21 @@ public class User {
     @Transient
     private String token;
 
-    private String passwordToken;//for password recovery
+    @Column(name = "password_token")
+    private String resetPasswordToken;
 
     public void setCandidate(Candidate candidate) {
         this.candidates.add(candidate);
     }
 
-    public String getPasswordToken() {
-        return passwordToken;
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
     }
 
-    public void setPasswordToken(String passwordToken) {
-        this.passwordToken = passwordToken;
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
+
 
   public User() {
     this.roles = new LinkedHashSet<Role>();
@@ -142,15 +138,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    
 
     public String getStatus() {
         return status;

@@ -44,11 +44,11 @@ public class AdminRestController {
   @Autowired CompanyRepository companyRepository;
 
   @PostMapping(
-      value = "/upload-company-image",
-      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+          value = "/upload-company-image",
+          consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
   public ResponseEntity<Object> uploadImage(
-      @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
+          @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
     ResponseEntity<Object> isSomethingWrong = validateFile(file);
     if (isSomethingWrong != null) {
       return isSomethingWrong;
@@ -72,10 +72,10 @@ public class AdminRestController {
         // lambda expression
         System.out.println("company found:" + company.get().getName());
         company.ifPresent(
-            value -> {
-              value.setCompanyImageUrl(fileName);
-              value.setStatus(StatusEnum.ACTIVATED);
-            });
+                value -> {
+                  value.setCompanyImageUrl(fileName);
+                  value.setStatus(StatusEnum.ACTIVATED);
+                });
         companyRepository.save(company.get());
       }
       helperUntil.putKeyValue(responseBody, "message", "Upload Success");
@@ -87,7 +87,7 @@ public class AdminRestController {
   @GetMapping(value = "/change-company-status")
   @ResponseBody
   public ResponseEntity<Object> changeCompanyStatus(
-      @RequestParam(value = "id", required = true) Long companyId
+          @RequestParam(value = "id", required = true) Long companyId
   ) {
     Optional<Company> company = companyService.findbyId(companyId);
     if (company.isPresent()) {
@@ -112,7 +112,7 @@ public class AdminRestController {
   @PostMapping(value = "/addCompany")
   @ResponseBody
   public ResponseEntity<Object> addCompanyRequest(
-      @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
+          @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode responseBodyError = mapper.createObjectNode();
     if (bindingResult.hasErrors()) {
@@ -120,11 +120,11 @@ public class AdminRestController {
       if (addCompanyDto.user == null || addCompanyDto.company == null) {
         if (addCompanyDto.user == null) {
           helperUntil.putKeyValue(
-              responseBodyError, "userError", "Please enter email and password");
+                  responseBodyError, "userError", "Please enter email and password");
         }
         if (addCompanyDto.company == null) {
           helperUntil.putKeyValue(
-              responseBodyError, "companyError", "Please input company information");
+                  responseBodyError, "companyError", "Please input company information");
         }
       } else {
         for (FieldError err : bindingResult.getFieldErrors()) {
@@ -134,13 +134,13 @@ public class AdminRestController {
         }
       }
       return new ResponseEntity<Object>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
 
     if(userService.findUserByEmail(addCompanyDto.user.getEmail()).isPresent()){
       helperUntil.putKeyValue(responseBodyError, "user_existed", "user is already existed");
       return new ResponseEntity<Object>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
 
     System.out.println("Entry");
@@ -168,7 +168,7 @@ public class AdminRestController {
       helperUntil.putKeyValue(responseBodyError, "image", "Please select image");
       System.out.println("file empty");
       return new ResponseEntity<>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
     return null;
   }

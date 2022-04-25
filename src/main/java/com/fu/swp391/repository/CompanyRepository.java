@@ -16,6 +16,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
 //    List<Company> findAllCompany(Pageable pageable);
     Optional<Company> findById(Long id);
 
+
     @Query("SELECT c FROM Company c WHERE c.name LIKE %?1%")
     ArrayList<Company> search(String keyword);
 }

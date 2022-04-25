@@ -17,62 +17,62 @@ import java.util.List;
 
 @Component
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-  @Override
-  protected void handle(
-      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-      throws IOException {
-    System.out.println("Starting handling");
-    String targetUrl = determineTargetUrl(authentication);
+    @Override
+    protected void handle(
+            HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException {
+        System.out.println("Starting handling");
+        String targetUrl = determineTargetUrl(authentication);
 
-    //IMPORTANT
-    if (response.isCommitted()) {
-      System.out.println("Can't redirect");
-      return;
+        //IMPORTANT
+        if (response.isCommitted()) {
+            System.out.println("Can't redirect");
+            return;
+        }
+
+        redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    redirectStrategy.sendRedirect(request, response, targetUrl);
-  }
+    /*
+     * This method extracts the roles of currently logged-in user and returns
+     * appropriate URL according to his/her role.
+     */
+    protected String determineTargetUrl(Authentication authentication) {
+        String url = "";
 
-  /*
-   * This method extracts the roles of currently logged-in user and returns
-   * appropriate URL according to his/her role.
-   */
-  protected String determineTargetUrl(Authentication authentication) {
-    String url = "";
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        List<String> roles = new ArrayList<String>();
 
-    List<String> roles = new ArrayList<String>();
+        for (GrantedAuthority a : authorities) {
+            roles.add(a.getAuthority());
+        }
 
-    for (GrantedAuthority a : authorities) {
-      roles.add(a.getAuthority());
+        if (isCandidate(roles)) {
+            url = "/candidate/home";
+        } else if (isAdmin(roles)) {
+            url = "/candidate/home";
+        }else if(isCompany(roles)){
+            url = "/admin/company";
+        }
+        else {
+            url = "/accessDenied";
+        }
+        return url;
     }
 
-    if (isCandidate(roles)) {
-      url = "/candidate/home";
-    } else if (isAdmin(roles)) {
-      url = "/candidate/home";
-    }else if(isCompany(roles)){
-      url = "/admin/company";
+    private boolean isCandidate(List<String> roles) {
+        return roles.contains(roleEnum.CANDIDATE);
     }
-    else {
-      url = "/accessDenied";
-    }
-    return url;
-  }
-
-  private boolean isCandidate(List<String> roles) {
-    return roles.contains(roleEnum.CANDIDATE);
-  }
 
     private boolean isAdmin(List<String> roles) {
         return roles.contains(roleEnum.ADMIN);
     }
 
     private boolean isCompany(List<String> roles){
-         return roles.contains(roleEnum.COMPANY);
+        return roles.contains(roleEnum.COMPANY);
     }
 
 //  private boolean isAdmin(List<String> roles) {
@@ -82,11 +82,11 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 //    return false;
 //  }
 
-  public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-    this.redirectStrategy = redirectStrategy;
-  }
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
+    }
 
-  protected RedirectStrategy getRedirectStrategy() {
-    return redirectStrategy;
-  }
+    protected RedirectStrategy getRedirectStrategy() {
+        return redirectStrategy;
+    }
 }

@@ -45,4 +45,3 @@ public class CompanyController {
         return "company/ListAllCompany";
     }
 }
-

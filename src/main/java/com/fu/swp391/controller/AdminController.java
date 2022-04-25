@@ -38,49 +38,49 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("admin")
 public class AdminController {
 
-    @Autowired
-    RoleService roleService;
+  @Autowired
+  RoleService roleService;
   @Autowired CandidateService candidateService;
 
   @Autowired CompanyService companyService;
 
-    @GetMapping("/")
-    public String renderAdminHome(){
-        return "admin/homeAdmin";
-    }
+  @GetMapping("/")
+  public String renderAdminHome(){
+    return "admin/homeAdmin";
+  }
 
-    //admin
-    @GetMapping("/home")
-    public String homeAdmin(){
-        return "/admin/homeAdmin";
-    }
-    @GetMapping("/login")
-    public String loginAdmin(){
-        return "/admin/login";
-    }
-    @GetMapping("/register")
-    public String registerAdmin(){
-        return "/admin/register";
-    }
-    @GetMapping("/forgotPassword")
-    public String forgetPasswordAdmin(){
-        return "/admin/forgot-password";
-    }
+  //admin
+  @GetMapping("/home")
+  public String homeAdmin(){
+    return "/admin/homeAdmin";
+  }
+  @GetMapping("/login")
+  public String loginAdmin(){
+    return "/admin/login";
+  }
+  @GetMapping("/register")
+  public String registerAdmin(){
+    return "/admin/register";
+  }
+  @GetMapping("/forgotPassword")
+  public String forgetPasswordAdmin(){
+    return "/admin/forgot-password";
+  }
 
   @GetMapping("/company-list")
   public String renderCompanyManagement(
-      @RequestParam(value = "page", required = false) Integer page, Model model) {
+          @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
     if (page != null) {
       pageIndex = page;
     }
     companyList =
-        companyService.getAllCompanyByPaging(
-            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+            companyService.getAllCompanyByPaging(
+                    companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany2";
-    }
+  }
 
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
   // "application/json")
@@ -106,17 +106,17 @@ public class AdminController {
       // TODO: handle exception
       System.out.println(e.getMessage());
     }
-        return new ResponseEntity<Object>(entities, HttpStatus.OK);
-    }
+    return new ResponseEntity<Object>(entities, HttpStatus.OK);
+  }
 
   @RequestMapping(value = "/candidate", method = RequestMethod.GET)
   public String getCandidates(
-      @RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "size", required = false) Integer size,
-      @RequestParam(value = "orderBy", required = false) String sortBy,
-      @RequestParam(value = "orderType", required = false) String orderType,
+          @RequestParam(value = "page", required = false) Integer page,
+          @RequestParam(value = "size", required = false) Integer size,
+          @RequestParam(value = "orderBy", required = false) String sortBy,
+          @RequestParam(value = "orderType", required = false) String orderType,
 
-      Model model) {
+          Model model) {
     ArrayList<Candidate> candidates = null;
     int pageIndex = page != null ? page : 1;
     int sizeDef = size != null ? size : PagingParameter.PAGE_SIZE_COMPANY_ADMIN;
@@ -124,36 +124,36 @@ public class AdminController {
     //if no sortBy provide findAll no sort
     //default is ascending
     candidates = sortBy==null || sortBy.isEmpty() ? candidateService.findAllCandidates()
-        : orderType == null ? candidateService.findAllCandidatesSortBy(sortBy,
+            : orderType == null ? candidateService.findAllCandidatesSortBy(sortBy,
             SortEnum.DESCENDING) : candidateService.findAllCandidatesSortBy(sortBy, orderType);
     List<String> fieldSort = Arrays.asList("name","age");
     SortParam sortParam = new SortParam();
     if(sortBy!=null)
-    if(!sortBy.isEmpty()){
-      sortParam = orderType==null?new SortParam(orderType,SortEnum.DESCENDING): new SortParam(orderType,sortBy);
-    }
+      if(!sortBy.isEmpty()){
+        sortParam = orderType==null?new SortParam(orderType,SortEnum.DESCENDING): new SortParam(orderType,sortBy);
+      }
     //phai de o day vi sortParam se tai khoi tao
     sortParam.setOrderFields(fieldSort);
 
     PagingParam pageParam = new PagingParam(
-        candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
-        candidates.size(), sizeDef, pageIndex);
+            candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
+            candidates.size(), sizeDef, pageIndex);
     model.addAttribute("pageParam", pageParam);
     ArrayList<Candidate> getCandidatesByPaging = candidateService.getAllCandidateByPaging(
-        candidates, pageIndex, sizeDef);
+            candidates, pageIndex, sizeDef);
     pageParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
     model.addAttribute(
-        "candidates", getCandidatesByPaging);
+            "candidates", getCandidatesByPaging);
     model.addAttribute("sortParam", sortParam);
     return "/admin/candidatesList";
   }
 
   @RequestMapping(value = "/candidateFilter", method = RequestMethod.GET)
   public String searchCandidate(
-      @RequestParam(value = "searchBy", required = false) String searchBy,
-      @RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "size", required = false) Integer size,
-      Model model) {
+          @RequestParam(value = "searchBy", required = false) String searchBy,
+          @RequestParam(value = "page", required = false) Integer page,
+          @RequestParam(value = "size", required = false) Integer size,
+          Model model) {
     ArrayList<Candidate> candidates = candidateService.findAllCandidates();
     int pageIndex = page != null ? page : 1;
     //if no sortBy provide findAll no sort
@@ -161,14 +161,14 @@ public class AdminController {
     candidates =  candidateService.findAllCandidatesByFilter(searchBy);
     int sizeDef = size != null ? size : candidates.size();
     PagingParam pageParam = new PagingParam(
-        candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
-        candidates.size(), sizeDef, pageIndex);
+            candidateService.getHelperUntilCandidate().getTotalSize(candidates.size(), sizeDef),
+            candidates.size(), sizeDef, pageIndex);
     model.addAttribute("pageParam", pageParam);
     ArrayList<Candidate> getCandidatesByPaging = candidateService.getAllCandidateByPaging(
-        candidates, pageIndex, sizeDef);
+            candidates, pageIndex, sizeDef);
     pageParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
     model.addAttribute(
-        "candidates", getCandidatesByPaging);
+            "candidates", getCandidatesByPaging);
     return "/admin/candidatesList";
   }
 
@@ -187,7 +187,7 @@ public class AdminController {
 
   @GetMapping("/company")
   public String renderCompany(
-      @RequestParam(value = "page", required = false) Integer page, Model model) {
+          @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
 //    if (page != null) {
@@ -204,22 +204,22 @@ public class AdminController {
 
   @GetMapping("edit")
   public  String editCom(@RequestParam Long id, Model model){
-      Optional<Company> company = companyService.findbyId(id);
-     model.addAttribute("companyEdit",company.get());
-      return "/company/editCompany";
+    Optional<Company> company = companyService.findbyId(id);
+    model.addAttribute("companyEdit",company.get());
+    return "/company/editCompany";
   }
 
   @PostMapping("editTest")
   public  String editCom(@Validated @ModelAttribute("companyEdit") Company company, BindingResult result,
-      @RequestParam Long id){
+                         @RequestParam Long id){
     System.out.println(company.getName());
     System.out.println(company.getCompanyIntro());
     if (result.hasErrors()){
-       List<FieldError> fields = result.getFieldErrors();
-       for (int i =0;i<fields.size();i++){
-         System.out.println("error field name:"+fields.get(i).getField()+
-             "\nError message: "+fields.get(i).getDefaultMessage());
-       }
+      List<FieldError> fields = result.getFieldErrors();
+      for (int i =0;i<fields.size();i++){
+        System.out.println("error field name:"+fields.get(i).getField()+
+                "\nError message: "+fields.get(i).getDefaultMessage());
+      }
       return "redirect:/admin/edit?id="+id;
     }
 
