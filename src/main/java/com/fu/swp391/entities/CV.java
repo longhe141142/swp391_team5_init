@@ -50,8 +50,8 @@ public class CV {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", nullable = false, updatable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Candidate candidate;
 
     @NotNull
