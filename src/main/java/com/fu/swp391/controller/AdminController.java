@@ -15,12 +15,14 @@ import com.fu.swp391.service.RoleService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +61,7 @@ public class AdminController {
         return "/admin/forgot-password";
     }
 
-  @GetMapping("/company")
+  @GetMapping("/company-list")
   public String renderCompanyManagement(
       @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
@@ -70,7 +72,6 @@ public class AdminController {
     companyList =
         companyService.getAllCompanyByPaging(
             companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
-
     System.out.println(page);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany2";
@@ -164,6 +165,36 @@ public class AdminController {
     model.addAttribute(
         "candidates", getCandidatesByPaging);
     return "/admin/candidatesList";
+  }
+
+  @GetMapping("/searchByAddress/{id}")
+  public String searchByAddress(Model model, @PathVariable long id){
+    Optional<Company> optional = companyService.findbyId(id);
+    model.addAttribute("ListCompanyByAddress",optional);
+    return "company/ListAllCompany3";
+  }
+  @GetMapping ("/editcompany/{id}")
+  public String DetailCompany12(Model model, @PathVariable long id) {
+    Optional<Company> optionalCompany = companyService.findbyId(id);
+    model.addAttribute("optionalCompany",optionalCompany);
+    return "company/ListAllCompany3";
+  }
+
+  @GetMapping("/company")
+  public String renderCompany(
+      @RequestParam(value = "page", required = false) Integer page, Model model) {
+    ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
+    int pageIndex = 1;
+//    if (page != null) {
+//      pageIndex = page;
+//    }
+//    companyList =
+//        companyService.getAllCompanyByPaging(
+//            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+//
+//    System.out.println(page);
+    model.addAttribute("companies", companyList);
+    return "company/ListAllCompany";
   }
 
 }

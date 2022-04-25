@@ -124,7 +124,7 @@
 							<td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
 							</td>
 							<td>
-								<div class="status-container">
+								<div class="status-status-container">
 									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'INACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-danger">INACTIVATED</button>
 									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'ACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-success">ACTIVATED</button>
 								</div>
@@ -149,98 +149,6 @@
 						</tr>
 					</th:block>
 
-					<!--					<tr th:each="o: ${ListCompany}">-->
-					<!--						<td th:text="${o.id}"></td>-->
-					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
-					<!--								th:src="${o.getCompanyImageUrl()}"-->
-					<!--								class="avatar"  alt="Avatar" th:text="${o.name}"></a>-->
-					<!--						</td>-->
-					<!--						<td th:text="${o.address}">Hà Nội, TP HCM, Đà Nẵng</td>-->
-					<!--						<td th:text="${o.foundingAt}">Jun 15, 2007</td>-->
-					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
-					<!--						<td th:text="${o.companyIntro}">Software Company</td>-->
-					<!--						<td th:text="${o.personnelSize}"></td>-->
-					<!--						<td>-->
-					<!--							<div class="action-form">-->
-					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                data-toggle="tooltip"-->
-					<!--								                                                                title="Edit">&#xE254;</i></a>-->
-
-					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                    data-toggle="tooltip"-->
-					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
-					<!--							</div>-->
-					<!--						</td>-->
-					<!--					</tr>-->
-
-					<!--					<tr>-->
-					<!--						<td>2</td>-->
-					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
-					<!--								src="https://static.wixstatic.com/media/9d8ed5_ca1487e8c972429aa4b338ac886cd1cc~mv2.jpg"-->
-					<!--								class="avatar" alt="Avatar"> Paula Wilson</a></td>-->
-					<!--						<td>Hà Nội</td>-->
-					<!--						<td>Jun 21, 2017</td>-->
-					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
-					<!--						<td>Software Company</td>-->
-					<!--						<td>1000</td>-->
-					<!--						<td>-->
-					<!--							<div class="action-form">-->
-					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                data-toggle="tooltip"-->
-					<!--								                                                                title="Edit">&#xE254;</i></a>-->
-
-					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                    data-toggle="tooltip"-->
-					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
-					<!--							</div>-->
-
-					<!--						</td>-->
-					<!--					</tr>-->
-					<!--					<tr>-->
-					<!--						<td>3</td>-->
-					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
-					<!--								src="https://cdn.groovetechnology.com/wp-content/uploads/2020/09/20200803-Groove-logo-jpg.jpg"-->
-					<!--								class="avatar" alt="Avatar">Groove Technology</a></td>-->
-					<!--						<td>TP HCM</td>-->
-					<!--						<td>Jul 04, 2017</td>-->
-					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
-					<!--						<td>Software Company</td>-->
-					<!--						<td>500</td>-->
-					<!--						<td>-->
-					<!--							<div class="action-form">-->
-					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                data-toggle="tooltip"-->
-					<!--								                                                                title="Edit">&#xE254;</i></a>-->
-
-					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                    data-toggle="tooltip"-->
-					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
-					<!--							</div>-->
-
-					<!--						</td>-->
-					<!--					</tr>-->
-					<!--					<tr>-->
-					<!--						<td>4</td>-->
-					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img src="http://static.ybox.vn/2018/8/5/1535082763510-Untitled-221.jpg"-->
-					<!--						                                                                          class="avatar" alt="Avatar">KMS Technology</a></td>-->
-					<!--						<td>TP HCM</td>-->
-					<!--						<td>Jul 16, 2017</td>-->
-					<!--						<td><span class="status text-danger">&bull;</span> InActive</td>-->
-					<!--						<td>Software Company</td>-->
-					<!--						<td>600</td>-->
-					<!--						<td>-->
-					<!--							<div class="action-form">-->
-					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                data-toggle="tooltip"-->
-					<!--								                                                                title="Edit">&#xE254;</i></a>-->
-
-					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
-					<!--								                                                                    data-toggle="tooltip"-->
-					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
-					<!--							</div>-->
-
-					<!--						</td>-->
-					<!--					</tr>-->
 					</tbody>
 				</table>
 				<div class="clearfix">
@@ -260,99 +168,6 @@
 			</div>
 			<div th:insert="/admin/fragment/addCompanyModal.html"></div>
 
-			<!-- Edit Modal HTML -->
-			<div class="modal fade" id="editCompanyModal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form>
-							<div class="modal-header">
-								<h4 class="modal-title">Edit Company</h4>
-								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
-								</button>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<label>Name</label>
-									<input class="form-control" required type="text">
-								</div>
-								<div class="form-group">
-									<label>Email</label>
-									<input class="form-control" required type="email">
-								</div>
-								<div class="form-group">
-									<label>Address</label>
-									<textarea class="form-control" required></textarea>
-								</div>
-								<div class="form-group">
-									<label>Phone</label>
-									<input class="form-control" required type="text">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
-								<input class="btn btn-info" type="submit" value="Save">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal fade" id="detailCompanyModal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form>
-							<div class="modal-header">
-								<h4 class="modal-title">Detail Company</h4>
-								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
-								</button>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<label>Name</label>
-									<input class="form-control" required type="text">
-								</div>
-								<div class="form-group">
-									<label>Email</label>
-									<input class="form-control" required type="email">
-								</div>
-								<div class="form-group">
-									<label>Address</label>
-									<textarea class="form-control" required></textarea>
-								</div>
-								<div class="form-group">
-									<label>Phone</label>
-									<input class="form-control" required type="text">
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<!-- Delete Modal HTML -->
-			<div class="modal fade" id="deleteCompanyModal">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form>
-							<div class="modal-header">
-								<h4 class="modal-title">Delete Company</h4>
-								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
-								</button>
-							</div>
-							<div class="modal-body">
-								<p>Are you sure you want to delete these Records?</p>
-								<p class="text-warning"><small>This action cannot be undone.</small></p>
-							</div>
-							<div class="modal-footer">
-								<input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
-								<input class="btn btn-danger" type="submit" value="Delete">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -381,7 +196,6 @@
 	</script>
 
 	<script src="/company/custom/activebutton.js"></script>
-
 
 </body>
 </html>

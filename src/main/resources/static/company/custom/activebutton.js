@@ -34,11 +34,11 @@ const onclickChange = function(elm) {
   if (checkClassInClude(elm, 'btn-danger')) {
     elm.classList.remove("btn-danger");
     elm.classList.add('btn-success');
-    elm.innerHTML = "ACTIVE";
+    elm.innerHTML = "ACTIVATED";
   } else if (checkClassInClude(elm, 'btn-success')) {
     elm.classList.remove("btn-success");
     elm.classList.add('btn-danger');
-    elm.innerHTML = "INACTIVE";
+    elm.innerHTML = "INACTIVATED";
   }
 
 
