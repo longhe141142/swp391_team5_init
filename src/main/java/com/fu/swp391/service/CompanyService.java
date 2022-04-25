@@ -24,5 +24,6 @@ public interface CompanyService {
 
   ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
 
+    ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
 
 }
