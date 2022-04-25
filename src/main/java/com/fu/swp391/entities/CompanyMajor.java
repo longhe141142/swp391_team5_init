@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -43,8 +44,6 @@ public class CompanyMajor {
     private String gender;
 
     @Column(name = "max_candidates")
-    @NotEmpty
-    @NotEmpty
     private int maxCandidate;
 
     @NotEmpty
@@ -65,14 +64,14 @@ public class CompanyMajor {
     @JsonIgnore
     private Company company;
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorRule> majorRules;
+    @OneToMany(mappedBy = "companyMajor",  cascade = CascadeType.ALL)
+    private List<MajorRule> majorRules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorBenefit> majorBenefits;
+    @OneToMany(mappedBy = "companyMajor", cascade = CascadeType.ALL)
+    private List<MajorBenefit> majorBenefits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorSkill> majorSkills;
+    @OneToMany(mappedBy = "companyMajor", cascade = CascadeType.ALL)
+    private List<MajorSkill> majorSkills = new ArrayList<>();
 
 
     public CompanyMajor(Company company, double salary) {

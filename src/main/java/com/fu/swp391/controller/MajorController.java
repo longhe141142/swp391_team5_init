@@ -7,6 +7,8 @@ import com.fu.swp391.controller.restController.dto.BenefitDTO;
 import com.fu.swp391.controller.restController.dto.SkillDTO;
 import com.fu.swp391.controller.restController.dto.ruleDTO;
 import com.fu.swp391.entities.*;
+import com.fu.swp391.repository.CompanyMajorRepository;
+import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class MajorController {
         @Autowired
         CompanyMajorService companyMajorService;
 
+        @Autowired
+        CompanyMajorRepository companyMajorRepository;
+
         @GetMapping("add")
         public String add(Model model){
             List<Major> majors = majorService.findAll();
@@ -53,31 +58,41 @@ public class MajorController {
         List<Company> list = companyService.findAllCompany();
         companyMajor.setCompany(list.get(0));
 
-        List<MajorRule> majorRule = new ArrayList<>();
-        List<MajorBenefit> majorBenefit = new ArrayList<>();
-        List<MajorSkill> majorSkill = new ArrayList<>();
+//        List<MajorRule> majorRule = new ArrayList<>();
+//        List<MajorBenefit> majorBenefit = new ArrayList<>();
+//        List<MajorSkill> majorSkill = new ArrayList<>();
 
         for (ruleDTO rule:rules) {
             MajorRule r = new MajorRule();
             r.setTitle(rule.getTitle());
             r.setContent(rule.getContent());
-            majorRule.add(r);
+            r.setCompanyMajor(companyMajor);
+            companyMajor.getMajorRules().add(r);
         }
+
         for (BenefitDTO ben:bens) {
             MajorBenefit b = new MajorBenefit();
             b.setBenefit(ben.getTitle());
             b.setTitle(ben.getTitle());
-            majorBenefit.add(b);
+            b.setCompanyMajor(companyMajor);
+            companyMajor.getMajorBenefits().add(b);
+
         }
         for (SkillDTO skill:skills) {
             MajorSkill s = new MajorSkill();
             s.setName(skill.getName());
-            majorSkill.add(s);
+            s.setCompanyMajor(companyMajor);
+            companyMajor.getMajorSkills().add(s);
+
         }
-        companyMajor.setMajorRules(majorRule);
-        companyMajor.setMajorBenefits(majorBenefit);
-        companyMajor.setMajorSkills(majorSkill);
-        companyMajorService.saveAndFlush(companyMajor);
+//        companyMajor.setMajorRules(majorRule);
+//        for (MajorRule m: companyMajor.getMajorRules() ) {
+//            System.out.println(m.getContent());
+//
+//        }
+//        companyMajor.setMajorBenefits(majorBenefit);
+//        companyMajor.setMajorSkills(majorSkill);
+        companyMajorRepository.save(companyMajor);
         return "redirect:/company/major/add";
     }
     ArrayList<ruleDTO> rules = new ArrayList<>();
