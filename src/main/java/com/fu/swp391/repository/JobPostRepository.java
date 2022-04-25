@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface CompanyMajorRepository extends CrudRepository<JobPost,Long> {
+public interface JobPostRepository extends CrudRepository<JobPost,Long> {
 
     List<JobPost> findCompanyMajorsByCompanyId(long id);
     List<JobPost> findJobPostByCompanyId(long id);
