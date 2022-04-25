@@ -59,6 +59,11 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
+  public Optional<Company> save(Company company) {
+    return Optional.empty();
+  }
+
+  @Override
   public Company getJson(String company, MultipartFile file) {
     Company CompanyJson = new Company();
     try {

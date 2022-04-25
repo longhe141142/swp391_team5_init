@@ -21,12 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("admin")
@@ -77,9 +75,9 @@ public class AdminController {
     return "company/ListAllCompany2";
     }
 
+
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
   // "application/json")
-
 
   // example api
   @RequestMapping(value = "/example", method = RequestMethod.POST)
@@ -173,12 +171,6 @@ public class AdminController {
     model.addAttribute("ListCompanyByAddress",optional);
     return "company/ListAllCompany3";
   }
-  @GetMapping ("/editcompany/{id}")
-  public String DetailCompany12(Model model, @PathVariable long id) {
-    Optional<Company> optionalCompany = companyService.findbyId(id);
-    model.addAttribute("optionalCompany",optionalCompany);
-    return "company/ListAllCompany3";
-  }
 
   @GetMapping("/company")
   public String renderCompany(
@@ -196,5 +188,21 @@ public class AdminController {
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany";
   }
+  @GetMapping ("/loadCompanyToEdit/{id}")
+  public String loadCompanyToEdit(Model model, @PathVariable long id) {
+    Optional<Company> optionalCompany = companyService.findbyId(id);
+    model.addAttribute("optionalCompany",optionalCompany.get());
+    return "company/ListAllCompany3";
+  }
+  @PostMapping("/editCompanyToEdit/{id}")
+  public String editCompanyToEdit(@Validated @ModelAttribute ("optionalCompany") Company company, BindingResult result){
+    Optional<Company> optional = companyService.save(company);
+    System.out.println("Name"+company.getName());
+    if (result.hasErrors()){
+      System.out.println("Error!!!");
+    }else{
 
+    }
+    return  "redirect:/admin/company";
+  }
 }
