@@ -37,9 +37,13 @@ public class Request {
     @Column(name = "subject")
     private String subject;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "cv_id",nullable = true, updatable = false)
     private CV cv;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "job_post_id",nullable = true, updatable = false)
+    private JobPost jobPost;
 
     @NotNull
     @NotEmpty

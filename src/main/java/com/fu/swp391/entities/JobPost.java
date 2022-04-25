@@ -75,6 +75,9 @@ public class JobPost {
     @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
     private List<JobSkill> jobSkills = new ArrayList<>();
 
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<Request> requests = new ArrayList<>();
+
 
     public JobPost(Company company, double salary) {
         this.company = company;
