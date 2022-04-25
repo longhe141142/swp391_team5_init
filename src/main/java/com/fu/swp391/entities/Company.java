@@ -65,8 +65,8 @@ public class Company {
     @NotNull
     private int personnelSize;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy/MM/dd")
     @Column(name = "founding_at")
     @NotNull
     private Date foundingAt;

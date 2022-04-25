@@ -25,9 +25,16 @@ public class SkillCV {
 
 
     @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "cv_id",nullable = false, updatable = false)
+    @JoinColumn(name = "cv_id",nullable = false)
     CV cv;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

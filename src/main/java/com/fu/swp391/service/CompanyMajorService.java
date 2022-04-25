@@ -7,4 +7,8 @@ import java.util.List;
 @Service
 public interface CompanyMajorService {
     List<JobPost> findCompanyMajorsByCompanyId(long id);
+
+    List<JobPost> findJobPostByCompanyIdAndMajorName(long id,String name);
+
+    List<String> findMajorbycompanyid(long id);
 }

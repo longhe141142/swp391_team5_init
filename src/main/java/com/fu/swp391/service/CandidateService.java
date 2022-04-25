@@ -9,17 +9,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CandidateService {
 
-  List<Candidate> getAllCandidate();
+    // List<Candidate> getAllCandidate();
 
-  void addNewCandidate(Candidate candidate);
+    Candidate getCandidate();
+//  List<Candidate> getAllCandidate();
 
-  ArrayList<Candidate> getAllCandidateByPaging(ArrayList<Candidate> candidates, int page, int size);
+    void addNewCandidate(Candidate candidate);
 
-  ArrayList<Candidate> findAllCandidates();
+    ArrayList<Candidate> getAllCandidateByPaging(ArrayList<Candidate> candidates, int page, int size);
 
-  ArrayList<Candidate> findAllCandidatesByFilter(String searchKeyword);
+    ArrayList<Candidate> findAllCandidates();
 
-  ArrayList<Candidate> findAllCandidatesSortBy(String sortField, String sortBy);
+    ArrayList<Candidate> findAllCandidatesByFilter(String searchKeyword);
 
-  HelperUntil<Candidate> getHelperUntilCandidate();
+    ArrayList<Candidate> findAllCandidatesSortBy(String sortField, String sortBy);
+
+    HelperUntil<Candidate> getHelperUntilCandidate();
 }

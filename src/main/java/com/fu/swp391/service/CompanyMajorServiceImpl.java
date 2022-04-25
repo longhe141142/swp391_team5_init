@@ -17,4 +17,13 @@ public class CompanyMajorServiceImpl implements CompanyMajorService{
     public List<JobPost> findCompanyMajorsByCompanyId(long id) {
         return this.companyMajorRepository.findCompanyMajorsByCompanyId(id);
     }
+    @Override
+    public List<JobPost> findJobPostByCompanyIdAndMajorName(long id, String name) {
+        return this.companyMajorRepository.findJobPostByCompanyIdAndMajorName(id,name);
+    }
+
+    @Override
+    public List<String> findMajorbycompanyid(long id) {
+        return companyMajorRepository.findMajorByCompanyId(id);
+    }
 }

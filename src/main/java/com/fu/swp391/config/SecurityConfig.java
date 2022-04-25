@@ -37,11 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-//  @Bean
-//  CORSFilter corsFilter() {
-//    CORSFilter filter = new CORSFilter();
-//    return filter;
-//  }
+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
@@ -61,24 +57,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     auth.userDetailsService(userService);
   }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-      http.cors().and().csrf();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors().and().csrf().disable();
 
-      http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
+    http.authorizeRequests().antMatchers("/registerTest","/login","*/candidate/*","/admin/*").permitAll()
 //                .antMatchers(HttpMethod.POST).permitAll()
 //        .antMatchers("/login").access("hasAnyRole('USER')")
 ////                .antMatchers("/admin/*").access("hasRole('ADMIN')")
 //                .antMatchers("/company/*").access("hasRole('ROLE_USER')")
-                .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
-                .and().formLogin().failureUrl("/fail_login");
+            .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
+            .and().formLogin().failureUrl("/fail_login");
 //                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 
 //        http.authorizeRequests().and() //
 //                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
 //                .1tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
 
-    }
+  }
 
 
 }

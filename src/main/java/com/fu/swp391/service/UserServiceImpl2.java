@@ -74,7 +74,11 @@ public class UserServiceImpl2 implements UserService {
                 System.out.println(username + "Has been blocked");
                 throw new UserBlockedException(username + "Has been blocked");
             }
+
             System.out.println(user.getResetPasswordToken());
+
+            System.out.println(user.getPasswordEncoder());
+
             return AuthPrinciple.built(user);
         } catch (UserBlockedException e) {
             e.printStackTrace();
@@ -121,6 +125,7 @@ public class UserServiceImpl2 implements UserService {
             roleUser.ifPresent(user::setRole);
         });
         Candidate candidate = userCandidate.getCandidate().setUser(user);
+        candidate.setAvatar("default-avatar.png");
         user.setCandidate(candidate);
         return user;
     }

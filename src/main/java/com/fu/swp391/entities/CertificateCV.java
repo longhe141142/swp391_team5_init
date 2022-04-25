@@ -38,4 +38,43 @@ public class CertificateCV {
     @JoinColumn(name = "cv_id", nullable = false)
     private CV cv;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(String certificateName) {
+        this.certificateName = certificateName;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public Date getGraduationDate() {
+        return graduationDate;
+    }
+
+    public void setGraduationDate(Date graduationDate) {
+        this.graduationDate = graduationDate;
+    }
+
+    public CV getCv() {
+        return cv;
+    }
+
+    public void setCv(CV cv) {
+        this.cv = cv;
+    }
 }

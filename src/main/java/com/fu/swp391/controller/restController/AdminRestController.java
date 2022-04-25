@@ -11,6 +11,10 @@ import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.UserService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,13 +24,15 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Validator;
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("admin")
@@ -38,11 +44,11 @@ public class AdminRestController {
   @Autowired CompanyRepository companyRepository;
 
   @PostMapping(
-      value = "/upload-company-image",
-      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+          value = "/upload-company-image",
+          consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseBody
   public ResponseEntity<Object> uploadImage(
-      @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
+          @RequestPart("file") MultipartFile file, @RequestParam(required = false) String id) {
     ResponseEntity<Object> isSomethingWrong = validateFile(file);
     if (isSomethingWrong != null) {
       return isSomethingWrong;
@@ -66,10 +72,10 @@ public class AdminRestController {
         // lambda expression
         System.out.println("company found:" + company.get().getName());
         company.ifPresent(
-            value -> {
-              value.setCompanyImageUrl(fileName);
-              value.setStatus(StatusEnum.CREATED);
-            });
+                value -> {
+                  value.setCompanyImageUrl(fileName);
+                  value.setStatus(StatusEnum.ACTIVATED);
+                });
         companyRepository.save(company.get());
       }
       helperUntil.putKeyValue(responseBody, "message", "Upload Success");
@@ -78,10 +84,35 @@ public class AdminRestController {
     }
   }
 
+  @GetMapping(value = "/change-company-status")
+  @ResponseBody
+  public ResponseEntity<Object> changeCompanyStatus(
+          @RequestParam(value = "id", required = true) Long companyId
+  ) {
+    Optional<Company> company = companyService.findbyId(companyId);
+    if (company.isPresent()) {
+      String status = company.get().getStatus();
+      System.out.println(status);
+      status = (status.equalsIgnoreCase(StatusEnum.ACTIVATED)) ? StatusEnum.INACTIVATED : StatusEnum.ACTIVATED;
+      System.out.println(status +"  status after change");
+
+      company.get().setStatus(status);
+      company.get().getUser().setStatus(status);
+      companyRepository.save(company.get());
+      return new ResponseEntity<Object>(company.get(),HttpStatus.OK);
+    }else{
+      ObjectMapper mapper = new ObjectMapper();
+      ObjectNode node = mapper.createObjectNode();
+      helperUntil.putKeyValue(node,"message","Company Not Found");
+      ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Company Not Found",node);
+      return new ResponseEntity<Object>(apiError,apiError.getStatus());
+    }
+  }
+
   @PostMapping(value = "/addCompany")
   @ResponseBody
   public ResponseEntity<Object> addCompanyRequest(
-      @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
+          @Validated @RequestBody addCompany addCompanyDto, BindingResult bindingResult) {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode responseBodyError = mapper.createObjectNode();
     if (bindingResult.hasErrors()) {
@@ -89,11 +120,11 @@ public class AdminRestController {
       if (addCompanyDto.user == null || addCompanyDto.company == null) {
         if (addCompanyDto.user == null) {
           helperUntil.putKeyValue(
-              responseBodyError, "userError", "Please enter email and password");
+                  responseBodyError, "userError", "Please enter email and password");
         }
         if (addCompanyDto.company == null) {
           helperUntil.putKeyValue(
-              responseBodyError, "companyError", "Please input company information");
+                  responseBodyError, "companyError", "Please input company information");
         }
       } else {
         for (FieldError err : bindingResult.getFieldErrors()) {
@@ -103,7 +134,7 @@ public class AdminRestController {
         }
       }
       return new ResponseEntity<Object>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
 
     if(userService.findUserByEmail(addCompanyDto.user.getEmail()).isPresent()){
@@ -137,7 +168,7 @@ public class AdminRestController {
       helperUntil.putKeyValue(responseBodyError, "image", "Please select image");
       System.out.println("file empty");
       return new ResponseEntity<>(
-          new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
+              new ApiError(HttpStatus.BAD_REQUEST, "error", responseBodyError), HttpStatus.BAD_REQUEST);
     }
     return null;
   }

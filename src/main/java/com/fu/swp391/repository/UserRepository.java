@@ -7,16 +7,21 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
+
 public interface UserRepository extends CrudRepository<User, Long> {
 //    User findByEmail(String email);
 
-    Optional<User> findUserByEmail(String email);
+//    Optional<User> findUserByEmail(String email);
 
 //    User findByResetPasswordToken(String token);
 
     @Query("SELECT u FROM User u WHERE u.email = ?1")
     User findByEmail(String email);
 
+
     User findByResetPasswordToken(String token);
+
+    Optional<User> findUserByEmail(String email);
 }

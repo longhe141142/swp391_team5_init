@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,58 +14,65 @@
 <body>
 
 <header></header>
-  <div class="wrapper">
+<div class="wrapper" >
 
-    <div class="sidebar">
-      <div class="bio">
-        <div class="avatar">
-          <img src="/home/images/FPTSoft.png" alt="">
-        </div>
-        <div class="title">
-          <h1>FPT Software</h1>
-          <h2>DEV Company</h2>
-          <h2>Mail</h2>
-          <h2>Phone</h2>
-          <h2>Address</h2>
-        </div>
-
+  <div class="sidebar">
+    <div class="bio">
+      <div class="avatar">
+        <img src="/home/images/FPTSoft.png" alt="">
       </div>
+      <div class="title">
+
+        <h1 th:text="${company.get().getName()}">FPT Software</h1>
+        <h2 th:text="${company.get().getEmail()}">Mail</h2>
+        <h2 th:text="${company.get().getPhone()}">Phone</h2>
+        <h2 th:text="${company.get().getAddress()}">Address</h2>
+        <h2 th:text="${company.get().getId()}" id="idCom" style="display: none">1</h2>
+        <h2 >Persion size: <a th:text="${company.get().getPersonnelSize()}"></a></h2>
+      </div>
+
     </div>
+  </div>
 
-    <div class="content-wrapper">
-      <div class="content">
+  <div class="content-wrapper">
+    <div class="content">
 
-        <div class="title">
+      <div class="title">
 
-          <h2>Introduction</h2>
-          <div class="item">
-            <h3><span>Jan 2016 -  Present</span> </h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-          </div>
+        <h2>Introduction</h2>
+        <div class="item">
+          <p><a th:text="${company.get().getCompanyIntro()}"></a></p>
         </div>
+      </div>
 
-        <div class="title">
+      <div class="title">
 
-          <h2>Description</h2>
-          <div class="item">
-            <h3><span>Jan 2016 -  Present</span> </h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-          </div>
+        <h2>Description</h2>
+        <div class="item">
+          <p><a th:text="${company.get().getDescription()}"></a></p>
         </div>
+      </div>
 
-        <div class="title">
-          <h2>Major</h2>
-          <table class="table">
-            <tbody >
-            <tr th:each=" x:${ListCompanyDetail}">
-              <td style="border-style: ridge;border-left: 1px solid #000000;border-top: 1px solid black;border-bottom: 1px solid black;"><img style="width:100px;height:100px;" src="/home/images/FPTSoft.png" alt=""></td>
-              <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a th:text="${x.majorName}"/></a> </td>
-              <td style="border-style: ridge;  border-top: 1px solid black;border-bottom: 1px solid black;
+      <div class="title">
+        <!--          <h2>Major</h2>-->
+        <!--          <select class="form-control" id="showEntries" onchange="onSelectShowEntry()" >-->
+        <!--            <th:block th:each=" x:${majorlist}">-->
+        <!--              <option th:text="${x}"></option>-->
+        <!--            </th:block>-->
+
+        <!--          </select>-->
+
+        <table class="table">
+          <tbody >
+          <tr th:each=" x:${ListCompanyDetail}">
+            <td style="border-style: ridge;border-left: 1px solid #000000;border-top: 1px solid black;border-bottom: 1px solid black;"><img style="width:100px;height:100px;" src="/home/images/FPTSoft.png" alt=""></td>
+            <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a th:text="${x.majorName}"/></a> </td>
+            <td style="border-style: ridge;  border-top: 1px solid black;border-bottom: 1px solid black;
   border-right: 1px solid #000000;vertical-align:top; padding-top: 15px">Personal Need :<a th:text="${x.maxCandidate}"/></td>
-            </tr>
+          </tr>
 
-            </tbody>
-          </table>
+          </tbody>
+        </table>
 
 
 
@@ -75,6 +82,17 @@
     </div>
 
   </div>
-  </div>
+</div>
+<script>
+
+  function onSelectShowEntry(){
+    let listEntriesElement = document.getElementById("showEntries");
+    let idcom = document.getElementById("idCom").innerHTML;
+    idcom = Number(idcom)
+    let selected = listEntriesElement.options[listEntriesElement.selectedIndex].value;
+    selected = String(selected);
+    window.location.href = `/candidate/DetailCompany/${idcom}/${selected}`;
+  }
+</script>
 </body>
 </html>
