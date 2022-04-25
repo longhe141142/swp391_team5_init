@@ -59,9 +59,10 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public Optional<Company> save(Company company) {
+  public Optional<Company> save(Optional<Company> company) {
     return Optional.empty();
   }
+
 
   @Override
   public Company getJson(String company, MultipartFile file) {
@@ -104,6 +105,11 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public ArrayList<Company> findAllCandidatesByFilter(String searchKeyword) {
     return companyRepository.search(searchKeyword);
+  }
+
+  @Override
+  public void updatePhone(long id, String name) {
+    return;
   }
 
 

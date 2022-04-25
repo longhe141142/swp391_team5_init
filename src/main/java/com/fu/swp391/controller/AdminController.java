@@ -9,9 +9,11 @@ import com.fu.swp391.common.enumConstants.SortEnum;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
+import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +27,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("admin")
@@ -35,7 +47,8 @@ public class AdminController {
   @Autowired CandidateService candidateService;
 
   @Autowired CompanyService companyService;
-
+  @Autowired
+  CompanyRepository companyRepository;
     @GetMapping("/")
     public String renderAdminHome(){
         return "admin/homeAdmin";
@@ -70,9 +83,8 @@ public class AdminController {
     companyList =
         companyService.getAllCompanyByPaging(
             companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
-    System.out.println(page);
     model.addAttribute("companies", companyList);
-    return "company/ListAllCompany2";
+    return "company/ListAllCompany3";
     }
 
 
@@ -188,21 +200,55 @@ public class AdminController {
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany";
   }
-  @GetMapping ("/loadCompanyToEdit/{id}")
-  public String loadCompanyToEdit(Model model, @PathVariable long id) {
+  @GetMapping ("loadCompanyToEdit")
+  public String loadCompanyToEdit(@RequestParam Long id, Model model) {
     Optional<Company> optionalCompany = companyService.findbyId(id);
     model.addAttribute("optionalCompany",optionalCompany.get());
-    return "company/ListAllCompany3";
+    return "/company/editCompany";
   }
-  @PostMapping("/editCompanyToEdit/{id}")
-  public String editCompanyToEdit(@Validated @ModelAttribute ("optionalCompany") Company company, BindingResult result){
-    Optional<Company> optional = companyService.save(company);
-    System.out.println("Name"+company.getName());
+  @PostMapping("editCompanyToEdit")
+  public String editCompanyToEdit(@Validated @ModelAttribute ("optionalCompany") Company company, BindingResult result,
+                                  @RequestParam Long id){
     if (result.hasErrors()){
-      System.out.println("Error!!!");
-    }else{
-
+      List<FieldError> fields = result.getFieldErrors();
+      for (int i =0;i<fields.size();i++){
+        System.out.println("error field name:"+fields.get(i).getField()+
+                "\nError message: "+fields.get(i).getDefaultMessage());
+      }
+      System.out.println("12345678");
+      return "redirect:/admin/loadCompanyToEdit?id="+id;
     }
-    return  "redirect:/admin/company";
+    companyRepository.updatePhone(id, company.getName(), company.getAddress(),
+            company.getPhone(), company.getEmail(), company.getPersonnelSize(),
+            company.getDescription(), company.getFoundingAt(), company.getCompanyIntro());
+    System.out.println("123456");
+    return "redirect:/admin/company-list";
+
   }
+
+  @GetMapping("edit")
+  public  String editCom(@RequestParam Long id, Model model){
+      Optional<Company> company = companyService.findbyId(id);
+     model.addAttribute("companyEdit",company.get());
+      return "/company/editCompany";
+  }
+
+  @PostMapping("editTest")
+  public  String editCom(@Validated @ModelAttribute("companyEdit") Company company, BindingResult result,
+      @RequestParam Long id){
+   // System.out.println(company.getName());
+    System.out.println(company.getCompanyIntro());
+    if (result.hasErrors()){
+       List<FieldError> fields = result.getFieldErrors();
+       for (int i =0;i<fields.size();i++){
+         System.out.println("error field name:"+fields.get(i).getField()+
+             "\nError message: "+fields.get(i).getDefaultMessage());
+       }
+      return "redirect:/admin/edit?id="+id;
+    }
+
+    //save
+    return "sang trang list company";
+  }
+
 }

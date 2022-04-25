@@ -182,4 +182,22 @@ public class Company {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", companyImageUrl='" + companyImageUrl + '\'' +
+                ", status='" + status + '\'' +
+                ", image=" + image +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", personnelSize=" + personnelSize +
+                ", foundingAt=" + foundingAt +
+                ", description='" + description + '\'' +
+                ", companyIntro='" + companyIntro + '\'' +
+                ", address='" + address + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

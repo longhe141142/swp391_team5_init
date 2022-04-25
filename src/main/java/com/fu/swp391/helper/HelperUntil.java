@@ -25,7 +25,6 @@ public class HelperUntil<E> {
 
     public ArrayList<E> PagingElement(ArrayList<E> elements,int pageNumber,int numberOfObjectInOnePage ){
         ArrayList<E> newList = new ArrayList<E>();
-
         int start =  numberOfObjectInOnePage * (pageNumber - 1);
         int end = start + numberOfObjectInOnePage - 1;
         if(end>elements.size()-1){
