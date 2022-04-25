@@ -12,6 +12,7 @@ import com.fu.swp391.entities.Role;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +22,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,7 +78,6 @@ public class AdminController {
     companyList =
         companyService.getAllCompanyByPaging(
             companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
-    System.out.println(page);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany2";
     }
@@ -195,6 +200,31 @@ public class AdminController {
 //    System.out.println(page);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany";
+  }
+
+  @GetMapping("edit")
+  public  String editCom(@RequestParam Long id, Model model){
+      Optional<Company> company = companyService.findbyId(id);
+     model.addAttribute("companyEdit",company.get());
+      return "/company/editCompany";
+  }
+
+  @PostMapping("editTest")
+  public  String editCom(@Validated @ModelAttribute("companyEdit") Company company, BindingResult result,
+      @RequestParam Long id){
+    System.out.println(company.getName());
+    System.out.println(company.getCompanyIntro());
+    if (result.hasErrors()){
+       List<FieldError> fields = result.getFieldErrors();
+       for (int i =0;i<fields.size();i++){
+         System.out.println("error field name:"+fields.get(i).getField()+
+             "\nError message: "+fields.get(i).getDefaultMessage());
+       }
+      return "redirect:/admin/edit?id="+id;
+    }
+
+    //save
+    return "sang trang list company";
   }
 
 }

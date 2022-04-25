@@ -25,76 +25,7 @@
   <link href="/common/error.css" rel="stylesheet">
   <link href="/company/custom/button-active.css" rel="stylesheet">
   <link href="/company/custom/listCompany.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto Condensed', sans-serif;
-      background-color: #f5f5f5
-    }
 
-    .hedding {
-      font-size: 20px;
-      color: #ab8181;
-    }
-
-    .main-section {
-      position: absolute;
-      left: 50%;
-      right: 50%;
-      transform: translate(-50%, 5%);
-    }
-
-    .left-side-product-box img {
-      width: 100%;
-    }
-
-    .left-side-product-box .sub-img img {
-      margin-top: 5px;
-      width: 83px;
-      height: 100px;
-    }
-
-    .right-side-pro-detail span {
-      font-size: 15px;
-    }
-
-    .right-side-pro-detail p {
-      font-size: 25px;
-      color: #a1a1a1;
-    }
-
-    .right-side-pro-detail .price-pro {
-      color: #E45641;
-    }
-
-    .right-side-pro-detail .tag-section {
-      font-size: 18px;
-      color: #5D4C46;
-    }
-    img {
-      display: block;
-      max-width: 230px;
-      max-height: 95px;
-      width: auto;
-      height: auto;
-    }
-
-    .pro-box-section .pro-box img {
-      width: 100%;
-      height: 200px;
-    }
-
-    @media (min-width:360px) and (max-width:640px) {
-      .pro-box-section .pro-box img {
-        height: auto;
-      }
-    }
-  </style>
-
-  <!--    <script>-->
-  <!--        $(document).ready(function () {-->
-  <!--            $('[data-toggle="tooltip"]').tooltip();-->
-  <!--        });-->
-  <!--    </script>-->
 </head>
 <body>
 <div id="wrapper">
@@ -135,6 +66,23 @@
                 <label>Name Company</label>
                 <input class="form-control" type="text">
               </div>
+              <div class="filter-group">
+                <label>Major</label>
+                <select class="form-control">
+                  <option>Testing</option>
+                  <option>Font-end</option>
+                  <option>Back-end</option>
+                  <option>BA</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Location</label>
+                <select class="form-control">
+                  <div th:each="x:${ListCompany}">
+                    <option th:text="${x.address}">Hà Nội</option>
+                  </div>=
+                </select>
+              </div>
               <span class="filter-icon"><i class="fa fa-filter"></i></span>
             </div>
           </div>
@@ -159,7 +107,7 @@
               <td>
                 <img
                     alt="Avatar"
-                    class="avatar" th:src="${company.getCompanyImageUrl()}">
+                    class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
                 <a data-toggle="modal"
                    th:href="${'#company-'+ company.getId()}"
                    th:text="${company.getName()}"
@@ -169,27 +117,23 @@
               <td th:text="${company.getAddress()}"></td>
               <td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
               </td>
+              <!--phan Long code-->
               <td>
-                <label class="switch-status switch3-checked"
-                       th:id="${company.getId()}"
-                       th:if="${company.getUser().getStatus()== 'ACTIVATED'}">
-                  <input checked type="checkbox"/>
-                  <div></div>
-                </label>
-                <label  class="switch-status" th:id="${company.getId()}" th:if="${company.getUser().getStatus()!= 'ACTIVATED'}">
-                  <input checked type="checkbox"/>
-                  <div></div>
-                </label>
+                <div class="status-status-container">
+                  <button th:id="${'companyStatus-' + company.getId()}" th:if="${company.getStatus() eq 'INACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-danger">INACTIVATED</button>
+                  <button th:id="${'companyStatus-' + company.getId()}" th:if="${company.getStatus() eq 'ACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-success">ACTIVATED</button>
+                </div>
               </td>
+              <!--Het phan Long code-->
               <td>Software Company</td>
               <td th:text="${company.getPersonnelSize()}"></td>
               <td>
                 <div class="action-form">
                   <a class="edit"
                      data-toggle="modal"
-                     th:href="${'#company-edit'+ company.getId()}"><i class="material-icons"
-                                                                      data-toggle="tooltip"
-                                                                      title="Edit">&#xE254;</i></a>
+                     href="#editCompanyModal"><i class="material-icons"
+                                                 data-toggle="tooltip"
+                                                 title="Edit">&#xE254;</i></a>
 
                   <a class="delete"
                      data-toggle="modal"
@@ -200,6 +144,7 @@
               </td>
             </tr>
           </th:block>
+
           </tbody>
         </table>
         <div class="clearfix">
@@ -219,6 +164,12 @@
       </div>
       <div th:insert="/admin/fragment/addCompanyModal.html"></div>
 
+
+
+
+      <!--Phan Duc Code-->
+
+      <!--Add company Modal-->
       <th:block th:each="company : ${companies}">
         <div th:id="${'company-'+company.getId()}" class="modal fade" xmlns="http://www.w3.org/1999/html">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -229,7 +180,7 @@
               </div>
               <div class="row m-0">
                 <div class="col-lg-4 left-side-product-box pb-3">
-                  <img id="CompanyImage" th:src="${company.getCompanyImageUrl()}"
+                  <img id="CompanyImage" th:src="${'/'+company.getCompanyImageUrl()}"
                        class="border p-3">
 
                 </div>
@@ -297,174 +248,179 @@
           </div>
         </div>
       </th:block>
-
-      <th:block th:each="company : ${companies}">
-        <div th:id="${'company-edit'+company.getId()}" class="modal"  xmlns:th="http://www.thymeleaf.org">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form id="submit-now">
-                <div class="modal-header">
-                  <h4 class="modal-title">Edit Company</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <div class="container-fluid px-1 py-5 mx-auto">
-                    <div class="row d-flex justify-content-center">
-                      <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-                        <div class="card">
-                          <h5 class="text-center mb-4">EDIT COMPANY</h5>
-                          <div>
-                            <div class="row justify-content-between text-left">
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Company name<span
-                                  class="text-danger"> *</span></label> <input th:text="${company.getName()}" type="text"
-                                                                               placeholder="Enter your company name"
-                                                                               onblur="validate(1)"> </div>
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Phone Number<span
-                                  class="text-danger"> *</span></label> <input th:text="${company.getPhone()}" type="text"
-
-                                                                               placeholder="Enter company phone contact" onblur="validate(2)">
-                              </div>
-                            </div>
-                            <div class="row justify-content-between text-left">
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Business email<span
-                                  class="text-danger"> *</span></label> <input type="text"
-                                                                               id="email" name="email" placeholder="business email"
-                                                                               onblur="validate(3)"> </div>
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Password<span
-                                  class="text-danger"> *</span></label> <input type="password"
-                                                                               id="password" name="password" placeholder=""
-                                                                               onblur="validate(4)"> </div>
-                            </div>
-                            <div class="row justify-content-between text-left">
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Personnel Size<span
-                                  class="text-danger"> *</span></label> <input type="number"
-                                                                               required id="personnelSize" name="personnelSize"
-                                                                               placeholder="personnelSize" onblur="validate(3)"> </div>
-                              <div class="form-group col-sm-6 flex-column d-flex"> <label
-                                  class="form-control-label px-3">Address<span
-                                  class="text-danger"> *</span></label> <input type="text"
-                                                                               id="address" name="address" placeholder="address"
-                                                                               onblur="validate(4)"> </div>
-                            </div>
+      <!--End Of Add company Modal-->
 
 
-                            <div class="row justify-content-between text-left">
-                              <div class="input-group col-12 flex-column d-flex">
-                                <label class="label">Founding at</label>
-                                <div class="input-group-icon">
-                                  <input class="input--style-4 js-datepicker" id="foundingAt"
-                                         name="foundingAt" type="text">
-                                  <i
-                                      class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row justify-content-between text-left">
-                              <div class="form-group col-12 flex-column d-flex"> <label
-                                  for="description">Description *</label> <textarea
-                                  id="description" name="message" class="form-control"
-                                  placeholder="Write your message here." rows="4"
-                                  required="required"
-                                  data-error="Please, leave us a message."></textarea> </div>
-                            </div>
-                            <div class="row justify-content-between text-left">
-                              <div class="form-group col-12 flex-column d-flex"> <label
-                                  for="companyIntro">Intro Company *</label> <textarea
-                                  id="companyIntro" name="message" class="form-control"
-                                  placeholder="Write your message here." rows="4"
-                                  required="required"
-                                  data-error="Please, leave us a message."></textarea> </div>
-                            </div>
+      <!--Edit company Modal-->
+      <!--            <th:block th:each="company : ${companies}">-->
+      <!--                <div th:id="${'company-edit'+company.getId()}" class="modal"  xmlns:th="http://www.thymeleaf.org">-->
+      <!--                    <div class="modal-dialog">-->
+      <!--                        <div class="modal-content">-->
+      <!--                            <form id="submit-now">-->
+      <!--                                <div class="modal-header">-->
+      <!--                                    <h4 class="modal-title">Edit Company</h4>-->
+      <!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+      <!--                                </div>-->
+      <!--                                <div class="modal-body">-->
+      <!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
+      <!--                                        <div class="row d-flex justify-content-center">-->
+      <!--                                            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">-->
+      <!--                                                <div class="card">-->
+      <!--                                                    <h5 class="text-center mb-4">EDIT COMPANY</h5>-->
+      <!--                                                    <div>-->
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Company name<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getName()}" type="text"-->
+      <!--                                                                                                             placeholder="Enter your company name"-->
+      <!--                                                                                                             onblur="validate(1)"> </div>-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Phone Number<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getPhone()}" type="text"-->
 
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input class="btn btn-success" type="submit" value="Next Step">
-                </div>
-                <div th:insert="/common/error.html"></div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!--end of add company modal-->
-
-        <!--Modal upload image-->
-        <div id="uploadImage" class="modal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form id="upload-file">
-                <div class="modal-header">
-                  <h4 class="modal-title">Edit Company</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <div class="container-fluid px-1 py-5 mx-auto">
-                    <main class="main_full">
-                      <div class="container">
-                        <div class="panel">
-                          <div class="button_outer">
-                            <div class="btn_upload">
-                              <input type="file" id="upload_file" name="">
-                              Upload Image
-                            </div>
-                            <div class="processing_bar"></div>
-                            <div class="success_box"></div>
-                          </div>
-                        </div>
-                        <div class="error_msg"></div>
-                        <div class="uploaded_file_view" id="uploaded_view">
-                          <span class="file_remove">X</span>
-                        </div>
-                      </div>
-                    </main>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <input class="btn btn-success" type="submit" value="Finish">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!--end of Modal upload image -->
+      <!--                                                                                                             placeholder="Enter company phone contact" onblur="validate(2)">-->
+      <!--                                                            </div>-->
+      <!--                                                        </div>-->
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Business email<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input type="text"-->
+      <!--                                                                                                             id="email" name="email" placeholder="business email"-->
+      <!--                                                                                                             onblur="validate(3)"> </div>-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Password<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input type="password"-->
+      <!--                                                                                                             id="password" name="password" placeholder=""-->
+      <!--                                                                                                             onblur="validate(4)"> </div>-->
+      <!--                                                        </div>-->
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Personnel Size<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input type="number"-->
+      <!--                                                                                                             required id="personnelSize" name="personnelSize"-->
+      <!--                                                                                                             placeholder="personnelSize" onblur="validate(3)"> </div>-->
+      <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+      <!--                                                                class="form-control-label px-3">Address<span-->
+      <!--                                                                class="text-danger"> *</span></label> <input type="text"-->
+      <!--                                                                                                             id="address" name="address" placeholder="address"-->
+      <!--                                                                                                             onblur="validate(4)"> </div>-->
+      <!--                                                        </div>-->
 
 
-        <!--modal confirm-->
-        <div class="modal fade" id="confirmModal">
-          <form th:action="@{/admin/company}" method="get" xmlns:th="http://www.thymeleaf.org">
-            <div class="modal-dialog modal-confirm">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div class="icon-box">
-                    <i class="material-icons">&#xE876;</i>
-                  </div>
-                  <h4 class="modal-title w-100">Awesome!</h4>
-                </div>
-                <div class="modal-body">
-                  <p class="text-center">Your booking has been confirmed. Check your email for
-                    detials.</p>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn--radius btn--green" id="register"
-                          type="submit">OK
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </th:block>
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="input-group col-12 flex-column d-flex">-->
+      <!--                                                                <label class="label">Founding at</label>-->
+      <!--                                                                <div class="input-group-icon">-->
+      <!--                                                                    <input class="input&#45;&#45;style-4 js-datepicker" id="foundingAt"-->
+      <!--                                                                           name="foundingAt" type="text">-->
+      <!--                                                                    <i-->
+      <!--                                                                        class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>-->
+      <!--                                                                </div>-->
+      <!--                                                            </div>-->
+      <!--                                                        </div>-->
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
+      <!--                                                                for="description">Description *</label> <textarea-->
+      <!--                                                                id="description" name="message" class="form-control"-->
+      <!--                                                                placeholder="Write your message here." rows="4"-->
+      <!--                                                                required="required"-->
+      <!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
+      <!--                                                        </div>-->
+      <!--                                                        <div class="row justify-content-between text-left">-->
+      <!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
+      <!--                                                                for="companyIntro">Intro Company *</label> <textarea-->
+      <!--                                                                id="companyIntro" name="message" class="form-control"-->
+      <!--                                                                placeholder="Write your message here." rows="4"-->
+      <!--                                                                required="required"-->
+      <!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
+      <!--                                                        </div>-->
+
+      <!--                                                    </div>-->
+      <!--                                                </div>-->
+      <!--                                            </div>-->
+      <!--                                        </div>-->
+      <!--                                    </div>-->
+
+      <!--                                </div>-->
+      <!--                                <div class="modal-footer">-->
+      <!--                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">-->
+      <!--                                    <input class="btn btn-success" type="submit" value="Next Step">-->
+      <!--                                </div>-->
+      <!--                                <div th:insert="/common/error.html"></div>-->
+      <!--                            </form>-->
+      <!--                        </div>-->
+      <!--                    </div>-->
+      <!--                </div>-->
+      <!--                &lt;!&ndash;end of add company modal&ndash;&gt;-->
+
+      <!--                &lt;!&ndash;Modal upload image&ndash;&gt;-->
+      <!--                <div id="uploadImage" class="modal">-->
+      <!--                    <div class="modal-dialog">-->
+      <!--                        <div class="modal-content">-->
+      <!--                            <form id="upload-file">-->
+      <!--                                <div class="modal-header">-->
+      <!--                                    <h4 class="modal-title">Edit Company</h4>-->
+      <!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+      <!--                                </div>-->
+      <!--                                <div class="modal-body">-->
+      <!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
+      <!--                                        <main class="main_full">-->
+      <!--                                            <div class="container">-->
+      <!--                                                <div class="panel">-->
+      <!--                                                    <div class="button_outer">-->
+      <!--                                                        <div class="btn_upload">-->
+      <!--                                                            <input type="file" id="upload_file" name="">-->
+      <!--                                                            Upload Image-->
+      <!--                                                        </div>-->
+      <!--                                                        <div class="processing_bar"></div>-->
+      <!--                                                        <div class="success_box"></div>-->
+      <!--                                                    </div>-->
+      <!--                                                </div>-->
+      <!--                                                <div class="error_msg"></div>-->
+      <!--                                                <div class="uploaded_file_view" id="uploaded_view">-->
+      <!--                                                    <span class="file_remove">X</span>-->
+      <!--                                                </div>-->
+      <!--                                            </div>-->
+      <!--                                        </main>-->
+      <!--                                    </div>-->
+      <!--                                </div>-->
+      <!--                                <div class="modal-footer">-->
+      <!--                                    <input class="btn btn-success" type="submit" value="Finish">-->
+      <!--                                </div>-->
+      <!--                            </form>-->
+      <!--                        </div>-->
+      <!--                    </div>-->
+      <!--                </div>-->
+      <!--                &lt;!&ndash;end of Modal upload image &ndash;&gt;-->
+
+
+      <!--                &lt;!&ndash;modal confirm&ndash;&gt;-->
+      <!--                <div class="modal fade" id="confirmModal">-->
+      <!--                    <form th:action="@{/admin/company}" method="get" xmlns:th="http://www.thymeleaf.org">-->
+      <!--                        <div class="modal-dialog modal-confirm">-->
+      <!--                            <div class="modal-content">-->
+      <!--                                <div class="modal-header">-->
+      <!--                                    <div class="icon-box">-->
+      <!--                                        <i class="material-icons">&#xE876;</i>-->
+      <!--                                    </div>-->
+      <!--                                    <h4 class="modal-title w-100">Awesome!</h4>-->
+      <!--                                </div>-->
+      <!--                                <div class="modal-body">-->
+      <!--                                    <p class="text-center">Your booking has been confirmed. Check your email for-->
+      <!--                                        detials.</p>-->
+      <!--                                </div>-->
+      <!--                                <div class="modal-footer">-->
+      <!--                                    <button class="btn btn&#45;&#45;radius btn&#45;&#45;green" id="register"-->
+      <!--                                            type="submit">OK-->
+      <!--                                    </button>-->
+      <!--                                </div>-->
+      <!--                            </div>-->
+      <!--                        </div>-->
+      <!--                    </form>-->
+      <!--                </div>-->
+      <!--            </th:block>-->
+
+      <!--End Of Edit company Modal-->
 
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -489,41 +445,13 @@
       <script src="/company/custom/index.js"></script>
       <script>
         $('[data-toggle="tooltip"]').tooltip();
-        $(document).ready(function () {
-          $('.switch-status input').on('change', function () {
-            var dad = $(this).parent();
-            $.ajax({
-              url: `/admin/change-company-status?id=${dad.id}`,
-              data: JSON.stringify({...dataPendingToSend}),
-              processData: false,
-              dataType: 'json',
-              contentType: 'application/json',
-              type: 'GET',
-              success: function (data) {
-              },
-              error: function (xhr, status, error) {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response);
-                let errMsg = "";
-                if (("responseBody" in response)) {
-                  errMsg = "message" in response.responseBody ? "Company not found" : "Internal Server error";
-                } else {
-                  errMsg = "Internal server error";
-                }
-                handle_errors(errMsg);
-              }
-            });
-            if ($(this).is(':checked')) {
-              dad.addClass('switch3-checked');
-
-            } else {
-              dad.removeClass('switch3-checked');
-            }
-
-          });
-        });
 
       </script>
 
+      <script src="/company/custom/activebutton.js"></script>
+
+
 </body>
 </html>
+
+
