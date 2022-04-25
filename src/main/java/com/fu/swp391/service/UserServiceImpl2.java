@@ -120,6 +120,7 @@ public class UserServiceImpl2 implements UserService {
             roleUser.ifPresent(user::setRole);
         });
         Candidate candidate = userCandidate.getCandidate().setUser(user);
+        candidate.setAvatar("default-avatar.png");
         user.setCandidate(candidate);
         return user;
     }

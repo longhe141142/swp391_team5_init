@@ -96,7 +96,10 @@ public class CompanyServiceImpl implements CompanyService {
     return helperUntilCompany.PagingElement(companies, page, size);
   }
 
-
+  @Override
+  public ArrayList<Company> findAllCandidatesByFilter(String searchKeyword) {
+    return companyRepository.search(searchKeyword);
+  }
 
 
 }

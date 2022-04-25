@@ -65,33 +65,49 @@
     <div class="section" id="experience">
       <div class="container cc-experience">
         <div class="h4 text-center mb-4 title">List Company</div>
-        <div th:each="x: ${ListCompany}">
+        <div class="col-sm-9">
+          <button class="btn btn-primary" onclick="searchName()" type="button"><i class="fa fa-search"></i></button>
+          <div class="filter-group">
+            <label>Name Company</label>
+            <input class="form-control" type="text" id="searchCandidate">
+          </div>
+        </div>
+        <div th:each="x: ${ListCompany}" style="margin-top: 20px">
 
-        <div class="card">
-          <div class="row">
-            <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-              <div class="card-body cc-experience-header">
-                <p>April 2014 - March 2016</p>
-                <div th:text="${x.name}">Tên Công ty</div>
+          <div class="card">
+            <div class="row">
+              <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                <div class="card-body cc-experience-header">
+                  <p>April 2014 - March 2016</p>
+                  <div th:text="${x.name}">Tên Công ty</div>
+                </div>
               </div>
-            </div>
-            <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-              <div class="card-body">
-<!--                <a></a>-->
-                <div class="h5">
-                  <a th:href="@{DetailCompany/(${x.getId()})}" th:text="${x.name}">
-                    Web Developer</a></div>
+              <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                <div class="card-body">
+                  <!--                <a></a>-->
+                  <div class="h5">
+                    <a th:href="@{/candidate/DetailCompany/{id}(id=${x.getId()})}" th:text="${x.name}">
+                      Web Developer</a></div>
 
-                <p ><a th:text="${x.getDescription()}"/></p>
+                  <p ><a th:text="${x.getDescription()}"/></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        </div>
 
+        </div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination" >
+            <th:block th:each="Page : ${ListPage}">
+              <li class="page-item"><a class="page-link" th:href="@{'/candidate/ListCompanyCandidate/'+${Page.intValue()}+'?searchBy='+${search}}" th:utext="${Page.toString()}">1</a></li>
+            </th:block>
+
+          </ul>
+        </nav>
       </div>
     </div>
-    </div>
+
+  </div>
 </div>
 <footer class="footer">
   <div class="container text-center"><a class="cc-facebook btn btn-link" href="#"><i class="fa fa-facebook fa-2x " aria-hidden="true"></i></a><a class="cc-twitter btn btn-link " href="#"><i class="fa fa-twitter fa-2x " aria-hidden="true"></i></a><a class="cc-google-plus btn btn-link" href="#"><i class="fa fa-google-plus fa-2x" aria-hidden="true"></i></a><a class="cc-instagram btn btn-link" href="#"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a></div>
@@ -106,5 +122,13 @@
 <script src="/home/js/now-ui-kit.js?ver=1.1.0"></script>
 <script src="/home/js/aos.js?ver=1.1.0"></script>
 <script src="/home/scripts/main.js?ver=1.1.0"></script>
+<script>
+
+
+  function searchName(){
+    let filer =	document.getElementById("searchCandidate").value;
+    window.location.href = `/candidate/ListCompanyCandidate/1?searchBy=${filer}`;
+  }
+</script>
 </body>
 </html>
