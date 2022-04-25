@@ -51,7 +51,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
 
         if (isCandidate(roles)) {
-            url = "/candidate/home";
+            url = "/candidate/HomeCandidate";
         } else if (isAdmin(roles)) {
             url = "/candidate/home";
         }else if(isCompany(roles)){
