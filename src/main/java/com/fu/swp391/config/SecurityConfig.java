@@ -37,11 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-//  @Bean
-//  CORSFilter corsFilter() {
-//    CORSFilter filter = new CORSFilter();
-//    return filter;
-//  }
+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
