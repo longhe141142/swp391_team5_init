@@ -10,6 +10,6 @@ public class CompanyController {
 
     @GetMapping("/home")
     public String home(){
-        return "/company/index";
+        return "/company/HomeCompany";
     }
 }

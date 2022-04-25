@@ -85,6 +85,9 @@ public class MajorController {
             companyMajor.getMajorSkills().add(s);
 
         }
+        rules = new ArrayList<>();
+        bens = new ArrayList<>();
+        skills = new ArrayList<>();
 //        companyMajor.setMajorRules(majorRule);
 //        for (MajorRule m: companyMajor.getMajorRules() ) {
 //            System.out.println(m.getContent());

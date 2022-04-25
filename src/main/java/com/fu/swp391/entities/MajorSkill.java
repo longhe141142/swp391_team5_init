@@ -21,7 +21,7 @@ public class MajorSkill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     @NotNull
     private String name;
