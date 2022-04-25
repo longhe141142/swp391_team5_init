@@ -64,6 +64,9 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles = new HashSet<Role>();
 
+  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+  private List<Company> companies;
+
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Candidate> candidates = new ArrayList<>();
 
