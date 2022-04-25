@@ -1,8 +1,6 @@
 package com.fu.swp391.service;
 
-import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Major;
-import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.repository.MajorRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -16,28 +14,21 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-public class JobPostServiceImpl implements JobPostService {
+public class MajorServiceImpl implements MajorService {
     MajorRepository majorRepository;
 
-    JobPostRepository jobPostRepository;
-
-    @Override
-    public List<JobPost> findCompanyMajorsByCompanyId(long id) {
-        return jobPostRepository.findCompanyMajorsByCompanyId(id);
-    }
-
-    @Override
-    public <S extends JobPost> S save(S entity) {
-        return jobPostRepository.save(entity);
-    }
-
-    public JobPostServiceImpl(MajorRepository majorRepository) {
+    public MajorServiceImpl(MajorRepository majorRepository) {
         this.majorRepository = majorRepository;
     }
 
     @Override
     public List<Major> findAll() {
         return majorRepository.findAll();
+    }
+
+    @Override
+    public List<Major> findById(long id) {
+        return majorRepository.findById(id);
     }
 
     @Override

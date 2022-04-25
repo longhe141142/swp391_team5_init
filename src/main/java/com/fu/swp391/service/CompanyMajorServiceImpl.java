@@ -1,7 +1,7 @@
 package com.fu.swp391.service;
 
 import com.fu.swp391.entities.JobPost;
-import com.fu.swp391.repository.CompanyMajorRepository;
+import com.fu.swp391.repository.JobPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class CompanyMajorServiceImpl implements CompanyMajorService{
     @Autowired
-    CompanyMajorRepository companyMajorRepository;
+    JobPostRepository companyMajorRepository;
 
 
 
