@@ -59,6 +59,7 @@ public class CompanyServiceImpl implements CompanyService {
     return company;
   }
 
+
   @Override
   public Company getJson(String company, MultipartFile file) {
     Company CompanyJson = new Company();

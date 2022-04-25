@@ -19,6 +19,7 @@ public interface CompanyService {
   //  List<Company> ListCompanyByPaging(int page, int size);
 
   Company addCompany(Company company, User user);
+ // Company updateCompany(Company company, Long id);
 
   Company getJson(String user, MultipartFile file);
 

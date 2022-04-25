@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fu.swp391.common.enumConstants.PagingParameter;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("admin")
@@ -57,22 +59,33 @@ public class AdminController {
       @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
-    if (page != null) {
-      pageIndex = page;
-    }
-    companyList =
-        companyService.getAllCompanyByPaging(
-            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
-
-    System.out.println(page);
+//    if (page != null) {
+//      pageIndex = page;
+//    }
+//    companyList =
+//        companyService.getAllCompanyByPaging(
+//            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+//
+//    System.out.println(page);
     model.addAttribute("companies", companyList);
-    return "company/ListAllCompany2";
+    return "company/ListAllCompany3";
     }
 
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
   // "application/json")
 
-
+  @GetMapping("/searchByAddress/{id}")
+  public String searchByAddress(Model model, @PathVariable long id){
+    Optional<Company> optional = companyService.findbyId(id);
+    model.addAttribute("ListCompanyByAddress",optional);
+    return "company/ListAllCompany3";
+  }
+@GetMapping ("/editcompany/{id}")
+public String DetailCompany12(Model model, @PathVariable long id) {
+  Optional<Company> optionalCompany = companyService.findbyId(id);
+  model.addAttribute("optionalCompany",optionalCompany);
+  return "company/ListAllCompany3";
+}
   // example api
   @RequestMapping(value = "/example", method = RequestMethod.POST)
   @ResponseBody
