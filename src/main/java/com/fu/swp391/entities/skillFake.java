@@ -5,28 +5,28 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "skills_cv")
-public class SkillCV {
+@Table(name = "skillFake")
+public class skillFake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     @NotNull
+    @NotEmpty
     private String name;
 
-    @NotEmpty
     @NotNull
+    @NotEmpty
     private int rate;
 
-    @NotEmpty
-    @NotNull
-    private String description;
+    public skillFake(Long id, String name, int rate) {
+        this.id = id;
+        this.name = name;
+        this.rate = rate;
+    }
 
-
-    @ManyToOne(optional=false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "cv_id",nullable = false)
-    CV cv;
+    public skillFake() {
+    }
 
     public Long getId() {
         return id;
@@ -50,21 +50,5 @@ public class SkillCV {
 
     public void setRate(int rate) {
         this.rate = rate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CV getCv() {
-        return cv;
-    }
-
-    public void setCv(CV cv) {
-        this.cv = cv;
     }
 }

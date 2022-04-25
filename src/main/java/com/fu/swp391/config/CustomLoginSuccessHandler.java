@@ -51,11 +51,11 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     if (isCandidate(roles)) {
-      url = "/home";
+      url = "/candidate/home";
     } else if (isAdmin(roles)) {
-      url = "/home";
+      url = "/candidate/home";
     } else if (isAdmin(roles)) {
-      url = "/admin/home";
+      url = "/candidate/home";
     } else {
       url = "/accessDenied";
     }
@@ -66,9 +66,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     return roles.contains(roleEnum.CANDIDATE);
   }
 
-  private boolean isAdmin(List<String> roles) {
-    return roles.contains(roleEnum.ADMIN);
-  }
+    private boolean isAdmin(List<String> roles) {
+        return roles.contains(roleEnum.ADMIN);
+    }
 
 //  private boolean isAdmin(List<String> roles) {
 //    if (roles.contains("ROLE_ADMIN")) {

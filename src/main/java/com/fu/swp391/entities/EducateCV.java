@@ -35,6 +35,14 @@ public class EducateCV {
     @JoinColumn(name = "cv_id")
     CV cv;
 
+    public CV getCv() {
+        return cv;
+    }
+
+    public void setCv(CV cv) {
+        this.cv = cv;
+    }
+
     public EducateCV(){}
 
     public long getId() {
