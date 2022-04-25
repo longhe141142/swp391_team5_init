@@ -58,7 +58,7 @@ public class CandidateController {
 
     ///candidate/HomeCandidate
     @GetMapping("/home")
-    public String home() {
+    public String home(){
         return "/candidate/HomeCandidate";
     }
 
