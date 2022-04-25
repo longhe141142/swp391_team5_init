@@ -415,7 +415,7 @@
 							<td th:text="${candidate.getAge()}"></td>
 							<td th:text="${candidate.getName()}"></td>
 							<td th:text="${candidate.getPhoneNumber()}"><span class="status text-success">&bull;</span></td>
-							<td th:text="${candidate.getDob()}"></td>
+							<td th:text="${#dates.format(candidate.getDob(), 'dd-MM-yyyy')}">Jun 21, 2017
 							<td th:text="${candidate.getUser().getId()}"></td>
 <!--							<td>-->
 <!--								<div class="action-form">-->
