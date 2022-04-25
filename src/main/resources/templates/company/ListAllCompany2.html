@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<title>List all company</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+				integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+				crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	<link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+	<!-- Vendor CSS-->
+	<link href="/register/vendor/select2/select2.min.css" media="all" rel="stylesheet">
+	<link href="/register/vendor/datepicker/daterangepicker.css" media="all" rel="stylesheet">
+	<link href="/company/custom/index.css" rel="stylesheet">
+
+
+	<link href="/common/error.css" rel="stylesheet">
+	<link href="/company/custom/button-active.css" rel="stylesheet">
+	<link href="/company/custom/listCompany.css" rel="stylesheet">
+
+
+	<!--    <script>-->
+	<!--        $(document).ready(function () {-->
+	<!--            $('[data-toggle="tooltip"]').tooltip();-->
+	<!--        });-->
+	<!--    </script>-->
+</head>
+<body>
+<div id="wrapper">
+
+	<div th:insert="/admin/fragment/slide-bar.html"></div>
+
+	<div class="container-xl">
+		<div class="table-responsive">
+			<div class="table-wrapper">
+				<div class="table-title">
+					<div class="row">
+						<div class="col-sm-4">
+							<h2>List<b>Company</b></h2>
+						</div>
+						<div class="col-sm-8">
+							<a class="btn btn-success" data-toggle="modal" href="#addCompanyModal"><i
+									class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="table-filter">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="show-entries">
+								<span>Show</span>
+								<select class="form-control">
+									<option>5</option>
+									<option>10</option>
+									<option>15</option>
+									<option>20</option>
+								</select>
+								<span>entries</span>
+							</div>
+						</div>
+						<div class="col-sm-9">
+							<button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+							<div class="filter-group">
+								<label>Name Company</label>
+								<input class="form-control" type="text">
+							</div>
+							<div class="filter-group">
+								<label>Major</label>
+								<select class="form-control">
+									<option>Testing</option>
+									<option>Font-end</option>
+									<option>Back-end</option>
+									<option>BA</option>
+								</select>
+							</div>
+							<div class="filter-group">
+								<label>Location</label>
+								<select class="form-control">
+									<div th:each="x:${ListCompany}">
+										<option th:text="${x.address}">Hà Nội</option>
+									</div>
+								</select>
+							</div>
+							<span class="filter-icon"><i class="fa fa-filter"></i></span>
+						</div>
+					</div>
+				</div>
+				<table class="table table-striped table-hover">
+					<thead>
+					<tr>
+						<th>#</th>
+						<th>Company</th>
+						<th>Location</th>
+						<th>Date founding</th>
+						<th>Status</th>
+						<th>Introduce company</th>
+						<th>Persional size</th>
+						<th>Action</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="company:  ${companies} ">
+						<tr>
+							<td th:text="${company.getId()}"></td>
+							<td>
+								<img
+										alt="Avatar"
+										class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
+								<a data-toggle="modal"
+									 href="#detailCompanyModal"
+									 th:text="${company.getName()}"
+									 title="Detail">
+								</a>
+							</td>
+							<td th:text="${company.getAddress()}"></td>
+							<td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
+							</td>
+							<td>
+								<div class="status-container">
+									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'INACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-danger">INACTIVATED</button>
+									<button th:id="${'company-' + company.getId()}" th:if="${company.getStatus() eq 'ACTIVATED'}" type="button" onclick="onclickChange(this)" class="btn-status btn-success">ACTIVATED</button>
+								</div>
+							</td>
+							<td>Software Company</td>
+							<td th:text="${company.getPersonnelSize()}"></td>
+							<td>
+								<div class="action-form">
+									<a class="edit"
+										 data-toggle="modal"
+										 href="#editCompanyModal"><i class="material-icons"
+																								 data-toggle="tooltip"
+																								 title="Edit">&#xE254;</i></a>
+
+									<a class="delete"
+										 data-toggle="modal"
+										 href="#deleteCompanyModal"><i class="material-icons"
+																									 data-toggle="tooltip"
+																									 title="Delete">&#xE872;</i></a>
+								</div>
+							</td>
+						</tr>
+					</th:block>
+
+					<!--					<tr th:each="o: ${ListCompany}">-->
+					<!--						<td th:text="${o.id}"></td>-->
+					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
+					<!--								th:src="${o.getCompanyImageUrl()}"-->
+					<!--								class="avatar"  alt="Avatar" th:text="${o.name}"></a>-->
+					<!--						</td>-->
+					<!--						<td th:text="${o.address}">Hà Nội, TP HCM, Đà Nẵng</td>-->
+					<!--						<td th:text="${o.foundingAt}">Jun 15, 2007</td>-->
+					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
+					<!--						<td th:text="${o.companyIntro}">Software Company</td>-->
+					<!--						<td th:text="${o.personnelSize}"></td>-->
+					<!--						<td>-->
+					<!--							<div class="action-form">-->
+					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                data-toggle="tooltip"-->
+					<!--								                                                                title="Edit">&#xE254;</i></a>-->
+
+					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                    data-toggle="tooltip"-->
+					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
+					<!--							</div>-->
+					<!--						</td>-->
+					<!--					</tr>-->
+
+					<!--					<tr>-->
+					<!--						<td>2</td>-->
+					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
+					<!--								src="https://static.wixstatic.com/media/9d8ed5_ca1487e8c972429aa4b338ac886cd1cc~mv2.jpg"-->
+					<!--								class="avatar" alt="Avatar"> Paula Wilson</a></td>-->
+					<!--						<td>Hà Nội</td>-->
+					<!--						<td>Jun 21, 2017</td>-->
+					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
+					<!--						<td>Software Company</td>-->
+					<!--						<td>1000</td>-->
+					<!--						<td>-->
+					<!--							<div class="action-form">-->
+					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                data-toggle="tooltip"-->
+					<!--								                                                                title="Edit">&#xE254;</i></a>-->
+
+					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                    data-toggle="tooltip"-->
+					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
+					<!--							</div>-->
+
+					<!--						</td>-->
+					<!--					</tr>-->
+					<!--					<tr>-->
+					<!--						<td>3</td>-->
+					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img-->
+					<!--								src="https://cdn.groovetechnology.com/wp-content/uploads/2020/09/20200803-Groove-logo-jpg.jpg"-->
+					<!--								class="avatar" alt="Avatar">Groove Technology</a></td>-->
+					<!--						<td>TP HCM</td>-->
+					<!--						<td>Jul 04, 2017</td>-->
+					<!--						<td><span class="status text-success">&bull;</span> IsActive</td>-->
+					<!--						<td>Software Company</td>-->
+					<!--						<td>500</td>-->
+					<!--						<td>-->
+					<!--							<div class="action-form">-->
+					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                data-toggle="tooltip"-->
+					<!--								                                                                title="Edit">&#xE254;</i></a>-->
+
+					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                    data-toggle="tooltip"-->
+					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
+					<!--							</div>-->
+
+					<!--						</td>-->
+					<!--					</tr>-->
+					<!--					<tr>-->
+					<!--						<td>4</td>-->
+					<!--						<td><a href="#detailCompanyModal" data-toggle="modal" title="Detail"><img src="http://static.ybox.vn/2018/8/5/1535082763510-Untitled-221.jpg"-->
+					<!--						                                                                          class="avatar" alt="Avatar">KMS Technology</a></td>-->
+					<!--						<td>TP HCM</td>-->
+					<!--						<td>Jul 16, 2017</td>-->
+					<!--						<td><span class="status text-danger">&bull;</span> InActive</td>-->
+					<!--						<td>Software Company</td>-->
+					<!--						<td>600</td>-->
+					<!--						<td>-->
+					<!--							<div class="action-form">-->
+					<!--								<a href="#editCompanyModal" class="edit" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                data-toggle="tooltip"-->
+					<!--								                                                                title="Edit">&#xE254;</i></a>-->
+
+					<!--								<a href="#deleteCompanyModal" class="delete" data-toggle="modal"><i class="material-icons"-->
+					<!--								                                                                    data-toggle="tooltip"-->
+					<!--								                                                                    title="Delete">&#xE872;</i></a>-->
+					<!--							</div>-->
+
+					<!--						</td>-->
+					<!--					</tr>-->
+					</tbody>
+				</table>
+				<div class="clearfix">
+					<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+					<ul class="pagination">
+						<li class="page-item disabled"><a href="#">Previous</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item active"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+						<li class="page-item"><a class="page-link" href="#">6</a></li>
+						<li class="page-item"><a class="page-link" href="#">7</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				</div>
+			</div>
+			<div th:insert="/admin/fragment/addCompanyModal.html"></div>
+
+			<!-- Edit Modal HTML -->
+			<div class="modal fade" id="editCompanyModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form>
+							<div class="modal-header">
+								<h4 class="modal-title">Edit Company</h4>
+								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>Name</label>
+									<input class="form-control" required type="text">
+								</div>
+								<div class="form-group">
+									<label>Email</label>
+									<input class="form-control" required type="email">
+								</div>
+								<div class="form-group">
+									<label>Address</label>
+									<textarea class="form-control" required></textarea>
+								</div>
+								<div class="form-group">
+									<label>Phone</label>
+									<input class="form-control" required type="text">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
+								<input class="btn btn-info" type="submit" value="Save">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="detailCompanyModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form>
+							<div class="modal-header">
+								<h4 class="modal-title">Detail Company</h4>
+								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>Name</label>
+									<input class="form-control" required type="text">
+								</div>
+								<div class="form-group">
+									<label>Email</label>
+									<input class="form-control" required type="email">
+								</div>
+								<div class="form-group">
+									<label>Address</label>
+									<textarea class="form-control" required></textarea>
+								</div>
+								<div class="form-group">
+									<label>Phone</label>
+									<input class="form-control" required type="text">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Delete Modal HTML -->
+			<div class="modal fade" id="deleteCompanyModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form>
+							<div class="modal-header">
+								<h4 class="modal-title">Delete Company</h4>
+								<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;
+								</button>
+							</div>
+							<div class="modal-body">
+								<p>Are you sure you want to delete these Records?</p>
+								<p class="text-warning"><small>This action cannot be undone.</small></p>
+							</div>
+							<div class="modal-footer">
+								<input class="btn btn-default" data-dismiss="modal" type="button" value="Cancel">
+								<input class="btn btn-danger" type="submit" value="Delete">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/admin/js/sb-admin-2.min.js"></script>
+
+	<script src="/register/vendor/select2/select2.min.js"></script>
+	<script src="/register/vendor/datepicker/moment.min.js"></script>
+	<script src="/register/vendor/datepicker/daterangepicker.js"></script>
+
+	<!-- Main JS-->
+	<script src="/register/js/global.js"></script>
+
+
+
+	<script src="/company/custom/index.js"></script>
+	<script>
+		$('[data-toggle="tooltip"]').tooltip();
+
+	</script>
+
+	<script src="/company/custom/activebutton.js"></script>
+
+
+</body>
+</html>
+
+

@@ -1,30 +1,33 @@
 package com.fu.swp391.entities;
 
-
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "company_major_skills")
-public class MajorSkill {
+@Table(name = "job_rules")
+public class JobRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     @NotEmpty
     @NotNull
-    private String name;
+    private String title;
+
+    @NotEmpty
+    @NotNull
+    private String content;
 
     @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "major_id")
-    private CompanyMajor companyMajor;
+    @JoinColumn(name = "job_post_id")
+    private JobPost jobPost;
+
 }

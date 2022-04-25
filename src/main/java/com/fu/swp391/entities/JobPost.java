@@ -1,5 +1,6 @@
 package com.fu.swp391.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "company_major")
-public class CompanyMajor {
+@Table(name = "job_post")
+public class JobPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,30 +57,31 @@ public class CompanyMajor {
     private String jobDescription;
 
     @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "job_post_id")
     private Major major;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
+    @JsonIgnore
     private Company company;
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorRule> majorRules;
+    @OneToMany(mappedBy = "jobPost")
+    private List<JobRule> jobRules;
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorBenefit> majorBenefits;
+    @OneToMany(mappedBy = "jobPost")
+    private List<JobBenefit> jobBenefits;
 
-    @OneToMany(mappedBy = "companyMajor")
-    private List<MajorSkill> majorSkills;
+    @OneToMany(mappedBy = "jobPost")
+    private List<JobSkill> jobSkills;
 
 
-    public CompanyMajor(Company company, double salary) {
+    public JobPost(Company company, double salary) {
         this.company = company;
         this.salary = salary;
     }
 
 
-    public CompanyMajor(){}
+    public JobPost(){}
 
     public Company getCompanyInfo() {
         return company;
@@ -177,27 +179,27 @@ public class CompanyMajor {
         this.company = company;
     }
 
-    public List<MajorRule> getMajorRules() {
-        return majorRules;
+    public List<JobRule> getMajorRules() {
+        return jobRules;
     }
 
-    public void setMajorRules(List<MajorRule> majorRules) {
-        this.majorRules = majorRules;
+    public void setMajorRules(List<JobRule> jobRules) {
+        this.jobRules = jobRules;
     }
 
-    public List<MajorBenefit> getMajorBenefits() {
-        return majorBenefits;
+    public List<JobBenefit> getJobBenefits() {
+        return jobBenefits;
     }
 
-    public void setMajorBenefits(List<MajorBenefit> majorBenefits) {
-        this.majorBenefits = majorBenefits;
+    public void setJobBenefits(List<JobBenefit> jobBenefits) {
+        this.jobBenefits = jobBenefits;
     }
 
-    public List<MajorSkill> getMajorSkills() {
-        return majorSkills;
+    public List<JobSkill> getJobSkills() {
+        return jobSkills;
     }
 
-    public void setMajorSkills(List<MajorSkill> majorSkills) {
-        this.majorSkills = majorSkills;
+    public void setJobSkills(List<JobSkill> jobSkills) {
+        this.jobSkills = jobSkills;
     }
 }

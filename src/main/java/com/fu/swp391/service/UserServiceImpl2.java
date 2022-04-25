@@ -3,7 +3,9 @@ package com.fu.swp391.service;
 import com.fu.swp391.binding.entiity.UserCandidate;
 import com.fu.swp391.common.enumConstants.Gender;
 import com.fu.swp391.common.enumConstants.GenderEnum;
+import com.fu.swp391.common.enumConstants.StatusEnum;
 import com.fu.swp391.common.enumConstants.roleEnum;
+import com.fu.swp391.config.UserBlockedException;
 import com.fu.swp391.entities.AuthPrinciple;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Role;
@@ -15,13 +17,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import com.fu.swp391.common.enumConstants.StatusEnum;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl2 implements UserService  {
+public class UserServiceImpl2 implements UserService {
 
     @Autowired
     RoleService roleService;
@@ -37,6 +40,7 @@ public class UserServiceImpl2 implements UserService  {
         this.messageSource = messageSource;
 //        this.roleService = roleService;
     }
+
     @Override
     public Iterable<User> findAll() {
         return userRepository.findAll();
@@ -46,22 +50,37 @@ public class UserServiceImpl2 implements UserService  {
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
-    @Override
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email);
-    };
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    ;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
         System.out.println("load function");
         System.out.println(username);
-        User user = userRepository.findByEmail(username);
-        System.out.println(user.getPassword());
-        if(user == null){
-            throw new UsernameNotFoundException(username);
+        User user = null;
+        try {
+            user = userRepository.findByEmail(username);
+            if (user == null) {
+                throw new UsernameNotFoundException(username);
+            }
+            System.out.println(user.getStatus());
+            if (user.getStatus().equalsIgnoreCase(StatusEnum.INACTIVATED)) {
+                System.out.println(username + "Has been blocked");
+                throw new UserBlockedException(username + "Has been blocked");
+            }
+            System.out.println(user.getPassword());
+            return AuthPrinciple.built(user);
+        } catch (UserBlockedException e) {
+            e.printStackTrace();
         }
-        return AuthPrinciple.built(user);
+        return null;
     }
+
 
     @Override
     public User save(User user) throws Exception {
@@ -105,8 +124,14 @@ public class UserServiceImpl2 implements UserService  {
         return user;
     }
 
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return  userRepository.findUserByEmail(email);
+    }
+
     public void getServiceName(){
         System.out.println("User service 2nd instance");
     }
+
 
 }

@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
-@Table(name = "major_rules")
-public class MajorRule {
+@Table(name = "job_benefits")
+public class JobBenefit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,10 +24,9 @@ public class MajorRule {
 
     @NotEmpty
     @NotNull
-    private String content;
+    private String benefit;
 
     @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_major_id")
-    private CompanyMajor companyMajor;
-
+    @JoinColumn(name = "job_post_id")
+    private JobPost jobPost;
 }

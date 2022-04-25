@@ -29,6 +29,7 @@ public class CV {
     @NotEmpty
     private int experience;
 
+    @Column(length = 1600)
     @NotNull
     @NotEmpty
     private String content;

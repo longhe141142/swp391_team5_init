@@ -70,8 +70,8 @@ public class UserController {
               System.out.println(name.getField());
               System.out.println(name.getDefaultMessage());
             });
-
         System.out.println("error occured");
+        //add atrribute
         return "redirect:/register";
       }
 
@@ -79,11 +79,11 @@ public class UserController {
       List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));
       User user = userService.addRoleToUser(roleList, userCandidate);
       user.setToken("user");
-      user.setStatus(accountStatusEnum.USER_CREATED);
+      user.setStatus(accountStatusEnum.USER_ACTIVATED);
       user.getRoles()
           .forEach(
               role -> {
-                System.out.println("ROLE::NAME["+role.getName()+"]");
+                System.out.println("ROLE::NAME[" + role.getName() + "]");
               });
       System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
       System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
