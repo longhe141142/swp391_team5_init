@@ -2,6 +2,12 @@ package com.fu.swp391.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.UnsupportedEncodingException;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -11,6 +17,8 @@ import java.util.ArrayList;
 @Component
 public class HelperUntil<E> {
 
+    @Autowired
+    private JavaMailSender mailSender;
     public ObjectNode convertToJson(String key,String value){
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode responseBody = mapper.createObjectNode();
@@ -58,4 +66,6 @@ public class HelperUntil<E> {
         }
         return userName;
     }
+
+
 }
