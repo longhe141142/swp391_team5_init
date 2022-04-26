@@ -44,5 +44,10 @@ public class CompanyController {
         model.addAttribute("ListCompanyDetail12",ListCompanyDetail);
         return "company/ListAllCompany";
     }
+
+    @GetMapping("/ListCvRequest")
+    public String ListRequest(Model model) {
+        return "company/ListRequest";
+    }
 }
 
