@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -83,6 +84,10 @@ public class Company {
     public void setCompanyImageUrl(String companyImageUrl) {
         this.companyImageUrl = companyImageUrl;
     }
+
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    private List<JobPost> jobPosts;
+
 
 
     @Column(name = "company_intro",length = 1700)
@@ -182,22 +187,4 @@ public class Company {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", companyImageUrl='" + companyImageUrl + '\'' +
-                ", status='" + status + '\'' +
-                ", image=" + image +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", personnelSize=" + personnelSize +
-                ", foundingAt=" + foundingAt +
-                ", description='" + description + '\'' +
-                ", companyIntro='" + companyIntro + '\'' +
-                ", address='" + address + '\'' +
-                ", user=" + user +
-                '}';
-    }
 }

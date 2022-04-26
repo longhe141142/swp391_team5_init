@@ -78,7 +78,8 @@
               <div class="filter-group">
                 <label>Location</label>
                 <select class="form-control">
-                  <div th:each="x:${ListCompany}">
+                  <option>All</option>
+                  <div th:each="x:${companies}">
                     <option th:text="${x.address}">Hà Nội</option>
                   </div>=
                 </select>
@@ -125,7 +126,7 @@
                 </div>
               </td>
               <!--Het phan Long code-->
-              <td>Software Company</td>
+              <td th:text="${company.companyIntro}"></td>
               <td th:text="${company.getPersonnelSize()}"></td>
               <td>
                 <div class="action-form">

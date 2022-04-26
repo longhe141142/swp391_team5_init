@@ -26,41 +26,36 @@ public class CompanyServiceImpl implements CompanyService {
   @Autowired
   PasswordEncoder encoder;
   @Autowired RoleService roleService;
-    @Autowired
-    CompanyRepository companyRepository;
+  @Autowired
+  CompanyRepository companyRepository;
 
   @Autowired UserRepository userRepository;
 
   @Autowired HelperUntil<Company> helperUntilCompany;
   @Autowired HelperUntil<Candidate> helperUntilCandidate;
 
-    public CompanyServiceImpl(CompanyRepository _compaCompanyRepository){
-        this.companyRepository = _compaCompanyRepository;
-    }
+  public CompanyServiceImpl(CompanyRepository _compaCompanyRepository){
+    this.companyRepository = _compaCompanyRepository;
+  }
 
 
-    @Override
-    public List<Company> findAllCompany() {
-        return this.companyRepository.findAllCompany();
-    }
+  @Override
+  public List<Company> findAllCompany() {
+    return this.companyRepository.findAllCompany();
+  }
 
-    @Override
-    public Optional<Company> findbyId(Long id) {
-        return this.companyRepository.findById(id);
-    }
+  @Override
+  public Optional<Company> findbyId(Long id) {
+    return this.companyRepository.findById(id);
+  }
 
   @Override
   public Company addCompany(Company company, User user) {
     user = this.addUCompanyUserRole(user);
-    user.setPasswordEncoder(encoder.encode(user.getPassword()));
+    user.setPasswordEncoder(encoder.encode(user.getPasswordEncoder()));
     company.setUser(user);
     company = this.companyRepository.save(company);
     return company;
-  }
-
-  @Override
-  public Optional<Company> save(Optional<Company> company) {
-    return Optional.empty();
   }
 
 
@@ -81,10 +76,10 @@ public class CompanyServiceImpl implements CompanyService {
     String[] roleArray = new String[] {roleEnum.USER, roleEnum.COMPANY};
     List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));
     roleList.forEach(
-        role -> {
-          Optional<Role> roleUser = roleService.findRoleByName(role);
-          roleUser.ifPresent(user::setRole);
-        });
+            role -> {
+              Optional<Role> roleUser = roleService.findRoleByName(role);
+              roleUser.ifPresent(user::setRole);
+            });
     return user;
   }
 
@@ -98,7 +93,7 @@ public class CompanyServiceImpl implements CompanyService {
   //method2
   @Override
   public ArrayList<Company> getAllCompanyByPaging(
-      ArrayList<Company> companies, int page, int size) {
+          ArrayList<Company> companies, int page, int size) {
     return helperUntilCompany.PagingElement(companies, page, size);
   }
 

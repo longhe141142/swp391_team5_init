@@ -62,7 +62,7 @@ public class UserController {
       Model model)
       throws Exception {
     try {
-      System.out.println(userCandidate.getUser().getPassword() + "9999[password]");
+      System.out.println(userCandidate.getUser().getPasswordEncoder() + "9999[password]");
       if (userCandidateResult.hasErrors()) {
         List<FieldError> f = userCandidateResult.getFieldErrors();
         f.forEach(
@@ -87,7 +87,7 @@ public class UserController {
               });
       System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
       System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
-      user.setPasswordEncoder(encoder.encode( user.getPassword()));
+      user.setPasswordEncoder(encoder.encode( user.getPasswordEncoder()));
       userService.save(user);
       return "login/login";
     } catch (Exception e) {

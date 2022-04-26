@@ -12,8 +12,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-				integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-				crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+		  crossorigin="anonymous" referrerpolicy="no-referrer"/>
 	<link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
 
 	<!-- Vendor CSS-->
@@ -115,9 +115,9 @@
 										alt="Avatar"
 										class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
 								<a data-toggle="modal"
-									 href="#detailCompanyModal"
-									 th:text="${company.getName()}"
-									 title="Detail">
+								   href="#detailCompanyModal"
+								   th:text="${company.getName()}"
+								   title="Detail">
 								</a>
 							</td>
 							<td th:text="${company.getAddress()}"></td>
@@ -134,16 +134,16 @@
 							<td>
 								<div class="action-form">
 									<a class="edit"
-										 data-toggle="modal"
-										 href="#editCompanyModal"><i class="material-icons"
-																								 data-toggle="tooltip"
-																								 title="Edit">&#xE254;</i></a>
+									   data-toggle="modal"
+									   href="#editCompanyModal"><i class="material-icons"
+																   data-toggle="tooltip"
+																   title="Edit">&#xE254;</i></a>
 
 									<a class="delete"
-										 data-toggle="modal"
-										 href="#deleteCompanyModal"><i class="material-icons"
-																									 data-toggle="tooltip"
-																									 title="Delete">&#xE872;</i></a>
+									   data-toggle="modal"
+									   href="#deleteCompanyModal"><i class="material-icons"
+																	 data-toggle="tooltip"
+																	 title="Delete">&#xE872;</i></a>
 								</div>
 							</td>
 						</tr>
@@ -169,35 +169,34 @@
 			<div th:insert="/admin/fragment/addCompanyModal.html"></div>
 
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+			<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+			<!-- Bootstrap core JavaScript-->
+			<script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Core plugin JavaScript-->
-	<script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+			<!-- Core plugin JavaScript-->
+			<script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<!-- Custom scripts for all pages-->
-	<script src="/admin/js/sb-admin-2.min.js"></script>
+			<!-- Custom scripts for all pages-->
+			<script src="/admin/js/sb-admin-2.min.js"></script>
 
-	<script src="/register/vendor/select2/select2.min.js"></script>
-	<script src="/register/vendor/datepicker/moment.min.js"></script>
-	<script src="/register/vendor/datepicker/daterangepicker.js"></script>
+			<script src="/register/vendor/select2/select2.min.js"></script>
+			<script src="/register/vendor/datepicker/moment.min.js"></script>
+			<script src="/register/vendor/datepicker/daterangepicker.js"></script>
 
-	<!-- Main JS-->
-	<script src="/register/js/global.js"></script>
+			<!-- Main JS-->
+			<script src="/register/js/global.js"></script>
 
 
 
-	<script src="/company/custom/index.js"></script>
-	<script>
-		$('[data-toggle="tooltip"]').tooltip();
+			<script src="/company/custom/index.js"></script>
+			<script>
+				$('[data-toggle="tooltip"]').tooltip();
 
-	</script>
+			</script>
 
-	<script src="/company/custom/activebutton.js"></script>
+			<script src="/company/custom/activebutton.js"></script>
 
 </body>
 </html>
-
 

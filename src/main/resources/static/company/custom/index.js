@@ -258,7 +258,7 @@ $(document).ready(function () {
         console.log(getAll);
         let companyArrayFields = ["name", "phone", "email", "personnelSize", "description", "companyIntro", "address", "foundingAt"]
         let company = reArrangeFields("company", companyArrayFields, getAllInput());
-        let user = reArrangeFields("user", ["email", "password"], getAllInput())
+        let user = reArrangeFields("user", ["email", "passwordEncoder"], getAllInput())
         let foundingAt = reCorrectDateString(document.getElementById('foundingAt').value);
         if (!isValidDate(foundingAt)) {
             getAll.error = true;

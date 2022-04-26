@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -43,8 +45,7 @@ public class JobPost {
     private String gender;
 
     @Column(name = "max_candidates")
-    @NotEmpty
-    @NotEmpty
+    @NotNull
     private int maxCandidate;
 
     @NotEmpty
@@ -65,14 +66,17 @@ public class JobPost {
     @JsonIgnore
     private Company company;
 
-    @OneToMany(mappedBy = "jobPost")
-    private List<JobRule> jobRules;
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<JobRule> jobRules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobPost")
-    private List<JobBenefit> jobBenefits;
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<JobBenefit> jobBenefits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobPost")
-    private List<JobSkill> jobSkills;
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<JobSkill> jobSkills = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<Request> requests = new ArrayList<>();
 
 
     public JobPost(Company company, double salary) {
@@ -201,5 +205,13 @@ public class JobPost {
 
     public void setJobSkills(List<JobSkill> jobSkills) {
         this.jobSkills = jobSkills;
+    }
+
+    public List<JobRule> getJobRules() {
+        return jobRules;
+    }
+
+    public void setJobRules(List<JobRule> jobRules) {
+        this.jobRules = jobRules;
     }
 }

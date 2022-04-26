@@ -91,6 +91,7 @@ public class AdminController {
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
   // "application/json")
 
+
   // example api
   @RequestMapping(value = "/example", method = RequestMethod.POST)
   @ResponseBody
@@ -183,6 +184,12 @@ public class AdminController {
     model.addAttribute("ListCompanyByAddress",optional);
     return "company/ListAllCompany3";
   }
+  @GetMapping ("/editcompany/{id}")
+  public String DetailCompany12(Model model, @PathVariable long id) {
+    Optional<Company> optionalCompany = companyService.findbyId(id);
+    model.addAttribute("optionalCompany",optionalCompany);
+    return "company/ListAllCompany3";
+  }
 
   @GetMapping("/company")
   public String renderCompany(
@@ -236,7 +243,7 @@ public class AdminController {
   @PostMapping("editTest")
   public  String editCom(@Validated @ModelAttribute("companyEdit") Company company, BindingResult result,
       @RequestParam Long id){
-   // System.out.println(company.getName());
+    System.out.println(company.getName());
     System.out.println(company.getCompanyIntro());
     if (result.hasErrors()){
        List<FieldError> fields = result.getFieldErrors();

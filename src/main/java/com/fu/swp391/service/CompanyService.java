@@ -21,8 +21,6 @@ public interface CompanyService {
 
   Company addCompany(Company company, User user);
 
-  Optional<Company> save(Optional<Company> company);
-
   Company getJson(String user, MultipartFile file);
 
   ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);

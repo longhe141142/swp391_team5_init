@@ -1,21 +1,16 @@
-package com.fu.swp391.entities;
+package com.fu.swp391.controller.restController.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "job_benefits")
-public class JobBenefit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+@Data
+
+public class BenefitDTO {
+    @NotEmpty
+    @NotNull
     private Long id;
 
     @NotEmpty
@@ -25,10 +20,14 @@ public class JobBenefit {
     @NotEmpty
     @NotNull
     private String benefit;
+    public BenefitDTO(){
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "job_post_id")
-    private JobPost jobPost;
+    }
+    public BenefitDTO(Long id, String title, String benefit) {
+        this.id = id;
+        this.title = title;
+        this.benefit = benefit;
+    }
 
     public Long getId() {
         return id;
@@ -52,13 +51,5 @@ public class JobBenefit {
 
     public void setBenefit(String benefit) {
         this.benefit = benefit;
-    }
-
-    public JobPost getJobPost() {
-        return jobPost;
-    }
-
-    public void setJobPost(JobPost jobPost) {
-        this.jobPost = jobPost;
     }
 }
