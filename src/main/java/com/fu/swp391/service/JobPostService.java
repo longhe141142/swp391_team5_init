@@ -13,9 +13,12 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JobPostService {
+    List<JobPost> findJobPostByCompanyId(long id);
+
     List<JobPost> findCompanyMajorsByCompanyId(long id);
 
     <S extends JobPost> S save(S entity);
+
 
     List<Major> findAll();
 

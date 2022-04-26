@@ -9,10 +9,10 @@ import com.fu.swp391.common.enumConstants.SortEnum;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
+import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +46,13 @@ public class AdminController {
   @Autowired CandidateService candidateService;
 
   @Autowired CompanyService companyService;
+  @Autowired
+  CompanyRepository companyRepository;
+    @GetMapping("/")
+    public String renderAdminHome(){
+        return "admin/homeAdmin";
+    }
 
-  @GetMapping("/")
-  public String renderAdminHome(){
-    return "admin/homeAdmin";
-  }
 
   //admin
   @GetMapping("/home")
@@ -79,8 +84,9 @@ public class AdminController {
             companyService.getAllCompanyByPaging(
                     companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
     model.addAttribute("companies", companyList);
-    return "company/ListAllCompany2";
-  }
+    return "company/ListAllCompany3";
+    }
+
 
   //  @RequestMapping(value = "/addCompany", method = RequestMethod.POST, produces =
   // "application/json")
@@ -201,6 +207,31 @@ public class AdminController {
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany";
   }
+  @GetMapping ("loadCompanyToEdit")
+  public String loadCompanyToEdit(@RequestParam Long id, Model model) {
+    Optional<Company> optionalCompany = companyService.findbyId(id);
+    model.addAttribute("optionalCompany",optionalCompany.get());
+    return "/company/editCompany";
+  }
+  @PostMapping("editCompanyToEdit")
+  public String editCompanyToEdit(@Validated @ModelAttribute ("optionalCompany") Company company, BindingResult result,
+                                  @RequestParam Long id){
+    if (result.hasErrors()){
+      List<FieldError> fields = result.getFieldErrors();
+      for (int i =0;i<fields.size();i++){
+        System.out.println("error field name:"+fields.get(i).getField()+
+                "\nError message: "+fields.get(i).getDefaultMessage());
+      }
+      System.out.println("12345678");
+      return "redirect:/admin/loadCompanyToEdit?id="+id;
+    }
+    companyRepository.updatePhone(id, company.getName(), company.getAddress(),
+            company.getPhone(), company.getEmail(), company.getPersonnelSize(),
+            company.getDescription(), company.getFoundingAt(), company.getCompanyIntro());
+    System.out.println("123456");
+    return "redirect:/admin/company-list";
+
+  }
 
   @GetMapping("edit")
   public  String editCom(@RequestParam Long id, Model model){
@@ -222,7 +253,6 @@ public class AdminController {
       }
       return "redirect:/admin/edit?id="+id;
     }
-
     //save
     return "sang trang list company";
   }

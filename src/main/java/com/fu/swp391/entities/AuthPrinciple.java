@@ -24,11 +24,14 @@ public class AuthPrinciple implements UserDetails {
     public static AuthPrinciple built(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
         for(Role role: user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+            System.out.println(role.getName());
         }
+        authorities.forEach(authority->{
+            System.out.println(authority.getAuthority());
+        });
     System.out.println("building"+"" +
             "encoder pass"+"::::"+user.getPasswordEncoder());
-
         return new AuthPrinciple(user.getId(), user.getEmail(), user.getPasswordEncoder(), authorities );
     }
 
