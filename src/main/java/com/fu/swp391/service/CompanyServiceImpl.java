@@ -58,6 +58,7 @@ public class CompanyServiceImpl implements CompanyService {
     return company;
   }
 
+
   @Override
   public Company getJson(String company, MultipartFile file) {
     Company CompanyJson = new Company();
@@ -99,6 +100,11 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public ArrayList<Company> findAllCandidatesByFilter(String searchKeyword) {
     return companyRepository.search(searchKeyword);
+  }
+
+  @Override
+  public void updatePhone(long id, String name) {
+    return;
   }
 
 

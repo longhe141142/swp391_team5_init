@@ -3,6 +3,7 @@ package com.fu.swp391.service;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -26,4 +27,5 @@ public interface CompanyService {
 
     ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
 
+  void updatePhone(long id,  String name);
 }
