@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Checkout example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/major/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/major/css/form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container">
+    <form class="needs-validation" th:action="@{/company/major/addjob}"  method="post" th:object="${job_post}" novalidate>
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+
+                <div class="w3-col ">
+                    <div id="id01" class="w3-modal">
+                        <div class="w3-modal-content w3-card-4">
+                            <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-display-topright">×</span>
+                                <h2>Add rule</h2>
+                            </header>
+                            <div class="w3-container">
+
+                                <p>
+                                    <label>Content</label>
+                                    <input class="w3-input" type="text" id="content"></p>
+                                <p>
+                                    <label>Title</label>
+                                    <input class="w3-input" type="text" id="title"></p>
+                                <p>
+                                <P><a type="button" class="w3-btn w3-blue" id="save">Save</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <a onclick="document.getElementById('id01').style.display='block'" class="w3-button  w3-blue">Add rule</a>
+                    <table class="w3-table-all" id="myTable">
+                        <thead>
+                        <tr class="w3-blue">
+                            <th nowrap>Sl.No</th>
+                            <th nowrap>Content</th>
+                            <th nowrap>Title</th>
+                            <th nowrap>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="w3-col ">
+                    <div id="id02" class="w3-modal">
+                        <div class="w3-modal-content w3-card-4">
+                            <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id02').style.display='none'"
+              class="w3-button w3-display-topright">×</span>
+                                <h2>Add Benefit</h2>
+                            </header>
+                            <div class="w3-container">
+
+                                <p>
+                                    <label>Content</label>
+                                    <input class="w3-input" type="text" id="benefit"></p>
+                                <p>
+                                    <label>Title</label>
+                                    <input class="w3-input" type="text" id="titleb"></p>
+                                <p>
+                                <P><a type="button" class="w3-btn w3-blue" id="save2">Save</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <a onclick="document.getElementById('id02').style.display='block'" class="w3-button  w3-blue">Add Benefit</a>
+                    <table class="w3-table-all" id="myTable2">
+                        <thead>
+                        <tr class="w3-blue">
+                            <th nowrap>Sl.No</th>
+                            <th nowrap>Benefit</th>
+                            <th nowrap>Title</th>
+                            <th nowrap>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3">Add Job post</h4>
+
+
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label >Major Name</label>
+                        <input type="text" th:field="*{majorName}" class="form-control"  placeholder="Major Name" value="" required>
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label >Major Level</label>
+                        <input type="text" class="form-control" th:field="*{majorLevel}" placeholder="Major Level" value="" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label >Experience</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" th:field="*{experience}" placeholder="Experience" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Your username is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label >Work address</label>
+                    <input type="text" class="form-control" th:field="*{workAddress}" placeholder="Work address">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Job description</label>
+                    <input type="text" class="form-control" th:field="*{jobDescription}" placeholder="Job description" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label >Major</label>
+                        <select th:field="*{major}" onchange="myFunction()">
+                            <option value=""> --- </option>
+                            <option th:each="major : ${majors}"
+                                    th:value="${major.getId()}"
+                                    th:utext="${major.getName()}" />
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4 mb-3">
+                      <label for="state">State</label>
+                      <select class="custom-select d-block w-100" id="state" required>
+                        <option value="">Choose...</option>
+                        <option>California</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        Please provide a valid state.
+                      </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <label for="zip">Zip</label>
+                      <input type="text" class="form-control" id="zip" placeholder="" required>
+                      <div class="invalid-feedback">
+                        Zip code required.
+                      </div>
+                    </div> -->
+                </div>
+
+                <div class="mb-3">
+                    <table class="w3-table-all" id="myTableSkill">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Gender</h4>
+
+                <div class="d-block my-3">
+                    <div class="input-group">
+
+                        <div class="p-t-10">
+                            <label class="radio-container m-r-45">Male
+                                <input type="radio" checked="checked" id="male" value="Male" th:field="*{gender}" required>
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-container">Female
+                                <input type="radio" name="gender" id="female" value="Female" th:field="*{gender}" required>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label >Salary</label>
+                        <input type="number" class="form-control"  th:field="*{salary}"  placeholder="Salary" required>
+                        <div class="invalid-feedback">
+                            Expiration date required
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label >Max Candidate</label>
+                        <input type="number" class="form-control" th:field="*{maxCandidate}" placeholder="Max Candidate" required>
+                        <div class="invalid-feedback">
+                            Security code required
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">ADD MAJOR</button>
+
+            </div>
+        </div>
+    </form>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script>-->
+<!--    // Example starter JavaScript for disabling form submissions if there are invalid fields-->
+<!--    (function() {-->
+<!--        'use strict';-->
+
+<!--        window.addEventListener('load', function() {-->
+<!--            // Fetch all the forms we want to apply custom Bootstrap validation styles to-->
+<!--            var forms = document.getElementsByClassName('needs-validation');-->
+
+<!--            // Loop over them and prevent submission-->
+<!--            var validation = Array.prototype.filter.call(forms, function(form) {-->
+<!--                form.addEventListener('submit', function(event) {-->
+<!--                    if (form.checkValidity() === false) {-->
+<!--                        event.preventDefault();-->
+<!--                        event.stopPropagation();-->
+<!--                    }-->
+<!--                    form.classList.add('was-validated');-->
+<!--                }, false);-->
+<!--            });-->
+<!--        }, false);-->
+<!--    })();-->
+<!--</script>-->
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script th:inline="javascript">
+
+    const checkbox = document.getElementById('skill')
+
+
+    $(document).on('change','.skills',function(){
+        var name = $(this).attr('value');
+        if ($(this).is(':checked')) {
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/addSkill",
+                data : {
+                    name: name,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }else{
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/deleteSkill",
+                data : {
+                    name: name,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+
+    });
+
+    $('#save').on('click', function() {
+        var rules = new Array();
+
+        var content =$('#content').val();
+        var title =$('#title').val();
+
+        var count = $('#myTable tr').length ;
+        if(content!="" && title !="" ){
+            $('#myTable tbody').append('<tr class="child"><td >'+count+'</td>' +
+                '<td>'+content+'</td>' +
+                '<td>'+title+'</td>' +
+                '<td><a value="'+count+'" href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a>' +
+                '</td>' +
+                '</tr>');
+
+        }
+
+
+//         var selected = new Array();
+//         $('#myTableSkill input[type="checkbox"]:checked').each(function() {
+//             selected.push($(this).attr('value'));
+//         });
+//         $.ajax({
+//             url: '/company/major/rule',
+//             data: JSON.stringify({selected}),
+//             type: "POST",
+//             async: false,
+//             dataType: 'json',
+//             contentType: 'application/json',
+// //            data: jData,
+//             timeout : 100000,
+//             success : function(data) {
+//                 console.log("SUCCESS: ", data);
+//             },
+//             error : function(e) {
+//                 console.log("ERROR: ", e);
+//             }
+//         });
+
+
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/addRule",
+            data : {
+                content : content,
+                title : title,
+                count: count
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+        // $.ajax({
+        //     Type: "POST",
+        //     Url: "/company/major/rule",
+        //     dataType: "json",
+        //     contentType: 'application/json; charset=utf-8',
+        //     Data:JSON.stringify(rules),
+        //     Success:function(data){
+        //         console.log(data);
+        //     },
+        //     error:function(data){
+        //         console.log(data);
+        //     }
+        // });
+
+    });
+    $(document).on('click','.remCF1',function(){
+        var id = $( $(this).parent().parent().find('td')[0]).html();
+        $(this).parent().parent().remove();
+        $('#myTable tbody tr').each(function(i){
+
+            $($(this).find('td')[0]).html(i+1);
+        });
+
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/deleteRule",
+            data : {
+                id:id,
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    $('#save2').on('click', function() {
+        var rules = new Array();
+
+        var benefit =$('#benefit').val();
+        var title =$('#titleb').val();
+
+        var count = $('#myTable2 tr').length ;
+        if(benefit!="" && title !="" ){
+            $('#myTable2 tbody').append('<tr class="child"><td >'+count+'</td>' +
+                '<td>'+benefit+'</td>' +
+                '<td>'+title+'</td>' +
+                '<td><a href="javascript:void(0);" class="remCF2 btn btn-small btn-danger">Remove</a>' +
+                '</td>' +
+                '</tr>');
+
+        }
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/addBenefit",
+            data : {
+                benefit : benefit,
+                title : title,
+                count: count
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+
+
+    });
+
+    $(document).on('click','.remCF2',function(){
+        var id = $( $(this).parent().parent().find('td')[0]).html();
+        $(this).parent().parent().remove();
+        $('#myTable2 tbody tr').each(function(i){
+
+            $($(this).find('td')[0]).html(i+1);
+        });
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : "/company/major/deleteBenefit",
+            data : {
+                id:id,
+            },
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    });
+    function myFunction() {
+        $('#myTableSkill thead tr').remove();
+        $('#myTableSkill tbody tr').remove();
+        var id = document.getElementById("major").value;
+        if(id!=''){
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/company/major/getSkill",
+                data : {
+                    id:id,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                    $('#myTableSkill thead').append(
+
+                        '<tr className="w3-blue">'+
+                        '<th nowrap>Sl.No</th>'+
+                        '<th nowrap>Skill Name</th>'+
+                        '<th nowrap>Title</th>'+
+                        '<th nowrap>Action</th>'+
+                        '</tr>');
+                    var i = 0;
+                    data.forEach((element) => {
+                        i++;
+                        $('#myTableSkill tbody').append('<tr class="child"><td >'+i+'</td>' +
+                            '<td>'+element.name+'</td>' +
+                            '<td>'+element.title+'</td>' +
+                            '<td><input class="skills" type="checkbox"  id="skill" value="'+element.name+'" >' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+
+        }
+
+
+
+    }
+
+</script>
+
+</body>
+</html>

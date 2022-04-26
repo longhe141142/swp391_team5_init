@@ -1,0 +1,63 @@
+
+/**
+validation Css
+ */
+
+.input-group input:focus {
+    border: 1px solid #00FF00;
+    border-radius: 5%;
+}
+
+.input-group input.error {
+    border: 1px solid #FF0000;
+    border-radius: 5%;
+}
+/*.errors {*/
+/*  position: fixed;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  bottom: 0;*/
+/*  z-index: 1;*/
+/*  padding: 15px;*/
+/*  pointer-events: none;*/
+/*}*/
+
+.errors-custom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    padding: 15px;
+    pointer-events: none;
+}
+
+/* .error {*/
+/*  padding: 15px;*/
+/*  border-radius: 8px;*/
+/*  background-color: rgba(230, 20, 20, 0.8);*/
+/*  color: #FFF;*/
+/*  font-size: 14px;*/
+/*  transform: translateY(300px);*/
+/*  pointer-events: all;*/
+/*  margin-bottom: 10px;*/
+/*  animation: slide-in 1s ease-out forwards;*/
+/*}*/
+
+.errors-custom .error2 {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(230, 20, 20, 0.8);
+    color: #FFF;
+    font-size: 14px;
+    transform: translateY(300px);
+    pointer-events: all;
+    margin-bottom: 10px;
+    animation: slide-in 1s ease-out forwards;
+}
+
+@keyframes slide-in {
+    to {
+        transform: translateY(0px);
+    }
+}
