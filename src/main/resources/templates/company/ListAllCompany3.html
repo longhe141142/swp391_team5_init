@@ -36,7 +36,7 @@
 
   <div th:insert="/admin/fragment/slide-bar.html"></div>
 
-  <div class="container-xl">
+  <div class="container-xl" style="max-width: 1800px">
     <div class="table-responsive">
       <div class="table-wrapper">
         <div class="table-title">
@@ -112,7 +112,7 @@
               <td>
                 <img
                         alt="Avatar"
-                        class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
+                        class="avatar" th:src="${company.getCompanyImageUrl()}">
                 <a data-toggle="modal"
                    th:href="${'#company-'+ company.getId()}"
                    th:text="${company.getName()}"
@@ -175,47 +175,56 @@
       <!--Detail company Modal-->
       <th:block th:each="company : ${companies}">
         <div th:id="${'company-'+company.getId()}" class="modal fade">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <div class="container">
-            <div class="col-lg-8 border p-3 main-section bg-white">
-              <div class="row hedding m-0 pl-3 pt-0 pb-3">
+            <div class="col-lg-8 border p-3 main-section bg-white" style="margin: auto;margin-top: 20px;">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >×</button>
+              <div class="row hedding m-0 pl-3 pt-0 pb-3" style="font-size: 4em;">
                 Company Detail
               </div>
               <div class="row m-0">
                 <div class="col-lg-4 left-side-product-box pb-3">
-                  <img id="CompanyImage" th:src="${'/'+company.getCompanyImageUrl()}"
+                  <img id="CompanyImage" th:src="${company.getCompanyImageUrl()}"
                        class="border p-3">
-
                 </div>
                 <div class="col-lg-8">
                   <div class="right-side-pro-detail border p-3 m-0">
                     <div class="row">
-                      <div class="col-lg-12">
-                        <span>Name Company</span>
-                        <p th:text="${company.getName()}" class="m-0 p-0">Women's Velvet Dress</p>
-                      </div>
-                      <div class="col-lg-12">
-                        <span>Email</span>
-                        <p th:text="${company.getEmail()}" class="m-0 p-0">Women's Velvet Dress</p>
-                        <span>Phone</span>
-                        <p th:text="${company.getPhone()}" class="m-0 p-0">Women's Velvet Dress</p>
-                      </div>
+
                       <div class="col-lg-12">
                         <div>
-                          <div class="col-lg-12">
-                            <span>Location</span>
-                            <p th:text="${company.getAddress()}" class="m-0 p-0">Women's Velvet Dress</p>
+                          <div class="col-lg-12 pt-2">
+                            <h6>Company Name: </h6><br>
+                            <span th:text="${company.getName()}"></span>
+                            <hr class="m-0 pt-2 mt-2">
                           </div>
-                          <div class="col-lg-12">
-                            <span>Founding At</span>
-                            <p  th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}" class="m-0 p-0">Women's Velvet Dress</p>
+                          <div class="col-lg-12 pt-2">
+                            <h6>Email: </h6><br>
+                            <span th:text="${company.getEmail()}"></span>
+                            <hr class="m-0 pt-2 mt-2">
                           </div>
-                          <div class="col-lg-12">
-                            <span>PersionalSize</span>
-                            <p th:text="${company.getPersonnelSize()}" class="m-0 p-0">Women's Velvet Dress</p>
+                          <div class="col-lg-12 pt-2">
+                            <h6>Phone: </h6><br>
+                            <span th:text="${company.getPhone()}"></span>
+                            <hr class="m-0 pt-2 mt-2">
                           </div>
+                          <div class="col-lg-12 pt-2">
+                            <h6> Address: </h6><br>
+                            <span th:text="${company.getAddress()}"></span>
+                            <hr class="m-0 pt-2 mt-2">
+                          </div>
+                          <div class="col-lg-12 pt-2">
+                            <h6>Founding at: </h6><br>
+                            <span th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}"></span>
+                            <hr class="m-0 pt-2 mt-2">
+                          </div>
+                          <div class="col-lg-12 pt-2">
+                            <h6>Personal size: </h6><br>
+                            <span th:text="${company.getPersonnelSize()}"></span>
+                            <hr class="m-0 pt-2 mt-2">
+                          </div>
+
                           <div class="col-lg-12">
-                            <span>Status</span>
+                            <h6>Status: </h6><br>
                             <label class="switch-status switch3-checked"
                                    th:id="${company.getId()}"
                                    th:if="${company.getUser().getStatus()== 'ACTIVATED'}">
@@ -228,17 +237,13 @@
                             </label>
                           </div>
                           <div class="col-lg-12 pt-2">
-                            <h5>Company Intro</h5>
-                            <span th:text="${company.getCompanyIntro()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris.</span>
+                            <h6>Company Intro: </h6><br>
+                            <span th:text="${company.getCompanyIntro()}"></span>
                             <hr class="m-0 pt-2 mt-2">
                           </div>
                           <div class="col-lg-12 pt-2">
-                            <h5>Company Description</h5>
-                            <span th:text="${company.getDescription()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris.</span>
+                            <h6>Company Description: </h6><br>
+                            <span th:text="${company.getDescription()}"></span>
                             <hr class="m-0 pt-2 mt-2">
                           </div>
                         </div>
