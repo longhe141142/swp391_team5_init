@@ -48,14 +48,17 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         for (GrantedAuthority a : authorities) {
             roles.add(a.getAuthority());
+            System.out.println(a.getAuthority());
+
         }
 
         if (isCandidate(roles)) {
             url = "/candidate/home";
         } else if (isAdmin(roles)) {
+            System.out.println("Admin access");
             url = "/admin/home";
         }else if(isCompany(roles)){
-            url = "/admin/company";
+            url = "/company/HomeCompany";
         }
         else {
             url = "/accessDenied";
@@ -64,15 +67,15 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     private boolean isCandidate(List<String> roles) {
-        return roles.contains(roleEnum.CANDIDATE);
+        return roles.contains(roleEnum.ROLE_CANDIDATE);
     }
 
     private boolean isAdmin(List<String> roles) {
-        return roles.contains(roleEnum.ADMIN);
+        return roles.contains(roleEnum.ROLE_ADMIN);
     }
 
     private boolean isCompany(List<String> roles){
-        return roles.contains(roleEnum.COMPANY);
+        return roles.contains(roleEnum.ROLE_COMPANY);
     }
 
 //  private boolean isAdmin(List<String> roles) {

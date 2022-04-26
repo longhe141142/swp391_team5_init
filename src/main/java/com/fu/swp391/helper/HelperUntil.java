@@ -2,6 +2,8 @@ package com.fu.swp391.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -42,5 +44,18 @@ public class HelperUntil<E> {
             return 1;
         double checkParam = ((double)sizeList/perPage - (double)(sizeList/perPage));
         return  checkParam==0? sizeList/perPage : sizeList/perPage+1;
+    }
+
+
+    public String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }

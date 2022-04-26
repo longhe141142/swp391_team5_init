@@ -254,7 +254,6 @@ public class AdminController {
       }
       return "redirect:/admin/edit?id="+id;
     }
-
     //save
     return "sang trang list company";
   }

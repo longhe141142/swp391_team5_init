@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping("/")
     public String goHome(){
-        return "homepage/homePage";
+        return "redirect:/candidate/home";
     }
 }

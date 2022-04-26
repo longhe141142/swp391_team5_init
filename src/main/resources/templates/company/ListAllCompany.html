@@ -130,10 +130,8 @@
                             <td>
                                 <div class="action-form">
                                     <a class="edit"
-                                       data-toggle="modal"
-                                       href="#editCompanyModal"><i class="material-icons"
-                                                                   data-toggle="tooltip"
-                                                                   title="Edit">&#xE254;</i></a>
+                                       th:href="@{'/admin/loadCompanyToEdit?id='+${company.getId()}}"><i class="material-icons"
+                                                                                                         title="Edit">&#xE254;</i></a>
 
                                     <a class="delete"
                                        data-toggle="modal"

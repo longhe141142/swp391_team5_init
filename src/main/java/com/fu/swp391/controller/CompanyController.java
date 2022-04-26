@@ -30,6 +30,7 @@ public class CompanyController {
     public String home(){
         return "/company/HomeCompany";
     }
+
     @GetMapping("/ListCompanyAdmin12")
     public String ListCompanyAdmin(Model model) {
 
