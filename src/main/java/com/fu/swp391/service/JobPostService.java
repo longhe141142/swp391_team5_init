@@ -1,5 +1,6 @@
 package com.fu.swp391.service;
 
+import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Major;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,13 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JobPostService {
+    List<JobPost> findJobPostByCompanyId(long id);
+
+    List<JobPost> findCompanyMajorsByCompanyId(long id);
+
+    <S extends JobPost> S save(S entity);
+
+
     List<Major> findAll();
 
     List<Major> findAll(Sort sort);

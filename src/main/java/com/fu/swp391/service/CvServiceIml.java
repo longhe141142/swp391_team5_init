@@ -33,9 +33,15 @@ public class CvServiceIml implements CvService {
 
 
     @Override
-    public List<CV> getAllCV() {
-        return (List<CV>) cvRepository.listAllCV();
+    public List<CV> getAllCVById(Long id) {
+        return (List<CV>) cvRepository.listAllCVById(id);
     }
+
+    @Override
+    public List<CV> getAllCV() {
+        return cvRepository.listAllCV();
+    }
+
 
     @Override
     public List<CV> getAllCVSkill() {

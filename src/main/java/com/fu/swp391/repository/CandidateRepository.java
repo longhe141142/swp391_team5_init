@@ -22,8 +22,10 @@ public interface CandidateRepository extends CrudRepository<Candidate,Long> {
   ArrayList<Candidate> search(String keyword);
 //    @Query()
 //    Optional<Candidate> addCandidate();
+
     @Query(value = " SELECT * FROM candidates where name = 'Nguyễn Anh Tuấn' ", nativeQuery = true)
     Candidate getCandidate();
+
 
 
 }

@@ -42,7 +42,7 @@
             </div>
             <div class="col-sm-8">
               <a class="btn btn-success" data-toggle="modal" href="#addCompanyModal"><i
-                  class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
+                      class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
             </div>
           </div>
         </div>
@@ -78,7 +78,8 @@
               <div class="filter-group">
                 <label>Location</label>
                 <select class="form-control">
-                  <div th:each="x:${ListCompany}">
+                  <option>All</option>
+                  <div th:each="x:${companies}">
                     <option th:text="${x.address}">Hà Nội</option>
                   </div>=
                 </select>
@@ -106,8 +107,8 @@
               <td th:text="${company.getId()}"></td>
               <td>
                 <img
-                    alt="Avatar"
-                    class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
+                        alt="Avatar"
+                        class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
                 <a data-toggle="modal"
                    th:href="${'#company-'+ company.getId()}"
                    th:text="${company.getName()}"
@@ -125,14 +126,12 @@
                 </div>
               </td>
               <!--Het phan Long code-->
-              <td>Software Company</td>
+              <td th:text="${company.companyIntro}"></td>
               <td th:text="${company.getPersonnelSize()}"></td>
               <td>
                 <div class="action-form">
                   <a class="edit"
-                     data-toggle="modal"
-                     href="#editCompanyModal"><i class="material-icons"
-                                                 data-toggle="tooltip"
+                     th:href="@{'/admin/loadCompanyToEdit?id='+${company.getId()}}"><i class="material-icons"
                                                  title="Edit">&#xE254;</i></a>
 
                   <a class="delete"
@@ -169,9 +168,9 @@
 
       <!--Phan Duc Code-->
 
-      <!--Add company Modal-->
+      <!--Detail company Modal-->
       <th:block th:each="company : ${companies}">
-        <div th:id="${'company-'+company.getId()}" class="modal fade" xmlns="http://www.w3.org/1999/html">
+        <div th:id="${'company-'+company.getId()}" class="modal fade">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <div class="container">
             <div class="col-lg-8 border p-3 main-section bg-white">

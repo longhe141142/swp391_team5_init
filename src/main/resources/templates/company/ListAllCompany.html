@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-sm-8">
                             <a class="btn btn-success" data-toggle="modal" href="#addCompanyModal"><i
-                                class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
+                                    class="material-icons">&#xE147;</i> <span>Add New Company</span></a>
                         </div>
                     </div>
                 </div>
@@ -106,8 +106,8 @@
                             <td th:text="${company.getId()}"></td>
                             <td>
                                 <img
-                                    alt="Avatar"
-                                    class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
+                                        alt="Avatar"
+                                        class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
                                 <a data-toggle="modal"
                                    th:href="${'#company-'+ company.getId()}"
                                    th:text="${company.getName()}"
@@ -130,10 +130,8 @@
                             <td>
                                 <div class="action-form">
                                     <a class="edit"
-                                       data-toggle="modal"
-                                       href="#editCompanyModal"><i class="material-icons"
-                                                                   data-toggle="tooltip"
-                                                                   title="Edit">&#xE254;</i></a>
+                                       th:href="@{'/admin/loadCompanyToEdit?id='+${company.getId()}}"><i class="material-icons"
+                                                                                                         title="Edit">&#xE254;</i></a>
 
                                     <a class="delete"
                                        data-toggle="modal"
@@ -252,206 +250,205 @@
 
 
             <!--Edit company Modal-->
-<!--            <th:block th:each="company : ${companies}">-->
-<!--                <div th:id="${'company-edit'+company.getId()}" class="modal"  xmlns:th="http://www.thymeleaf.org">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        <div class="modal-content">-->
-<!--                            <form id="submit-now">-->
-<!--                                <div class="modal-header">-->
-<!--                                    <h4 class="modal-title">Edit Company</h4>-->
-<!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-<!--                                </div>-->
-<!--                                <div class="modal-body">-->
-<!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
-<!--                                        <div class="row d-flex justify-content-center">-->
-<!--                                            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">-->
-<!--                                                <div class="card">-->
-<!--                                                    <h5 class="text-center mb-4">EDIT COMPANY</h5>-->
-<!--                                                    <div>-->
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Company name<span-->
-<!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getName()}" type="text"-->
-<!--                                                                                                             placeholder="Enter your company name"-->
-<!--                                                                                                             onblur="validate(1)"> </div>-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Phone Number<span-->
-<!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getPhone()}" type="text"-->
+            <!--            <th:block th:each="company : ${companies}">-->
+            <!--                <div th:id="${'company-edit'+company.getId()}" class="modal"  xmlns:th="http://www.thymeleaf.org">-->
+            <!--                    <div class="modal-dialog">-->
+            <!--                        <div class="modal-content">-->
+            <!--                            <form id="submit-now">-->
+            <!--                                <div class="modal-header">-->
+            <!--                                    <h4 class="modal-title">Edit Company</h4>-->
+            <!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+            <!--                                </div>-->
+            <!--                                <div class="modal-body">-->
+            <!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
+            <!--                                        <div class="row d-flex justify-content-center">-->
+            <!--                                            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">-->
+            <!--                                                <div class="card">-->
+            <!--                                                    <h5 class="text-center mb-4">EDIT COMPANY</h5>-->
+            <!--                                                    <div>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Company name<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getName()}" type="text"-->
+            <!--                                                                                                             placeholder="Enter your company name"-->
+            <!--                                                                                                             onblur="validate(1)"> </div>-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Phone Number<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input th:text="${company.getPhone()}" type="text"-->
 
-<!--                                                                                                             placeholder="Enter company phone contact" onblur="validate(2)">-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Business email<span-->
-<!--                                                                class="text-danger"> *</span></label> <input type="text"-->
-<!--                                                                                                             id="email" name="email" placeholder="business email"-->
-<!--                                                                                                             onblur="validate(3)"> </div>-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Password<span-->
-<!--                                                                class="text-danger"> *</span></label> <input type="password"-->
-<!--                                                                                                             id="password" name="password" placeholder=""-->
-<!--                                                                                                             onblur="validate(4)"> </div>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Personnel Size<span-->
-<!--                                                                class="text-danger"> *</span></label> <input type="number"-->
-<!--                                                                                                             required id="personnelSize" name="personnelSize"-->
-<!--                                                                                                             placeholder="personnelSize" onblur="validate(3)"> </div>-->
-<!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
-<!--                                                                class="form-control-label px-3">Address<span-->
-<!--                                                                class="text-danger"> *</span></label> <input type="text"-->
-<!--                                                                                                             id="address" name="address" placeholder="address"-->
-<!--                                                                                                             onblur="validate(4)"> </div>-->
-<!--                                                        </div>-->
-
-
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="input-group col-12 flex-column d-flex">-->
-<!--                                                                <label class="label">Founding at</label>-->
-<!--                                                                <div class="input-group-icon">-->
-<!--                                                                    <input class="input&#45;&#45;style-4 js-datepicker" id="foundingAt"-->
-<!--                                                                           name="foundingAt" type="text">-->
-<!--                                                                    <i-->
-<!--                                                                        class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
-<!--                                                                for="description">Description *</label> <textarea-->
-<!--                                                                id="description" name="message" class="form-control"-->
-<!--                                                                placeholder="Write your message here." rows="4"-->
-<!--                                                                required="required"-->
-<!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="row justify-content-between text-left">-->
-<!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
-<!--                                                                for="companyIntro">Intro Company *</label> <textarea-->
-<!--                                                                id="companyIntro" name="message" class="form-control"-->
-<!--                                                                placeholder="Write your message here." rows="4"-->
-<!--                                                                required="required"-->
-<!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
-<!--                                                        </div>-->
-
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                </div>-->
-<!--                                <div class="modal-footer">-->
-<!--                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">-->
-<!--                                    <input class="btn btn-success" type="submit" value="Next Step">-->
-<!--                                </div>-->
-<!--                                <div th:insert="/common/error.html"></div>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash;end of add company modal&ndash;&gt;-->
-
-<!--                &lt;!&ndash;Modal upload image&ndash;&gt;-->
-<!--                <div id="uploadImage" class="modal">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        <div class="modal-content">-->
-<!--                            <form id="upload-file">-->
-<!--                                <div class="modal-header">-->
-<!--                                    <h4 class="modal-title">Edit Company</h4>-->
-<!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-<!--                                </div>-->
-<!--                                <div class="modal-body">-->
-<!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
-<!--                                        <main class="main_full">-->
-<!--                                            <div class="container">-->
-<!--                                                <div class="panel">-->
-<!--                                                    <div class="button_outer">-->
-<!--                                                        <div class="btn_upload">-->
-<!--                                                            <input type="file" id="upload_file" name="">-->
-<!--                                                            Upload Image-->
-<!--                                                        </div>-->
-<!--                                                        <div class="processing_bar"></div>-->
-<!--                                                        <div class="success_box"></div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                <div class="error_msg"></div>-->
-<!--                                                <div class="uploaded_file_view" id="uploaded_view">-->
-<!--                                                    <span class="file_remove">X</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </main>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="modal-footer">-->
-<!--                                    <input class="btn btn-success" type="submit" value="Finish">-->
-<!--                                </div>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash;end of Modal upload image &ndash;&gt;-->
+            <!--                                                                                                             placeholder="Enter company phone contact" onblur="validate(2)">-->
+            <!--                                                            </div>-->
+            <!--                                                        </div>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Business email<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input type="text"-->
+            <!--                                                                                                             id="email" name="email" placeholder="business email"-->
+            <!--                                                                                                             onblur="validate(3)"> </div>-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Password<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input type="password"-->
+            <!--                                                                                                             id="password" name="password" placeholder=""-->
+            <!--                                                                                                             onblur="validate(4)"> </div>-->
+            <!--                                                        </div>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Personnel Size<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input type="number"-->
+            <!--                                                                                                             required id="personnelSize" name="personnelSize"-->
+            <!--                                                                                                             placeholder="personnelSize" onblur="validate(3)"> </div>-->
+            <!--                                                            <div class="form-group col-sm-6 flex-column d-flex"> <label-->
+            <!--                                                                class="form-control-label px-3">Address<span-->
+            <!--                                                                class="text-danger"> *</span></label> <input type="text"-->
+            <!--                                                                                                             id="address" name="address" placeholder="address"-->
+            <!--                                                                                                             onblur="validate(4)"> </div>-->
+            <!--                                                        </div>-->
 
 
-<!--                &lt;!&ndash;modal confirm&ndash;&gt;-->
-<!--                <div class="modal fade" id="confirmModal">-->
-<!--                    <form th:action="@{/admin/company}" method="get" xmlns:th="http://www.thymeleaf.org">-->
-<!--                        <div class="modal-dialog modal-confirm">-->
-<!--                            <div class="modal-content">-->
-<!--                                <div class="modal-header">-->
-<!--                                    <div class="icon-box">-->
-<!--                                        <i class="material-icons">&#xE876;</i>-->
-<!--                                    </div>-->
-<!--                                    <h4 class="modal-title w-100">Awesome!</h4>-->
-<!--                                </div>-->
-<!--                                <div class="modal-body">-->
-<!--                                    <p class="text-center">Your booking has been confirmed. Check your email for-->
-<!--                                        detials.</p>-->
-<!--                                </div>-->
-<!--                                <div class="modal-footer">-->
-<!--                                    <button class="btn btn&#45;&#45;radius btn&#45;&#45;green" id="register"-->
-<!--                                            type="submit">OK-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </th:block>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="input-group col-12 flex-column d-flex">-->
+            <!--                                                                <label class="label">Founding at</label>-->
+            <!--                                                                <div class="input-group-icon">-->
+            <!--                                                                    <input class="input&#45;&#45;style-4 js-datepicker" id="foundingAt"-->
+            <!--                                                                           name="foundingAt" type="text">-->
+            <!--                                                                    <i-->
+            <!--                                                                        class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>-->
+            <!--                                                                </div>-->
+            <!--                                                            </div>-->
+            <!--                                                        </div>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
+            <!--                                                                for="description">Description *</label> <textarea-->
+            <!--                                                                id="description" name="message" class="form-control"-->
+            <!--                                                                placeholder="Write your message here." rows="4"-->
+            <!--                                                                required="required"-->
+            <!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
+            <!--                                                        </div>-->
+            <!--                                                        <div class="row justify-content-between text-left">-->
+            <!--                                                            <div class="form-group col-12 flex-column d-flex"> <label-->
+            <!--                                                                for="companyIntro">Intro Company *</label> <textarea-->
+            <!--                                                                id="companyIntro" name="message" class="form-control"-->
+            <!--                                                                placeholder="Write your message here." rows="4"-->
+            <!--                                                                required="required"-->
+            <!--                                                                data-error="Please, leave us a message."></textarea> </div>-->
+            <!--                                                        </div>-->
+
+            <!--                                                    </div>-->
+            <!--                                                </div>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                    </div>-->
+
+            <!--                                </div>-->
+            <!--                                <div class="modal-footer">-->
+            <!--                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">-->
+            <!--                                    <input class="btn btn-success" type="submit" value="Next Step">-->
+            <!--                                </div>-->
+            <!--                                <div th:insert="/common/error.html"></div>-->
+            <!--                            </form>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                &lt;!&ndash;end of add company modal&ndash;&gt;-->
+
+            <!--                &lt;!&ndash;Modal upload image&ndash;&gt;-->
+            <!--                <div id="uploadImage" class="modal">-->
+            <!--                    <div class="modal-dialog">-->
+            <!--                        <div class="modal-content">-->
+            <!--                            <form id="upload-file">-->
+            <!--                                <div class="modal-header">-->
+            <!--                                    <h4 class="modal-title">Edit Company</h4>-->
+            <!--                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+            <!--                                </div>-->
+            <!--                                <div class="modal-body">-->
+            <!--                                    <div class="container-fluid px-1 py-5 mx-auto">-->
+            <!--                                        <main class="main_full">-->
+            <!--                                            <div class="container">-->
+            <!--                                                <div class="panel">-->
+            <!--                                                    <div class="button_outer">-->
+            <!--                                                        <div class="btn_upload">-->
+            <!--                                                            <input type="file" id="upload_file" name="">-->
+            <!--                                                            Upload Image-->
+            <!--                                                        </div>-->
+            <!--                                                        <div class="processing_bar"></div>-->
+            <!--                                                        <div class="success_box"></div>-->
+            <!--                                                    </div>-->
+            <!--                                                </div>-->
+            <!--                                                <div class="error_msg"></div>-->
+            <!--                                                <div class="uploaded_file_view" id="uploaded_view">-->
+            <!--                                                    <span class="file_remove">X</span>-->
+            <!--                                                </div>-->
+            <!--                                            </div>-->
+            <!--                                        </main>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="modal-footer">-->
+            <!--                                    <input class="btn btn-success" type="submit" value="Finish">-->
+            <!--                                </div>-->
+            <!--                            </form>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                &lt;!&ndash;end of Modal upload image &ndash;&gt;-->
+
+
+            <!--                &lt;!&ndash;modal confirm&ndash;&gt;-->
+            <!--                <div class="modal fade" id="confirmModal">-->
+            <!--                    <form th:action="@{/admin/company}" method="get" xmlns:th="http://www.thymeleaf.org">-->
+            <!--                        <div class="modal-dialog modal-confirm">-->
+            <!--                            <div class="modal-content">-->
+            <!--                                <div class="modal-header">-->
+            <!--                                    <div class="icon-box">-->
+            <!--                                        <i class="material-icons">&#xE876;</i>-->
+            <!--                                    </div>-->
+            <!--                                    <h4 class="modal-title w-100">Awesome!</h4>-->
+            <!--                                </div>-->
+            <!--                                <div class="modal-body">-->
+            <!--                                    <p class="text-center">Your booking has been confirmed. Check your email for-->
+            <!--                                        detials.</p>-->
+            <!--                                </div>-->
+            <!--                                <div class="modal-footer">-->
+            <!--                                    <button class="btn btn&#45;&#45;radius btn&#45;&#45;green" id="register"-->
+            <!--                                            type="submit">OK-->
+            <!--                                    </button>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </form>-->
+            <!--                </div>-->
+            <!--            </th:block>-->
 
             <!--End Of Edit company Modal-->
 
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/admin/js/sb-admin-2.min.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="/admin/js/sb-admin-2.min.js"></script>
 
-    <script src="/register/vendor/select2/select2.min.js"></script>
-    <script src="/register/vendor/datepicker/moment.min.js"></script>
-    <script src="/register/vendor/datepicker/daterangepicker.js"></script>
+            <script src="/register/vendor/select2/select2.min.js"></script>
+            <script src="/register/vendor/datepicker/moment.min.js"></script>
+            <script src="/register/vendor/datepicker/daterangepicker.js"></script>
 
-    <!-- Main JS-->
-    <script src="/register/js/global.js"></script>
+            <!-- Main JS-->
+            <script src="/register/js/global.js"></script>
 
 
 
-    <script src="/company/custom/index.js"></script>
-    <script>
-        $('[data-toggle="tooltip"]').tooltip();
+            <script src="/company/custom/index.js"></script>
+            <script>
+                $('[data-toggle="tooltip"]').tooltip();
 
-    </script>
+            </script>
 
-    <script src="/company/custom/activebutton.js"></script>
+            <script src="/company/custom/activebutton.js"></script>
 
 
 </body>
 </html>
-
 

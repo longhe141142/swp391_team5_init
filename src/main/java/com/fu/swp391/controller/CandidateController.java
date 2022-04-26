@@ -75,16 +75,22 @@ public class CandidateController {
     }
 
 
-    @GetMapping("/listAllCV")
-    public String listAllCV(Model model) {
-        List<CV> cvList = cvService.getAllCV();
+    @GetMapping("/listAllCV/{id}")
+    public String listAllCV(Model model, @PathVariable(value = "id")Long id) {
+        List<CV> cvList = cvService.getAllCVById(id);
+        List<CV> cvList1 = cvService.getAllCV();
         List<CV> cvListSkill = cvService.getAllCVSkill();
         Candidate candidate = candidateService.getCandidate();
+        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
+        List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
 
         //List<skillFake> skillFakes =  cvService.getSkillFake();
         model.addAttribute("listCandidateCV", cvList);
+        model.addAttribute("listCandidateCV1", cvList1);
         model.addAttribute("listCandidateCVSkill", cvListSkill);
         model.addAttribute("candidate", candidate);
+        model.addAttribute("experienceCVList", experienceCVList);
+        model.addAttribute("educateCVList1", educateCVList1);
         //model.addAttribute("skillFakes",skillFakes);
         return "/candidate/listAllCV";
     }
