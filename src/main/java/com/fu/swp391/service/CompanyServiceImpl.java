@@ -103,7 +103,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public void updatePhone(long id, String name) {
+  public void update(long id, String name) {
     return;
   }
 

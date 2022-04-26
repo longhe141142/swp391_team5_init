@@ -15,7 +15,11 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
-
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <script src="https://kit.fontawesome.com/9f5e8136b5.js"></script>
   <!-- Vendor CSS-->
   <link href="/register/vendor/select2/select2.min.css" media="all" rel="stylesheet">
   <link href="/register/vendor/datepicker/daterangepicker.css" media="all" rel="stylesheet">
@@ -49,16 +53,16 @@
         <div class="table-filter">
           <div class="row">
             <div class="col-sm-3">
-              <div class="show-entries">
-                <span>Show</span>
-                <select class="form-control">
-                  <option>5</option>
-                  <option>10</option>
-                  <option>15</option>
-                  <option>20</option>
-                </select>
-                <span>entries</span>
-              </div>
+<!--              <div class="show-entries">-->
+<!--                <span>Show</span>-->
+<!--                <select class="form-control">-->
+<!--                  <option>5</option>-->
+<!--                  <option>10</option>-->
+<!--                  <option>15</option>-->
+<!--                  <option>20</option>-->
+<!--                </select>-->
+<!--                <span>entries</span>-->
+<!--              </div>-->
             </div>
             <div class="col-sm-9">
               <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
@@ -88,7 +92,7 @@
             </div>
           </div>
         </div>
-        <table class="table table-striped table-hover">
+        <table class="table table-striped ml-4 table-bordered dt-responsive nowrap hover" id="tblCompany">
           <thead>
           <tr>
             <th>#</th>
@@ -146,20 +150,20 @@
 
           </tbody>
         </table>
-        <div class="clearfix">
-          <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-          <ul class="pagination">
-            <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item active"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item"><a class="page-link" href="#">7</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </div>
+<!--        <div class="clearfix">-->
+<!--          <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>-->
+<!--          <ul class="pagination">-->
+<!--            <li class="page-item disabled"><a href="#">Previous</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--            <li class="page-item active"><a class="page-link" href="#">4</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">5</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">6</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">7</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
       </div>
       <div th:insert="/admin/fragment/addCompanyModal.html"></div>
 
@@ -448,7 +452,23 @@
       </script>
 
       <script src="/company/custom/activebutton.js"></script>
+      <script>
+        $(document).ready(function() {
+          $('#tblCompany').DataTable({
+            bPaginate : true,
+            bLengthChange : false,
+            bFilter : false,
+            bInfo : false,
+            bAutoWidth : false
+          });
 
+        });
+      </script>
+      <script
+              src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+      <script
+              src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 
 </body>
 </html>

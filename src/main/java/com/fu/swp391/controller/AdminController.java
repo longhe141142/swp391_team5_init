@@ -77,12 +77,12 @@ public class AdminController {
       @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
-    if (page != null) {
-      pageIndex = page;
-    }
-    companyList =
-        companyService.getAllCompanyByPaging(
-            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+//    if (page != null) {
+//      pageIndex = page;
+//    }
+//    companyList =
+//        companyService.getAllCompanyByPaging(
+//            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany3";
     }
@@ -225,7 +225,7 @@ public class AdminController {
       System.out.println("12345678");
       return "redirect:/admin/loadCompanyToEdit?id="+id;
     }
-    companyRepository.updatePhone(id, company.getName(), company.getAddress(),
+    companyRepository.update(id, company.getName(), company.getAddress(),
             company.getPhone(), company.getEmail(), company.getPersonnelSize(),
             company.getDescription(), company.getFoundingAt(), company.getCompanyIntro());
     System.out.println("123456");

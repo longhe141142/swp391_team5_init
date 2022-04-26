@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.authorizeRequests().antMatchers("/registerTest","login","*/candidate/*").permitAll()
                 .antMatchers(HttpMethod.POST).permitAll()
-        .antMatchers("/login/").access("hasAnyRole('USER')")
+       // .antMatchers("/login/").access("hasAnyRole('USER')")
 //                .antMatchers("/admin/*").access("hasRole('ADMIN')")
-                .antMatchers("/admin/company").access("hasRole('COMPANY')")
+               // .antMatchers("/admin/company").access("hasRole('COMPANY')")
             .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
             .and().formLogin().failureUrl("/fail_login");
 //                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));

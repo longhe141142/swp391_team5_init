@@ -57,6 +57,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(UserBlockedException.class)
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        ex.printStackTrace();
         System.out.println("Request: " + req.getRequestURL() + " raised " + ex);
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", ex);

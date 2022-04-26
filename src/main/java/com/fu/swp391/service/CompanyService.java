@@ -27,5 +27,5 @@ public interface CompanyService {
 
     ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
 
-  void updatePhone(long id,  String name);
+  void update(long id,  String name);
 }
