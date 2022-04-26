@@ -20,6 +20,10 @@ public class JobPostServiceImpl implements JobPostService {
     MajorRepository majorRepository;
 
     JobPostRepository jobPostRepository;
+    @Override
+    public List<JobPost> findJobPostByCompanyId(long id) {
+        return jobPostRepository.findJobPostByCompanyId(id);
+    }
 
     @Override
     public List<JobPost> findCompanyMajorsByCompanyId(long id) {
