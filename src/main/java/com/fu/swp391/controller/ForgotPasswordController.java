@@ -56,6 +56,7 @@ public class ForgotPasswordController {
     public void sendEmail(String recipientEmail, String link)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
+
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
 

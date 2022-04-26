@@ -69,11 +69,14 @@ public class UserServiceImpl2 implements UserService {
             if (user == null) {
                 throw new UsernameNotFoundException(username);
             }
+            //phan long code
             System.out.println(user.getStatus());
             if (user.getStatus().equalsIgnoreCase(StatusEnum.INACTIVATED)) {
                 System.out.println(username + "Has been blocked");
                 throw new UserBlockedException(username + "Has been blocked");
             }
+            //phan long code
+
 
             System.out.println(user.getResetPasswordToken());
 

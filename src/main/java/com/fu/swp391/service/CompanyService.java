@@ -13,17 +13,17 @@ import java.util.Optional;
 public interface CompanyService {
 
     List<Company> findAllCompany();
-  //    ArrayList<Company> findAllCompany();
+    //    ArrayList<Company> findAllCompany();
 
-  Optional<Company> findbyId(Long id);
+    Optional<Company> findbyId(Long id);
 
-  //  List<Company> ListCompanyByPaging(int page, int size);
+    //  List<Company> ListCompanyByPaging(int page, int size);
 
-  Company addCompany(Company company, User user);
+    Company addCompany(Company company, User user);
 
-  Company getJson(String user, MultipartFile file);
+    Company getJson(String user, MultipartFile file);
 
-  ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
+    ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
 
     ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
 

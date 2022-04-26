@@ -33,6 +33,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
                      @Param(value = "company_intro") String company_intro);
 
 
+
     @Query("SELECT c FROM Company c WHERE c.name LIKE %?1%")
     ArrayList<Company> search(String keyword);
 }
