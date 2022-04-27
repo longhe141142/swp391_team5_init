@@ -27,11 +27,6 @@ public class AuthPrinciple implements UserDetails {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
             System.out.println(role.getName());
         }
-        authorities.forEach(authority->{
-            System.out.println(authority.getAuthority());
-        });
-    System.out.println("building"+"" +
-            "encoder pass"+"::::"+user.getPasswordEncoder());
         return new AuthPrinciple(user.getId(), user.getEmail(), user.getPasswordEncoder(), authorities );
     }
 
