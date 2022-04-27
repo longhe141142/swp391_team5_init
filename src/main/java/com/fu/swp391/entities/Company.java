@@ -188,4 +188,12 @@ public class Company {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Company{" +
+            "name='" + name + '\'' +
+            ", companyImageUrl='" + companyImageUrl + '\'' +
+            ", status='" + status + '\'' +
+            '}';
+    }
 }
