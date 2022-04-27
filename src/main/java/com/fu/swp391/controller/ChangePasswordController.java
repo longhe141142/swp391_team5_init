@@ -7,6 +7,8 @@ import com.fu.swp391.service.UserServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ChangePasswordController {
+//    @Autowired
+//    PasswordEncoder encoder;
     @Autowired
     private UserService userService;
     @Autowired
@@ -26,27 +30,45 @@ public class ChangePasswordController {
 
     @GetMapping("/changePassword")
     public String changePassword(Model model) {
-        model.addAttribute("user", userService.findByEmail(this.getPrincipal()));
+        System.out.println("user"+getPrincipal());
+        //model.addAttribute("user", userService.findByEmail(this.getPrincipal()));
         return "admin/change-password";
     }
 
     @PostMapping("/saveChangePassword")
     public String saveChangePassword(HttpServletRequest request, Model model) {
-       String oldPassword = request.getParameter("oldPass");
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String oldPassword = request.getParameter("oldPass");
        String newPassword = request.getParameter("newPass");
        String confirmPassword = request.getParameter("confirmPass");
+        System.out.println(getPrincipal());
+        System.out.println("Duc:  Oldpass: "+ oldPassword+"\n" +
+                "new pass: "+newPassword+"\n" +
+                "Confirm pass: "+confirmPassword);
 
         User user = userService.findByEmail(getPrincipal());
+        System.out.println("passsss"+user.getPasswordEncoder());
+        System.out.println("passsss     "+encoder.encode(oldPassword));
+        System.out.println("new"+newPassword +"and"+confirmPassword);
 
-        if (user.getPasswordEncoder().equals(oldPassword)) {
+//        if(encoder.matches(oldPassword,user.getPasswordEncoder())){
+//            System.out.println("Matched");
+//        }
+        if (encoder.matches(oldPassword,user.getPasswordEncoder())) {
+            System.out.println("matched ");
+
             if (newPassword.equals(confirmPassword)) {
+                System.out.println("matched part 2");
                 user.setPasswordEncoder(newPassword);
               userServiceImpl2.updatePassword(user, newPassword);
-                return "redirect:/admin/list-company";
+                return "redirect:/auth/logout";
             }
         }
         return "redirect:/changePassword";
     }
+
+
 
     private String getPrincipal() {
         String userName = null;
