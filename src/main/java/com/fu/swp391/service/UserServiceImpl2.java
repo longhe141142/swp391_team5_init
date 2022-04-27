@@ -77,12 +77,9 @@ public class UserServiceImpl2 implements UserService {
             }
             //phan long code
 
-
-            System.out.println(user.getResetPasswordToken());
-
             System.out.println(user.getPasswordEncoder());
-
             return AuthPrinciple.built(user);
+//            return AuthPrinciple.built(user);
         } catch (UserBlockedException e) {
             e.printStackTrace();
         }

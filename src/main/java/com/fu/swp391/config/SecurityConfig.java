@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService);
+//    auth.userDetailsService(userService);
   }
 
 
@@ -81,8 +82,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().and() //
 //                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
 //                .1tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
-
   }
-
-
 }

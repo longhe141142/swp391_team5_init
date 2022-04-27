@@ -49,7 +49,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         for (GrantedAuthority a : authorities) {
             roles.add(a.getAuthority());
             System.out.println(a.getAuthority());
-
         }
 
         if (isCandidate(roles)) {
@@ -58,7 +57,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             System.out.println("Admin access");
             url = "/admin/home";
         }else if(isCompany(roles)){
-            url = "/company/HomeCompany";
+            url = "/company/home";
         }
         else {
             url = "/accessDenied";
