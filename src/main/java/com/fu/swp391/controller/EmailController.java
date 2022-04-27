@@ -22,8 +22,9 @@ public class EmailController {
     return "/sendMailController/mail-test";
   }
 
+  //test sendMail Service
   @PostMapping("/send")
-  public void SendMail2() throws MessagingException {
+  public String SendMail2() throws MessagingException {
     System.out.println("entryy 999");
     Email email = new Email();
     email.setSubject("test mail service");
@@ -33,6 +34,7 @@ public class EmailController {
     System.out.println("entryy 999");
     System.out.println(email.getFrom()+email.getTo());
     emailSenderServiceImpl.sendHtmlMessage(email);
+    return "redirect:/sendMail/test";
   }
 
 }

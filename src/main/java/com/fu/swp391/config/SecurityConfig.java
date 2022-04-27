@@ -56,14 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    BCryptPasswordEncoder pe = new  BCryptPasswordEncoder();
-    auth.userDetailsService(userService).passwordEncoder(pe);
+    auth.userDetailsService(userService);
 //    auth.userDetailsService(userService);
-    auth.inMemoryAuthentication()
-        .withUser("admin")
-        .password(new BCryptPasswordEncoder().encode("admin123"))
-        .roles("ADMIN","USER");
-
   }
 
 
@@ -83,10 +77,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        .invalidateHttpSession(true).permitAll().and().cors();
             .invalidateHttpSession(true).and().cors().and().csrf().disable();
 
-
-
-//        http.authorizeRequests().and() //
-//                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-//                .1tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
   }
 }

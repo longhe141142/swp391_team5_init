@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
-import static com.cloudinary.AccessControlRule.AccessType.token;
+//import static com.cloudinary.AccessControlRule.AccessType.token;
 
 @Controller
 public class ForgotPasswordController {
@@ -44,7 +44,9 @@ public class ForgotPasswordController {
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 
+            System.out.println("enmtry");
         } catch (UsernameNotFoundException ex) {
+            System.out.println("User not found");
             model.addAttribute("error", ex.getMessage());
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error", "Error while sending email");

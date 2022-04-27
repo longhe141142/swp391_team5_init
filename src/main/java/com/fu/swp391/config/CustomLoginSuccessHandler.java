@@ -49,7 +49,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         for (GrantedAuthority a : authorities) {
             roles.add(a.getAuthority());
             System.out.println(a.getAuthority());
-
         }
 
         if (isCandidate(roles)) {

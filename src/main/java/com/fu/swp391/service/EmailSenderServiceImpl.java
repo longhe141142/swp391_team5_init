@@ -31,16 +31,16 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
     Context context = new Context();
 //    context.setVariables(email.getProperties());
-    String s1 = new String("ab");
-    String s12 = new String("ab");
-    context.setVariable("example","abc");
-    context.setVariable("example2","abc");
-    context.setVariable("example3","abc");
+//    String s1 = new String("ab");
+//    String s12 = new String("ab");
+//    context.setVariable("example","abc");
+//    context.setVariable("example2","abc");
+//    context.setVariable("example3","abc");
 
 
-    System.out.println("2");
-    helper.setFrom("swp391block5@gmail.com");
-    helper.setTo("longnt1@vmodev.com");
+//    System.out.println("2");
+    helper.setFrom(email.getFrom());
+    helper.setTo(email.getTo());
     helper.setSubject(email.getSubject());
     String html = templateEngine.process(email.getTemplate(), context);
 //    String html = templateEngine.process(email.getTemplate(), context);
@@ -51,11 +51,13 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         + "html:" +html);
     try {
       emailSender.send(message);
+      System.out.println("Thành công");
 
     }catch (Exception e){
       e.printStackTrace();
+      System.out.println("That bai");
+
     }
-    System.out.println("Thành công");
 
   }
 }
