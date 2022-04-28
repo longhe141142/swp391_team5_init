@@ -57,7 +57,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             System.out.println("Admin access");
             url = "/admin/home";
         }else if(isCompany(roles)){
-            url = "/company/HomeCompany";
+            url = "/company/home";
         }
         else {
             url = "/accessDenied";

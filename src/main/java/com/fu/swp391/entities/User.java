@@ -67,6 +67,18 @@ public class User {
   @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
   private List<Company> companies;
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public List<Company> getCompanies() {
+    return companies;
+  }
+
+  public void setCompanies(List<Company> companies) {
+    this.companies = companies;
+  }
+
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Candidate> candidates = new ArrayList<>();
 

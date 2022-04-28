@@ -5,12 +5,14 @@ import com.fu.swp391.common.enumConstants.PagingParameter;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.JobPost;
+import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.JobPostService;
+import com.fu.swp391.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public class CompanyController {
 
     @Autowired
     HelperUntil<Candidate> candidateHelperUntil;
+
+    @Autowired
+    UserService userService;
 
     public CompanyController(CompanyService companyService,
         CompanyMajorService companyMajorService) {
@@ -90,6 +95,10 @@ public class CompanyController {
         int pageIndex = page != null ? page : 1;
         int sizeDef = PagingParameter.PAGE_SIZE_COMPANY;
 
+        String currentUserEmail = candidateHelperUntil.getPrincipal();
+        User u = userService.findByEmail(currentUserEmail);
+        Company yourCompany = u.getCompanies().get(0);
+        System.out.println(yourCompany.toString());
         PagingParam pagingParam = new PagingParam(
             candidateHelperUntil.getTotalSize(candidates.size(), sizeDef),
             candidates.size(), sizeDef, pageIndex);
@@ -98,6 +107,8 @@ public class CompanyController {
         pagingParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
         model.addAttribute("pageParam", pagingParam);
         model.addAttribute("candidates",getCandidatesByPaging);
+        model.addAttribute("company",yourCompany);
+
         return "/company/company-home/home";
     }
 
