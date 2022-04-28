@@ -3,6 +3,7 @@ package com.fu.swp391.controller;
 import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
+import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.JobPost;
@@ -12,6 +13,7 @@ import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
+import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
 import java.util.ArrayList;
@@ -48,7 +50,13 @@ public class CompanyController {
     HelperUntil<Candidate> candidateHelperUntil;
 
     @Autowired
+    HelperUntil<CV> cvHelperUntil;
+
+    @Autowired
     UserService userService;
+
+    @Autowired
+    CvService cvService;
 
     public CompanyController(CompanyService companyService,
         CompanyMajorService companyMajorService) {
@@ -58,9 +66,7 @@ public class CompanyController {
 
     @GetMapping("/listjob")
     public String listAllJob(Model model) {
-
         model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(1));
-
         return "/company/ListAllJob";
     }
 
@@ -118,14 +124,40 @@ public class CompanyController {
         Model model
     ) throws CandidateNotFound {
         Optional<Candidate> candidate = companyService.getCandidateById(id);
+        ArrayList<CV> candidatesListCastIgnorePersistentBagException = new ArrayList<>();
         if (candidate.isPresent()) {
-            model.addAttribute("candidate",candidate.get());
+            for (CV cv : candidate.get().getCv()) {
+                System.out.println(cv.getId());
+                candidatesListCastIgnorePersistentBagException.add(cv);
+            }
+            PagingParam pagingParam = new PagingParam(
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            candidatesListCastIgnorePersistentBagException = cvHelperUntil.PagingElement(
+                candidatesListCastIgnorePersistentBagException, 1,
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            model.addAttribute("pagingParam", pagingParam);
+            model.addAttribute("cvListOfCandidate", candidatesListCastIgnorePersistentBagException);
+            model.addAttribute("candidate", candidate.get());
         } else {
             throw new CandidateNotFound(id);
         }
         return "/company/company-candidate/candidate-detail";
     }
 
+    @GetMapping("/candidate/cv")
+    public String candidateCvDetail(
+        @RequestParam(value = "id") Long id,
+        Model model
+    ) throws Exception {
+        Optional<CV> cv =cvService.getCVBySpecificId(id);
+
+        if (cv.isPresent()){
+             model.addAttribute("cv",cv);
+             return "/company/company-candidate/cv-detail/cv-detail";
+        }else {
+            throw new Exception("CV doesn't exist");
+        }
+    }
 
 }
 

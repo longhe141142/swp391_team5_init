@@ -62,7 +62,7 @@ public class Candidate {
 
     private String name;
 
-  @OneToMany(mappedBy = "candidate")
+  @OneToMany(mappedBy = "candidate",fetch = FetchType.EAGER)
   @JsonIgnore
   private List<CV> cv = new ArrayList<>();
 

@@ -8,8 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,6 +50,20 @@ public class HelperUntil<E> {
         }
         return newList;
     }
+
+//    public Set<E> PagingElementBySet(HashSet<E> elements,int pageNumber,int numberOfObjectInOnePage ){
+//        HashSet<E> newList = new HashSet<>();
+//
+//        int start =  numberOfObjectInOnePage * (pageNumber - 1);
+//        int end = start + numberOfObjectInOnePage - 1;
+//        if(end>elements.size()-1){
+//            end = elements.size() -1 ;
+//        }
+//        for(int i = start;i<=end;++i){
+//            newList.add(elements.);
+//        }
+//        return newList;
+//    }
 
     public int getTotalSize(int sizeList,int perPage){
         if(sizeList==0)
