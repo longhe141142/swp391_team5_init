@@ -41,6 +41,10 @@
       #swp391-logo{
         width: 30px !important;
       }
+
+      #hello-user{
+        font-size: 1.3em !important;
+      }
     </style>
   </head>
 
@@ -70,7 +74,7 @@
             <li class="nav-item active d-flex align-items-center justify-content-center">
               <a class="nav-link" href="#">Company <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active d-flex align-items-center justify-content-center">
+            <li sec:authorize="isAuthenticated()" class="nav-item active d-flex align-items-center justify-content-center">
               <a class="nav-link" href="#">Request <span class="sr-only">(current)</span></a>
             </li>
           </div>
@@ -79,10 +83,10 @@
           <ul class="navbar-nav mr-5">
             <div class="flex-row d-flex">
               <div class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4" aria-expanded="false">Login</a>
+                <a th:href="${'/login'}" class="nav-link dropdown-toggle mr-4" aria-expanded="false">Login</a>
               </div>
               <div class="nav-item">
-                <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle sign-up-btn">Sign up</a>
+                <a th:href="${'/register'}"  class="btn btn-primary dropdown-toggle sign-up-btn">Sign up</a>
               </div>
             </div>
           </ul>
@@ -90,8 +94,8 @@
 
         <div sec:authorize="isAuthenticated()">
           <ul class="navbar-nav mr-5"  >
-            <div class="flex-row d-flex">
-              <h1 style="color: white;" th:text="${#authentication.getPrincipal().getId()}" >Hello longt1</h1>
+            <div class="flex-row d-flex align-items-baseline">
+              <h1 id="hello-user" style="color: white;" th:text="${'Hello '+#authentication.getPrincipal().getName()}" ></h1>
               <li class="nav-item dropdown" id="avt-section">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -101,7 +105,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="#">Dashboard</a>
                   <a class="dropdown-item" href="#">Edit Profile</a>
-                  <a class="dropdown-item" href="#">Log Out</a>
+                  <a class="dropdown-item" th:href="${'/auth/logout'}">Log Out</a>
                 </div>
               </li>
             </div>

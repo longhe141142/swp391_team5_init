@@ -68,6 +68,9 @@ public class CandidateController {
 //        return "candidate/listAllCV";
 //    }
 
+    @Autowired
+    HelperUntil<Candidate> candidateHelperUntil;
+
 
 
 
@@ -127,9 +130,19 @@ public class CandidateController {
 
     @GetMapping("/createCV")
     public String createCV(Model model) {
+        candidateHelperUntil.getPrincipal();
         Candidate candidate = candidateService.getCandidate();
         model.addAttribute("candidate", candidate);
+        CV cv = new CV();
+        model.addAttribute("cv", cv);
+        return "/candidate/CreateCV";
+    }
 
+    @GetMapping("/createCV2")
+    public String createCV2(Model model) {
+        candidateHelperUntil.getPrincipal();
+        Candidate candidate = candidateService.getCandidate();
+        model.addAttribute("candidate", candidate);
         CV cv = new CV();
         model.addAttribute("cv", cv);
         return "/candidate/CreateCV";

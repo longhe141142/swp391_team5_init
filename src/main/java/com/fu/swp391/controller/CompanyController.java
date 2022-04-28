@@ -119,11 +119,11 @@ public class CompanyController {
     ) throws CandidateNotFound {
         Optional<Candidate> candidate = companyService.getCandidateById(id);
         if (candidate.isPresent()) {
-
+            model.addAttribute("candidate",candidate.get());
         } else {
             throw new CandidateNotFound(id);
         }
-        return "";
+        return "/company/company-candidate/candidate-detail";
     }
 
 

@@ -55,6 +55,7 @@ public class HelperUntil<E> {
     }
 
 
+
     public String getPrincipal(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

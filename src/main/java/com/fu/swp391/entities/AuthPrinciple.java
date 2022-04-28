@@ -25,7 +25,7 @@ public class AuthPrinciple implements UserDetails {
         this.id = id;
     }
 
-    public String userName;
+    public String name;
 
     public AuthPrinciple(Long id, String username, String password,
         Collection<? extends GrantedAuthority> roles) {
@@ -35,12 +35,12 @@ public class AuthPrinciple implements UserDetails {
         this.roles = roles;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static AuthPrinciple built(User user) throws PrincipalBuildException {
@@ -53,7 +53,7 @@ public class AuthPrinciple implements UserDetails {
             user.getPasswordEncoder(), authorities);
         String userName = getUserNameAccordingRole(user.getRoles(),user);
         if(userName==null) throw new PrincipalBuildException();
-        authPrinciple.setUserName(userName);
+        authPrinciple.setName(userName);
         return authPrinciple;
     }
 
@@ -68,10 +68,27 @@ public class AuthPrinciple implements UserDetails {
         }
 
         if (roleString.contains(roleEnum.COMPANY)){
+            List<Company> companies = user.getCompanies();
+
+            if (companies == null) {
+                return null;
+            } else {
+                if (companies.size() == 0) {
+                    return null;
+                }
+            }
             return user.getCompanies().get(0).getName();
         }
 
-        if (roleString.contains(roleEnum.CANDIDATE)){
+        if (roleString.contains(roleEnum.CANDIDATE)) {
+            List<Candidate> candidates = user.getCandidates();
+            if (candidates == null) {
+                return null;
+            } else {
+                if (candidates.size() == 0) {
+                    return null;
+                }
+            }
             return user.getCandidates().get(0).getName();
         }
         return null;

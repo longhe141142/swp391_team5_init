@@ -1,6 +1,8 @@
 package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -64,7 +66,8 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   Set<Role> roles = new HashSet<Role>();
 
-  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  @Fetch(value = FetchMode.SUBSELECT)
   private List<Company> companies;
 
   public void setId(Long id) {
@@ -79,7 +82,7 @@ public class User {
     this.companies = companies;
   }
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   private List<Candidate> candidates = new ArrayList<>();
 
     @Transient
