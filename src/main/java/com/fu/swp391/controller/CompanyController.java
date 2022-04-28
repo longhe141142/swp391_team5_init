@@ -1,6 +1,7 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.binding.entiity.PagingParam;
+import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
@@ -15,6 +16,7 @@ import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,10 +105,25 @@ public class CompanyController {
             candidates, pageIndex, sizeDef);
         pagingParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
         model.addAttribute("pageParam", pagingParam);
-        model.addAttribute("candidates",getCandidatesByPaging);
-        model.addAttribute("company",yourCompany);
+        model.addAttribute("candidates", getCandidatesByPaging);
+        model.addAttribute("company", yourCompany);
 
         return "/company/company-home/home";
+    }
+
+
+    @GetMapping("/candidate")
+    public String candidateDetail(
+        @RequestParam(value = "id") Long id,
+        Model model
+    ) throws CandidateNotFound {
+        Optional<Candidate> candidate = companyService.getCandidateById(id);
+        if (candidate.isPresent()) {
+
+        } else {
+            throw new CandidateNotFound(id);
+        }
+        return "";
     }
 
 

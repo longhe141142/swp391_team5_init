@@ -9,4 +9,10 @@ public class HomeController {
     public String goHome(){
         return "redirect:/candidate/home";
     }
+
+
+    @GetMapping("/testHomie")
+    public String testtt(){
+        return "/common/test";
+    }
 }

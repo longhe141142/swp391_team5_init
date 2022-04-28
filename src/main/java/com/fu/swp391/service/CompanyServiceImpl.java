@@ -7,6 +7,7 @@ import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.CandidateRepository;
 import com.fu.swp391.repository.CompanyRepository;
 import com.fu.swp391.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Autowired HelperUntil<Company> helperUntilCompany;
   @Autowired HelperUntil<Candidate> helperUntilCandidate;
+
+  @Autowired
+  CandidateRepository candidateRepository;
 
   public CompanyServiceImpl(CompanyRepository _compaCompanyRepository){
     this.companyRepository = _compaCompanyRepository;
@@ -105,6 +109,11 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public void update(long id, String name) {
     return;
+  }
+
+  @Override
+  public Optional<Candidate>  getCandidateById(Long id){
+        return candidateRepository.findById(id);
   }
 
 

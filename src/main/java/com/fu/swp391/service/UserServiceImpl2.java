@@ -1,6 +1,7 @@
 package com.fu.swp391.service;
 
 import com.fu.swp391.binding.entiity.UserCandidate;
+import com.fu.swp391.binding.entiity.exception.PrincipalBuildException;
 import com.fu.swp391.common.enumConstants.Gender;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.StatusEnum;
@@ -80,7 +81,7 @@ public class UserServiceImpl2 implements UserService {
             System.out.println(user.getPasswordEncoder());
             return AuthPrinciple.built(user);
 //            return AuthPrinciple.built(user);
-        } catch (UserBlockedException e) {
+        } catch (UserBlockedException | PrincipalBuildException e) {
             e.printStackTrace();
         }
         return null;

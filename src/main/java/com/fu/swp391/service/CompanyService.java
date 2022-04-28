@@ -3,12 +3,10 @@ package com.fu.swp391.service;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CompanyService {
 
@@ -26,6 +24,8 @@ public interface CompanyService {
     ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
 
     ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
+
+    Optional<Candidate> getCandidateById(Long id);
 
   void update(long id,  String name);
 }
