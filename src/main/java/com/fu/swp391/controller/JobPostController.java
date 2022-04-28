@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("company/major")
-public class MajorController {
+public class JobPostController {
 
     @Autowired
     MajorService majorService ;

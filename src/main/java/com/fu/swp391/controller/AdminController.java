@@ -10,6 +10,7 @@ import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.repository.CompanyRepository;
+import com.fu.swp391.service.AdminService;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.RoleService;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,8 @@ public class AdminController {
   RoleService roleService;
   @Autowired CandidateService candidateService;
 
+  @Autowired
+  AdminService adminService;
   @Autowired CompanyService companyService;
   @Autowired
   CompanyRepository companyRepository;
@@ -256,5 +260,14 @@ public class AdminController {
     //save
     return "sang trang list company";
   }
+
+
+  @Transactional
+  @GetMapping("cv-seeding")
+  public String seedingCvForSpecificCandidate() throws Exception {
+    adminService.InsertBulkCandidatesCV();
+    return "company/ListAllCompany3";
+  }
+
 
 }
