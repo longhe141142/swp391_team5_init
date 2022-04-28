@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface CompanyService {
 
+    Company findCompanyByEmail(String email);
+
     List<Company> findAllCompany();
     //    ArrayList<Company> findAllCompany();
 
@@ -26,6 +28,8 @@ public interface CompanyService {
     ArrayList<Company> getAllCompanyByPaging(ArrayList<Company> companies, int page, int size);
 
     ArrayList<Company> findAllCandidatesByFilter(String searchKeyword);
+
+
 
   void updatePhone(long id,  String name);
 }
