@@ -18,7 +18,7 @@
 
   <!-- Page Heading -->
   <h1 class="my-4" th:inline="text">CV Collection
-    <a th:href="'/comany/candidate?id='+${candidate.getId()}"><small
+    <a th:href="'/company/candidate?id='+${candidate.getId()}"><small
         th:text="'Of Candidate: '+${candidate.getName()}"> </small></a>
   </h1>
 
@@ -39,7 +39,7 @@
           laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur
           quos
           perspiciatis atque eveniet unde.</p>
-        <a class="btn btn-primary" href="#" th:href="'company/candidate/cv?id='+${cv.getId()}">View
+        <a class="btn btn-primary" href="#" th:href="'/company/candidate/cv?id='+${cv.getId()}">View
           CV</a>
       </div>
     </div>
@@ -60,8 +60,9 @@
       </a>
     </li>
 
-    <li class="page-item disabled" th:if="${pagingParam.getPageIndex()>1}">
-      <a aria-label="Previous" class="page-link" href="#">
+    <li class="page-item" th:if="${pagingParam.getPageIndex()>1}">
+      <a aria-label="Previous" class="page-link"
+         th:href="'/company/candidate/cv/seeMore?id='+${pagingParam.getPageIndex()-1}"         href="#">
         <span aria-hidden="true">&laquo;</span>
         <span class="sr-only">Previous</span>
       </a>
