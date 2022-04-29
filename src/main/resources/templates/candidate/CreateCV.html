@@ -29,17 +29,45 @@
               <header class="w3-container w3-teal">
         <span onclick="document.getElementById('id01').style.display='none'"
               class="w3-button w3-display-topright">×</span>
-                <h2>Select Image</h2>
+                <h2>Add Certificate</h2>
               </header>
+
+                <div class="w3-container" >
+                    <p>
+                        <label>Certificate Name</label>
+                        <input class="w3-input" type="text" id="certificate_name"></p>
+                    <p>
+                        <label>Graduation_date</label>
+                        <input class="w3-input" type="date" id="certificateGraduate_date"></p>
+                    <p>
+                        <label>organization</label>
+                        <input class="w3-input" type="text" id="organization"></p>
+
+                        <a type="button" class="w3-btn w3-blue" id="save">Save</a>
+
+                </div>
 
 
             </div>
           </div>
           <br>
-          <a onclick="document.getElementById('id01').style.display='block'" class="w3-button  w3-blue">Add Image</a>
-          <img class="w3-table-all" id="myTable"  th:src="${candidate.getAvatar()}"/>
+<!--          <a onclick="document.getElementById('id01').style.display='block'" class="w3-button  w3-blue">Add Image</a>-->
+<!--          <img class="w3-table-all" id="myTable"  th:src="${candidate.getAvatar()}"/>-->
+<!--            </img>-->
+            <a onclick="document.getElementById('id01').style.display='block'" class="w3-button  w3-blue">Add Certificate</a>
+            <table class="w3-table-all" id="myTable" border="1">
+                <thead>
+                <tr class="w3-blue">
+                    <th nowrap>Sl.No</th>
+                    <th nowrap>Certificate Name</th>
+                    <th nowrap>Graduation_date</th>
+                    <th nowrap>organization</th>
+                </tr>
+                </thead>
+                <tbody >
+                </tbody>
+            </table>
 
-          </img>
         </div>
       </div>
       <div class="col-md-8 order-md-1" >
@@ -206,27 +234,22 @@
 <!--        }, false);-->
 <!--    })();-->
 <!--</script>-->
-<script th:inline="javascript">
-  $('#save').on('click', function() {
-    var content =$('#content').val();
-    var title =$('#title').val();
-
-    var count = $('#myTable tr').length - 1;
-    if(content!="" && title !="" ){
-      $('#myTable tbody').append('<tr class="child"><td >'+count+'</td>' +
-              '<td th:value = "'+content+'" th:field="*{jobRules.get(0).getContent()}">'+content+'</td>' +
-              '<td th:value = "'+title+'" >'+title+'</td>' +
-              '<td><a href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a>' +
-              '</td>' +
-              '</tr>');
-    }
-  });
-  $(document).on('click','.remCF1',function(){
-    $(this).parent().parent().remove();
-    $('#myTable tbody tr').each(function(i){
-      $($(this).find('td')[0]).html(i+1);
+<script type="text/javascript">
+    $('#save').on('click', function() {
+        var certificate_name=$('#certificate_name').val();
+        var certificateGraduate_date=$('#certificateGraduate_date').val();
+        var organization=$('#organization').val();
+        var count = $('#myTable tr').length;
+        if(certificate_name!="" && certificateGraduate_date !="" && organization!=""){
+            $('#myTable tbody').append('<tr class="child"><td>'+count+'</td><td>'+certificate_name+'</td><td>'+certificateGraduate_date+'</td><td>'+organization+'</td><td><a href="javascript:void(0);" class="remCF1 btn btn-small btn-danger">Remove</a></td></tr>');
+        }
     });
-  });
+    $(document).on('click','.remCF1',function(){
+        $(this).parent().parent().remove();
+        $('#myTable tbody tr').each(function(i){
+            $($(this).find('td')[0]).html(i+1);
+        });
+    });
 </script>
 </body>
 </html>
