@@ -12,6 +12,8 @@ import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.service.*;
+import org.apache.http.HttpRequest;
 import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
@@ -25,6 +27,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -210,6 +218,29 @@ public class CandidateController {
         model.addAttribute("company",company);
         return "candidate/detailCompany";
     }
+
+
+
+
+    // xử lý add new CV
+    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
+    public @ResponseBody String addCertificate(HttpServletRequest request) {
+
+        return "";
+    }
+
+    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
+    public @ResponseBody String addExperience(HttpServletRequest request){
+        return "";
+    }
+//
+//    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
+//    public ResponseBody String addEducation(HttpServletRequest request){
+//        return "";
+//    }
+
+
+
 
     @GetMapping("/request-detail")
     public String requestDetail(@RequestParam(value = "id",required = true) Long id,Model model)
