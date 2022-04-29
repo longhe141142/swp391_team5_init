@@ -4,6 +4,7 @@ import com.fu.swp391.common.enumConstants.SortEnum;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CandidateRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -95,5 +96,10 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public ArrayList<Candidate> findAllCandidatesByFilter(String searchKeyword){
         return candidateRepository.search(searchKeyword);
+    }
+
+    @Override
+    public Optional<Candidate> getCandidateById(Long id){
+        return candidateRepository.findById(id);
     }
 }

@@ -192,7 +192,7 @@
               </div>
               <div class="col-md-5">
                 <p th:text="${cv.getContent()}"></p>
-                <a class="btn btn-primary" href="#">View CV</a>
+                <a class="btn btn-primary" th:href="${'/company/candidate/cv?id='+cv.getId()}" href="#">View CV</a>
               </div>
             </div>
             <!-- /.row -->
