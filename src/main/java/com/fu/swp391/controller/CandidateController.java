@@ -14,6 +14,7 @@ import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.service.*;
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequest;
 import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
@@ -220,6 +221,29 @@ public class CandidateController {
         model.addAttribute("company",company);
         return "candidate/detailCompany";
     }
+
+
+
+
+    // xử lý add new CV
+    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
+    public @ResponseBody String addCertificate(HttpServletRequest request) {
+
+        return "";
+    }
+
+    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
+    public @ResponseBody String addExperience(HttpServletRequest request){
+        return "";
+    }
+//
+//    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
+//    public ResponseBody String addEducation(HttpServletRequest request){
+//        return "";
+//    }
+
+
+
 
 
 
