@@ -239,35 +239,4 @@ public class CandidateController {
 
 
 
-
-
-
-
-    // xử lý add new CV
-//    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
-//    public @ResponseBody String addCertificate(HttpServletRequest request) {
-//
-//        return "";
-//    }
-    // add cv
-    @GetMapping("/addCertificate")
-    public String addCertificate(Model model) {
-
-        return "/candidate/addNewCertificate";
-    }
-
-//end add cv
-
-//    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
-//    public @ResponseBody String addExperience(HttpServletRequest request){
-//        return "";
-//    }
-//
-//    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
-//    public ResponseBody String addEducation(HttpServletRequest request){
-//        return "";
-//    }
-
-
-
 }
