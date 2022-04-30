@@ -12,6 +12,7 @@ import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.service.*;
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequest;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
@@ -220,6 +221,29 @@ public class CandidateController {
 
 
     // xử lý add new CV
+    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
+    public @ResponseBody String addCertificate(HttpServletRequest request) {
+
+        return "";
+    }
+
+    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
+    public @ResponseBody String addExperience(HttpServletRequest request){
+        return "";
+    }
+//
+//    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
+//    public ResponseBody String addEducation(HttpServletRequest request){
+//        return "";
+//    }
+
+
+
+
+
+
+
+    // xử lý add new CV
 //    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
 //    public @ResponseBody String addCertificate(HttpServletRequest request) {
 //
@@ -234,10 +258,10 @@ public class CandidateController {
 
 //end add cv
 
-    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
-    public @ResponseBody String addExperience(HttpServletRequest request){
-        return "";
-    }
+//    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
+//    public @ResponseBody String addExperience(HttpServletRequest request){
+//        return "";
+//    }
 //
 //    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
 //    public ResponseBody String addEducation(HttpServletRequest request){
