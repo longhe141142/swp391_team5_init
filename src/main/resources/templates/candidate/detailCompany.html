@@ -7,9 +7,26 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Free HTML Professional Resume CV Template</title>
   <link rel="stylesheet" href="/home/css/style.css">
+  <link rel="stylesheet" href="/home/css/bootstrap.min.css">
   <script src="https://use.fontawesome.com/809c2bfca6.js"></script>
   <script src="/home/scripts/index.js"></script>
+  <style>
+    body {
+      background: #eee
+    }
 
+    .ratings i {
+      color: green
+    }
+
+    .install span {
+      font-size: 12px
+    }
+
+    .col-md-4 {
+      margin-top: 27px
+    }
+  </style>
 </head>
 <body>
 
@@ -19,14 +36,14 @@
   <div class="sidebar">
     <div class="bio">
       <div class="avatar">
-        <img src="/home/images/FPTSoft.png" alt="">
+        <img th:src="${company.get().getCompanyImageUrl()}" alt="">
       </div>
       <div class="title">
 
         <h1 th:text="${company.get().getName()}">FPT Software</h1>
-        <h2 th:text="${company.get().getEmail()}">Mail</h2>
-        <h2 th:text="${company.get().getPhone()}">Phone</h2>
-        <h2 th:text="${company.get().getAddress()}">Address</h2>
+        <h2 th:text="'Gmail: '+${company.get().getEmail()}" style="padding-top: 10px">Mail</h2>
+        <h2 th:text="'Phone: '+${company.get().getPhone()}">Phone</h2>
+        <h2 th:text="'Address: '+${company.get().getAddress()}">Address</h2>
         <h2 th:text="${company.get().getId()}" id="idCom" style="display: none">1</h2>
         <h2 >Persion size: <a th:text="${company.get().getPersonnelSize()}"></a></h2>
       </div>
@@ -62,26 +79,37 @@
 
         <!--          </select>-->
         <h2>Job</h2>
-        <table class="table">
-          <tbody >
-          <tr th:each=" x:${ListCompanyDetail}">
-            <td style="border-style: ridge;border-left: 1px solid #000000;border-top: 1px solid black;border-bottom: 1px solid black;"><img style="width:100px;height:100px;" src="/home/images/FPTSoft.png" alt=""></td>
-            <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a th:text="${x.majorName}"/></a> </td>
-            <td style="border-style: ridge;  border-top: 1px solid black;border-bottom: 1px solid black;
-  border-right: 1px solid #000000;vertical-align:top; padding-top: 15px">Personal Need :<a th:text="${x.maxCandidate}"/></td>
-          </tr>
-
-          </tbody>
-        </table>
 
 
 
 
+
+
+        <div class="container mt-5">
+          <div class="row">
+            <th:block th:each="x:${ListCompanyDetail}">
+            <div class="col-md-4">
+              <div class="card p-3">
+                <div class="d-flex flex-row mb-3">
+                  <div class="d-flex flex-column ml-2"><h4 th:utext="'Job Name: '+${x.getMajorName()}">Stripe</h4><span class="text-black-50">Personal Need: <a th:text="${x.maxCandidate}"/></span></div>
+                </div>
+                <h6 th:utext="'Job description: '+${x.getJobDescription()}">Get more context on your users with stripe data inside our platform.</h6>
+                <div class="d-flex justify-content-between install mt-3"><a class="text-primary" href="#">View&nbsp;<i class="fa fa-angle-right"></i></a></div>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+        </div>
 
       </div>
     </div>
 
   </div>
+
 </div>
 <script>
 

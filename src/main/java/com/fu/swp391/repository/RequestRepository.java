@@ -21,6 +21,6 @@ import java.util.Optional;
 @Repository
 public interface RequestRepository extends CrudRepository<Request,Long> {
 
-    List<Request> findAllByToUserId(Long id);
+    ArrayList<Request> findAllByToUserId(Long id);
 
 }

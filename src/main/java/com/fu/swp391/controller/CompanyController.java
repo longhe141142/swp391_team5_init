@@ -1,10 +1,10 @@
 package com.fu.swp391.controller;
 
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.JobPost;
-import com.fu.swp391.entities.User;
+import com.fu.swp391.binding.entiity.PagingParam;
+import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
+import com.fu.swp391.common.enumConstants.PagingParameter;
+import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
-import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.CandidateService;
@@ -13,6 +13,8 @@ import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -42,6 +41,10 @@ public class CompanyController {
     @Autowired
     CompanyMajorService companyMajorService;
 
+    @Autowired
+    HelperUntil<Request> helperUntilCompany;
+    @Autowired
+    HelperUntil<CV> helperUntilCV;
     @Autowired
     CandidateService candidateService;
 
@@ -63,10 +66,8 @@ public class CompanyController {
     @Autowired
     CvService cvService;
 
-    public CompanyController(CompanyService companyService,
-        CompanyMajorService companyMajorService) {
-    @Autowired
-    UserService userService;
+
+
 
     @Autowired
     RequestService requestService;
@@ -103,17 +104,30 @@ public class CompanyController {
         return "company/ListAllCompany";
     }
 
-    @GetMapping("/ListCvRequest")
-    public String ListRequest(Model model) {
+    @GetMapping("/ListCvRequest/{id}")
+    public String ListRequest(Model model,@PathVariable int id) {
         String email = getPrincipal();
         User user = userService.findByEmail(email);
         System.out.println(email);
-        List<Request> ListRequest = requestService.findAllByToUserId(user.getId());
-        List<JobPost> jobPostList = new ArrayList<>();
+        ArrayList<Request> ListRequest1 = requestService.findAllByToUserId(user.getId());
+        ArrayList<Request> ListRequest = helperUntilCompany.PagingElement(ListRequest1,id,5);
+        List<String> jobPostList = new ArrayList<>();
         for (Request re: ListRequest
              ) {
             re.setComment(companyMajorService.FindJobById(re.getJobPost().getId()).getMajorName());
         }
+        int size = ListRequest.size();
+        int sopage = 0;
+        if ((size%5)!=0){
+            sopage = size/5 + 1;
+        }else{
+            sopage = size/5;
+        }
+        ArrayList<Integer> listsopage = new ArrayList<>();
+        for (int i=0;i<sopage;i++){
+            listsopage.add(i+1);
+        }
+        model.addAttribute("ListPage",listsopage);
         model.addAttribute("listJob",jobPostList);
         model.addAttribute("ListRequest",ListRequest);
         Optional<Company> company =  companyService.findbyId(user.getId());
@@ -121,6 +135,28 @@ public class CompanyController {
         return "company/ListRequest";
     }
 
+    @GetMapping("/listcandidateCV/{id}")
+    public String ListCvcandidate(Model model,@PathVariable int id) {
+
+        List<CV> listallcv = cvService.getAllCV();
+        ArrayList<CV> ListRequest = helperUntilCV.PagingElement((ArrayList<CV>) listallcv ,id,5);
+        List<String> jobPostList = new ArrayList<>();
+        int size = ListRequest.size();
+        int sopage = 0;
+        if ((size%5)!=0){
+            sopage = size/5 + 1;
+        }else{
+            sopage = size/5;
+        }
+        ArrayList<Integer> listsopage = new ArrayList<>();
+        for (int i=0;i<sopage;i++){
+            listsopage.add(i+1);
+        }
+        model.addAttribute("ListPage",listsopage);
+        model.addAttribute("listJob",jobPostList);
+        model.addAttribute("ListRequest",ListRequest);
+        return "company/listcandidateCV";
+    }
     private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -133,7 +169,6 @@ public class CompanyController {
         }
         return userName;
     }
-
 
     @GetMapping("home")
     public String renderCompanyHome(@RequestParam(value = "page", required = false) Integer page

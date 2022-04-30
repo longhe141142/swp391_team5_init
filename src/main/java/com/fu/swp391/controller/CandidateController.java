@@ -16,9 +16,9 @@ import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -174,6 +174,15 @@ public class CandidateController {
     @GetMapping("/ListCompanyCandidate/{id}")
     public String ListCompanyCandidatePage(Model model,@PathVariable int id,@RequestParam(value = "searchBy", required = false) String searchBy) {
         ArrayList<Company> listcomp = companyService.findAllCandidatesByFilter(searchBy);
+        Collections.sort(listcomp, new Comparator<Company>() {
+            @Override
+            public int compare(Company o1, Company o2) {
+                if(o1.getName().compareTo(o2.getName())>0){
+                    return 1;
+                }
+                return -1;
+            }
+        });
        ArrayList<Company> listcompanypage = helperUntilCompany.PagingElement(listcomp,id,5);
        int size = listcomp.size();
        int sopage = 0;
