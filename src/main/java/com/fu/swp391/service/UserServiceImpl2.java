@@ -76,8 +76,8 @@ public class UserServiceImpl2 implements UserService {
                 throw new UserBlockedException(username + "Has been blocked");
             }
             //phan long code
-
             return AuthPrinciple.built(user);
+//            return AuthPrinciple.built(user);
         } catch (UserBlockedException e) {
             e.printStackTrace();
         }
@@ -144,7 +144,7 @@ public class UserServiceImpl2 implements UserService {
             user.setResetPasswordToken(token);
             userRepository.save(user);
         } else {
-            throw new UsernameNotFoundException("Could not find any customer with the email " + email);
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
         }
     }
 

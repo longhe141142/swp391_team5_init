@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
-import static com.cloudinary.AccessControlRule.AccessType.token;
+//import static com.cloudinary.AccessControlRule.AccessType.token;
 
 @Controller
 public class ForgotPasswordController {
@@ -44,7 +44,9 @@ public class ForgotPasswordController {
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 
+            System.out.println("enmtry");
         } catch (UsernameNotFoundException ex) {
+            System.out.println("User not found");
             model.addAttribute("error", ex.getMessage());
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error", "Error while sending email");
@@ -60,11 +62,10 @@ public class ForgotPasswordController {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("swp391@gmail.com", "SWP391");
         helper.setTo(recipientEmail);
 
         String subject = "Here's the link to reset your password";
-
         String content = "<p>Hello,</p>"
                 + "<p>You have requested to reset your password.</p>"
                 + "<p>Click the link below to change your password:</p>"
@@ -74,9 +75,7 @@ public class ForgotPasswordController {
                 + "or you have not made the request.</p>";
 
         helper.setSubject(subject);
-
         helper.setText(content, true);
-
         mailSender.send(message);
         System.out.println("Thành công");
     }

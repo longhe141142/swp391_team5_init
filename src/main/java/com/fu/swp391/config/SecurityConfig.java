@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http.authorizeRequests().antMatchers("/","/register", "login", "*/candidate/*").permitAll()
+    http.authorizeRequests()
+            .antMatchers("/","/register", "login", "*/candidate/*").permitAll()
             .antMatchers(HttpMethod.POST).permitAll()
             .antMatchers("/admin/**").access("hasAnyRole('ADMIN','ROLE_ADMIN')")
             .antMatchers("/company/**").access("hasAnyRole('COMPANY','ROLE_COMPANY','ROLE_ADMIN')")
@@ -73,8 +74,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and().logout().logoutUrl("/auth/logout").addLogoutHandler(customLogoutSuccessHandler)
             .invalidateHttpSession(true).and().cors().and().csrf().disable();
 
-//        http.authorizeRequests().and() //
-//                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-//                .1tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
   }
 }

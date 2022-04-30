@@ -26,5 +26,6 @@ public class CustomLogoutSuccessHandler implements LogoutHandler {
   @Override
   public void logout(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) {
+    System.out.println("Good  bye  "+ helperUntil.getPrincipal());
   }
 }
