@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableWebSecurity
@@ -28,10 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
-//  @Bean
-//  public PasswordEncoder passwordEncoder() {
-//    return new BCryptPasswordEncoder();
-//  }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
 
   @Autowired
   CustomLogoutSuccessHandler customLogoutSuccessHandler;
@@ -53,18 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return source;
   }
 
-
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//    BCryptPasswordEncoder pe = new  BCryptPasswordEncoder();
-//    auth.userDetailsService(userService).passwordEncoder(pe);
     auth.userDetailsService(userService);
 //    auth.userDetailsService(userService);
-    auth.inMemoryAuthentication()
-        .withUser("admin")
-        .password(new BCryptPasswordEncoder().encode("admin123"))
-        .roles("ADMIN","USER");
-
   }
 
 

@@ -26,7 +26,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
             " c.address = :address,c.phone = :phone, c.email = :email," +
             " c.personnel_size = :personnel_size, c.description = :description," +
             " c.founding_at = :founding_at, c.company_intro = :company_intro where c.id = :id", nativeQuery=true)
-    void updatePhone(@Param(value = "id") long id, @Param(value = "name") String name,
+    void update(@Param(value = "id") long id, @Param(value = "name") String name,
                      @Param(value = "address") String address, @Param(value = "phone") String phone,
                      @Param(value = "email") String email, @Param(value = "personnel_size") Integer personnel_size,
                      @Param(value = "description") String description, @Param(value = "founding_at") Date founding_at,

@@ -15,7 +15,6 @@ public class SkillCV {
     @NotNull
     private String name;
 
-    @NotEmpty
     @NotNull
     private int rate;
 

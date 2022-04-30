@@ -1,28 +1,14 @@
 package com.fu.swp391.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fu.swp391.config.entity.ApiError;
+import com.fu.swp391.binding.entiity.exception.PrincipalBuildException;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestControllerAdvice
-public class ExceptionHandler {
+public class CustomExceptionHandler {
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
 //    public Map<String, String> handleValidationExceptions(
@@ -57,6 +43,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(UserBlockedException.class)
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        ex.printStackTrace();
         System.out.println("Request: " + req.getRequestURL() + " raised " + ex);
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", ex);
@@ -75,4 +62,16 @@ public class ExceptionHandler {
         mav.setViewName("/404Page/404");
         return mav;
     }
+
+    @ExceptionHandler(PrincipalBuildException.class)
+    public ModelAndView handleAuthBuildFailed(HttpServletRequest req, Exception ex){
+        System.out.println(ex.getMessage());
+        System.out.println("Request: " + req.getRequestURL() + " raised " + ex);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", ex);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("/404Page/account-denied");
+        return mav;
+    }
+
 }

@@ -27,7 +27,6 @@ public class EducateCV {
     private String major;
 
     @Column(name = "start_time")
-    @NotEmpty
     @NotNull
     private Date startTime;
 

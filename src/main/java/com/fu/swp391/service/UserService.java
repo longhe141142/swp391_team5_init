@@ -12,7 +12,7 @@ public interface UserService extends UserDetailsService {
     Iterable<User> findAll();
     Optional<User> findById(Long id);
     User findByEmail(String email);
-    User save(User user) throws Exception;
+     User save(User user) throws Exception;
     List<String> getListGender();
     User addRoleToUser(List<String> roles, UserCandidate userCandidate);
     Optional<User> findUserByEmail(String email);

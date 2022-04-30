@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyErrorController implements ErrorController {
   @RequestMapping("/error")
   public String handleError() {
+    System.out.println("OKKKKKKK");
     //do something like logging
     return "/404Page/404";
   }

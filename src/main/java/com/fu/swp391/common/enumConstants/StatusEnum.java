@@ -6,4 +6,6 @@ public class StatusEnum {
     public static final String CREATED = "CREATED";
     public static final String CLOSED = "CLOSED";
     public static final String REJECTED = "REJECTED";
+    public static final String PUBLIC = "PUBLIC";
+
 }
