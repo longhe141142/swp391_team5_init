@@ -5,6 +5,7 @@ import com.fu.swp391.entities.*;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,10 @@ public class CandidateController {
 
     @Autowired
     CompanyMajorService companyMajorService;
+
+    @Autowired
+    JobPostRepository jobPostRepository;
+
 
     @Autowired
     HelperUntil<Company> helperUntilCompany;
@@ -166,7 +171,25 @@ public class CandidateController {
         model.addAttribute("search",searchBy);
         return "candidate/listCompany";
     }
+    @GetMapping("/jobdetail/{id}")
+    public String getJobDetail(Model model, @PathVariable("id") long id){
+        model.addAttribute("job_detail",jobPostRepository.findJobPostById(id));
+        return "candidate/JobDetail";
+    }
 
+    @GetMapping("/chooseCVRequest/{id}")
+    public String ChooseCV(Model model, @PathVariable("id") long id){
+        JobPost job = jobPostRepository.findJobPostById(id);
+
+        User user = userService.findByEmail(helperUntilCompany.getPrincipal());
+        user.getCandidates().get(0).getId();
+
+        List<CV> cv = cvService.findCVByCandidate(user.getCandidates().get(0));
+
+        model.addAttribute("list_cv",cv);
+        model.addAttribute("job_id",id);
+        return "candidate/CvSendReq";
+    }
     @GetMapping("/DetailCompany/{id}")
     public String DetailCompany(Model model, @PathVariable long id) {
         List<JobPost> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);

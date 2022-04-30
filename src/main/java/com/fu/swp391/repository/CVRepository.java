@@ -1,6 +1,7 @@
 package com.fu.swp391.repository;
 
 import com.fu.swp391.entities.CV;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.skillFake;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,6 +46,6 @@ public interface CVRepository extends CrudRepository<CV, Long> {
 //
 //    Optional<CV> findById(Long id);
 
-
+    List<CV> findCVByCandidate(Candidate candidate);
 
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CvServiceIml implements CvService {
@@ -30,7 +29,10 @@ public class CvServiceIml implements CvService {
         this.skillCVRepository = skillCVRepository;
     }
 
-
+    @Override
+    public List<CV> findCVByCandidate(Candidate candidate) {
+        return cvRepository.findCVByCandidate(candidate);
+    }
 
     @Override
     public List<CV> getAllCVById(Long id) {

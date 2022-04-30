@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="/home/css/style.css">
   <script src="https://use.fontawesome.com/809c2bfca6.js"></script>
   <script src="/home/scripts/index.js"></script>
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
@@ -66,9 +67,10 @@
           <tbody >
           <tr th:each=" x:${ListCompanyDetail}">
             <td style="border-style: ridge;border-left: 1px solid #000000;border-top: 1px solid black;border-bottom: 1px solid black;"><img style="width:100px;height:100px;" src="/home/images/FPTSoft.png" alt=""></td>
-            <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a style=" text-decoration: none;" href="#" ><a th:text="${x.majorName}"/></a> </td>
+            <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a th:text="${x.majorName}"/></a> </td>
             <td style="border-style: ridge;  border-top: 1px solid black;border-bottom: 1px solid black;
   border-right: 1px solid #000000;vertical-align:top; padding-top: 15px">Personal Need :<a th:text="${x.maxCandidate}"/></td>
+            <td style="border-style: ridge;border-top: 1px solid black;border-bottom: 1px solid black;padding-top:15px;width: 70%;vertical-align:top; font-size: 25px;"><a class="btn btn-outline-info" th:href="@{'/candidate/jobdetail/'+${x.getId()}}"><i class="fas fa-edit"></i> View Detail</a> </td>
           </tr>
 
           </tbody>

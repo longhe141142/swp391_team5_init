@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Service
 public interface CvService {
+    List<CV> findCVByCandidate(Candidate candidate);
+
     List<CV> getAllCVById(Long id);
 
     List<CV> getAllCV();
