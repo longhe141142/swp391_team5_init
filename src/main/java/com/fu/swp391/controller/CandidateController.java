@@ -101,10 +101,11 @@ public class CandidateController {
 
     @GetMapping("/listAllCV/{id}")
     public String listAllCV(Model model, @PathVariable(value = "id")Long id) {
+        String name = candidateHelperUntil.getPrincipal();
         List<CV> cvList = cvService.getAllCVById(id);
         List<CV> cvList1 = cvService.getAllCV();
         List<CV> cvListSkill = cvService.getAllCVSkill();
-        Candidate candidate = candidateService.getCandidate();
+        Candidate candidate = candidateService.getCandidate(name);
         List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
 
@@ -121,11 +122,12 @@ public class CandidateController {
 
     @GetMapping("/detailOneCV/{id}")
     public String detailOneCV(@PathVariable(value = "id") long id, Model model) {
+        String name = candidateHelperUntil.getPrincipal();
         List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
         List<SkillCV> skillCVList = cvService.getSkillCVById(id);
-        Candidate candidate = candidateService.getCandidate();
+        Candidate candidate = candidateService.getCandidate(name);
 
         model.addAttribute("experienceCVList", experienceCVList);
         model.addAttribute("educateCVList1", educateCVList1);
@@ -138,8 +140,8 @@ public class CandidateController {
 
     @GetMapping("/createCV")
     public String createCV(Model model) {
-        candidateHelperUntil.getPrincipal();
-        Candidate candidate = candidateService.getCandidate();
+        String name = candidateHelperUntil.getPrincipal();
+        Candidate candidate = candidateService.getCandidate(name);
         model.addAttribute("candidate", candidate);
         CV cv = new CV();
         model.addAttribute("cv", cv);
@@ -148,8 +150,8 @@ public class CandidateController {
 
     @GetMapping("/createCV2")
     public String createCV2(Model model) {
-        candidateHelperUntil.getPrincipal();
-        Candidate candidate = candidateService.getCandidate();
+        String name = candidateHelperUntil.getPrincipal();
+        Candidate candidate = candidateService.getCandidate(name);
         model.addAttribute("candidate", candidate);
         CV cv = new CV();
         model.addAttribute("cv", cv);
@@ -218,11 +220,19 @@ public class CandidateController {
 
 
     // xử lý add new CV
-    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
-    public @ResponseBody String addCertificate(HttpServletRequest request) {
+//    @RequestMapping(value = "/addCertificate", method = RequestMethod.GET)
+//    public @ResponseBody String addCertificate(HttpServletRequest request) {
+//
+//        return "";
+//    }
+    // add cv
+    @GetMapping("/addCertificate")
+    public String addCertificate(Model model) {
 
-        return "";
+        return "/candidate/addNewCertificate";
     }
+
+//end add cv
 
     @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
     public @ResponseBody String addExperience(HttpServletRequest request){

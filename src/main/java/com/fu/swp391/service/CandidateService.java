@@ -11,7 +11,7 @@ public interface CandidateService {
 
     // List<Candidate> getAllCandidate();
 
-    Candidate getCandidate();
+    Candidate getCandidate( String email);
 //  List<Candidate> getAllCandidate();
 
     void addNewCandidate(Candidate candidate);
