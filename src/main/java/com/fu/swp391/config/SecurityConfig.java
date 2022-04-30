@@ -28,10 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+//  @Bean
+//  public PasswordEncoder passwordEncoder() {
+//    return new BCryptPasswordEncoder();
+//  }
 
   @Autowired
   CustomLogoutSuccessHandler customLogoutSuccessHandler;
@@ -56,8 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    BCryptPasswordEncoder pe = new  BCryptPasswordEncoder();
-    auth.userDetailsService(userService).passwordEncoder(pe);
+//    BCryptPasswordEncoder pe = new  BCryptPasswordEncoder();
+//    auth.userDetailsService(userService).passwordEncoder(pe);
+    auth.userDetailsService(userService);
 //    auth.userDetailsService(userService);
     auth.inMemoryAuthentication()
         .withUser("admin")

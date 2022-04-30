@@ -147,23 +147,24 @@ public class CandidateController {
 
     @GetMapping("/ListCompanyCandidate/{id}")
     public String ListCompanyCandidatePage(Model model,@PathVariable int id,@RequestParam(value = "searchBy", required = false) String searchBy) {
+        ArrayList<Company> listcomp = companyService.findAllCandidatesByFilter(searchBy);
+       ArrayList<Company> listcompanypage = helperUntilCompany.PagingElement(listcomp,id,5);
+       int size = listcomp.size();
+       int sopage = 0;
+       if ((size%5)!=0){
+           sopage = size/5 + 1;
+       }else{
+           sopage = size/5;
+       }
+       ArrayList<Integer> listsopage = new ArrayList<>();
+       for (int i=0;i<sopage;i++){
+           listsopage.add(i+1);
+       }
+       model.addAttribute("search",searchBy);
+       model.addAttribute("ListCompany",listcompanypage);
+       model.addAttribute("ListPage",listsopage);
 
-        List<Company> ListCompany = companyService.findAllCandidatesByFilter(searchBy);
-        ArrayList<Company> ListPage = helperUntilCompany.PagingElement((ArrayList<Company>) ListCompany,id,5);
-        int n = ListCompany.size()/5;
-        int NumberOfPage ;
-        if(ListCompany.size()%5==0){
-            NumberOfPage = n;
-        }else {
-            NumberOfPage = n+1;
-        }
-        ArrayList<Integer> listPaging = new ArrayList<Integer>();
-        for (int i = 1;i<NumberOfPage+1;i++){
-            listPaging.add(i);
-        }
-        model.addAttribute("ListPage",listPaging);
-        model.addAttribute("ListCompany",ListPage);
-        model.addAttribute("search",searchBy);
+
         return "candidate/listCompany";
     }
 
