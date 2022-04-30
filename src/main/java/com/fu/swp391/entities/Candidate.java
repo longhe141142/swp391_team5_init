@@ -2,6 +2,7 @@ package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fu.swp391.common.enumConstants.StatusEnum;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -152,6 +153,18 @@ public class Candidate {
     }
     this.cv.add(cv);
   }
+
+  public List<CV> getCVPublic(){
+    List<CV> cvPublicOnly = new ArrayList<>();
+        for (CV cv : this.getCv()){
+              if(cv.getStatus().equalsIgnoreCase(StatusEnum.PUBLIC)){
+                cvPublicOnly.add(cv);
+              }
+        }
+        return cvPublicOnly;
+  }
+
+
 
 
 }

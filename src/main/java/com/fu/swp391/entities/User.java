@@ -70,6 +70,10 @@ public class User {
   @Fetch(value = FetchMode.SUBSELECT)
   private List<Company> companies;
 
+  @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  @Fetch(value = FetchMode.SUBSELECT)
+  private List<RequestNotification> notifications;
+
   public void setId(Long id) {
     this.id = id;
   }

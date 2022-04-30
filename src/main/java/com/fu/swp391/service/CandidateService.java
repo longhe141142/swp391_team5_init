@@ -4,6 +4,7 @@ import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.helper.HelperUntil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,4 +26,6 @@ public interface CandidateService {
     ArrayList<Candidate> findAllCandidatesSortBy(String sortField, String sortBy);
 
     HelperUntil<Candidate> getHelperUntilCandidate();
+
+    Optional<Candidate> getCandidateById(Long id);
 }
