@@ -1,7 +1,9 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.binding.entiity.PagingParam;
+import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
+import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.JobPost;
@@ -11,10 +13,12 @@ import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
+import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,7 +52,13 @@ public class CompanyController {
     HelperUntil<Candidate> candidateHelperUntil;
 
     @Autowired
+    HelperUntil<CV> cvHelperUntil;
+
+    @Autowired
     UserService userService;
+
+    @Autowired
+    CvService cvService;
 
     public CompanyController(CompanyService companyService,
         CompanyMajorService companyMajorService) {
@@ -58,6 +68,7 @@ public class CompanyController {
 
     @GetMapping("/listjob")
     public String listAllJob(Model model) {
+        model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(1));
 
         Company company = companyService.findCompanyByEmail(getPrincipal());
         model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(company.getId()));
@@ -106,8 +117,8 @@ public class CompanyController {
             candidates, pageIndex, sizeDef);
         pagingParam.setTotalElementInCurrentPage(getCandidatesByPaging.size());
         model.addAttribute("pageParam", pagingParam);
-        model.addAttribute("candidates",getCandidatesByPaging);
-        model.addAttribute("company",yourCompany);
+        model.addAttribute("candidates", getCandidatesByPaging);
+        model.addAttribute("company", yourCompany);
 
         return "/company/company-home/home";
     }
@@ -123,6 +134,82 @@ public class CompanyController {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    @GetMapping("/candidate")
+    public String candidateDetail(
+        @RequestParam(value = "id") Long id,
+        Model model
+    ) throws CandidateNotFound {
+        Optional<Candidate> candidate = companyService.getCandidateById(id);
+        ArrayList<CV> candidatesListCastIgnorePersistentBagException = new ArrayList<>();
+        if (candidate.isPresent()) {
+            for (CV cv : candidate.get().getCv()) {
+                System.out.println(cv.getId());
+                candidatesListCastIgnorePersistentBagException.add(cv);
+            }
+            PagingParam pagingParam = new PagingParam(
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            candidatesListCastIgnorePersistentBagException = cvHelperUntil.PagingElement(
+                candidatesListCastIgnorePersistentBagException, 1,
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            model.addAttribute("pagingParam", pagingParam);
+            model.addAttribute("cvListOfCandidate", candidatesListCastIgnorePersistentBagException);
+            model.addAttribute("candidate", candidate.get());
+        } else {
+            throw new CandidateNotFound(id);
+        }
+        return "/company/company-candidate/candidate-detail";
+    }
+
+    @GetMapping("/candidate/cv")
+    public String candidateCvDetail(
+        @RequestParam(value = "id") Long id,
+        Model model
+    ) throws Exception {
+        Optional<CV> cv = cvService.getCVBySpecificId(id);
+        if (cv.isPresent()) {
+            model.addAttribute("cv", cv.get());
+            return "/company/company-candidate/cv-detail/cv-detail";
+        } else {
+            throw new Exception("CV doesn't exist");
+        }
+    }
+
+
+    @GetMapping("/candidate/cv/seeMore")
+    public String seeMoreCV(
+        //id value candidateId
+        @RequestParam(value = "id") Long id,
+        @RequestParam(value = "page") Integer page,
+        Model model
+    ) throws CandidateNotFound {
+        Optional<Candidate> candidate = candidateService.getCandidateById(id);
+        //validate @RequestParam
+        int pageIndex = page == null ? 1 : page;
+        if (candidate.isPresent()) {
+
+            //get list of cv which is PUBLIC
+            List<CV> cvsPublic = candidate.get().getCVPublic();
+            //Get total page
+            int totalPage = cvHelperUntil.getTotalSize(cvsPublic.size(),
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            //Ignore bagException
+            ArrayList<CV> cvsPublicConvertToArrayList = new ArrayList<>(cvsPublic);
+            //paging by helper.util, get arraylist in one page
+            cvsPublicConvertToArrayList = cvHelperUntil.PagingElement(cvsPublicConvertToArrayList,
+                pageIndex, PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            //get PagingParam
+            PagingParam pagingParam = new PagingParam(totalPage, cvsPublicConvertToArrayList.size(),
+                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV, pageIndex);
+
+            model.addAttribute("listCvsPublic",cvsPublicConvertToArrayList);
+            model.addAttribute("pagingParam",pagingParam);
+            model.addAttribute("candidate",cvsPublicConvertToArrayList.get(0).getCandidate());
+            return "/company/company-candidate/cv-list/cvList";
+        } else {
+            throw new CandidateNotFound(id);
+        }
     }
 
 }

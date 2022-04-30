@@ -15,6 +15,8 @@ public interface CvService {
     List<CV> getAllCV();
     List<CV> getAllCVSkill();
 
+
+
     List<CV> listDetailAllOneCV();
 
    // List<skillFake> getSkillFake();
@@ -31,5 +33,7 @@ public interface CvService {
     List<SkillCV> getSkillCVById(long id);
 
     void deleteCVById(Long id);
-   // Optional<CV> findbyId(Long id);
+
+    Optional<CV> getCVBySpecificId(Long id);
+    // Optional<CV> findbyId(Long id);
 }

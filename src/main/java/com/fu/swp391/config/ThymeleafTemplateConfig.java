@@ -1,8 +1,10 @@
 package com.fu.swp391.config;
 
 import java.nio.charset.StandardCharsets;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -10,8 +12,9 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 public class ThymeleafTemplateConfig {
   @Bean
-  public SpringTemplateEngine springTemplateEngine() {
+  public SpringTemplateEngine springTemplateEngine(ApplicationContext applicationContext) {
     SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+    springTemplateEngine.addDialect(new SpringSecurityDialect());
     springTemplateEngine.addTemplateResolver(emailTemplateResolver());
     return springTemplateEngine;
   }
@@ -25,4 +28,6 @@ public class ThymeleafTemplateConfig {
     emailTemplateResolver.setCacheable(false);
     return emailTemplateResolver;
   }
+
+
 }

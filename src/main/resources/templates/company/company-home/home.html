@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
@@ -28,6 +29,7 @@
   <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
     <a class="navbar-brand" href="#">
       <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png"
+           id="swp391-logo"
            width="30" height="30" alt="logo">
       SWP391 TEAM 5
     </a>
@@ -39,33 +41,50 @@
       <ul class="navbar-nav ">
         <div class="menu-common d-flex align-items-center justify-content-center">
           <li class="nav-item active d-flex align-items-center justify-content-center">
-            <a class="nav-link" href="#">Home Page <span class="sr-only"></span></a>
+            <a class="nav-link" href="#">Home Page <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active d-flex align-items-center justify-content-center">
-            <a class="nav-link" href="#">Company <span class="sr-only"></span></a>
+            <a class="nav-link" href="#">Company <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item active d-flex align-items-center justify-content-center">
-            <a class="nav-link" href="#">Request <span class="sr-only"></span></a>
+          <li sec:authorize="isAuthenticated()" class="nav-item active d-flex align-items-center justify-content-center">
+            <a class="nav-link" href="#">Request <span class="sr-only">(current)</span></a>
           </li>
         </div>
       </ul>
-      <ul class="navbar-nav mr-5">
-        <div class="flex-row d-flex">
-          <h1 style="color: white;">Hello longt1</h1>
-          <li class="nav-item dropdown" id="avt-section">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-                   width="40" height="40" class="rounded-circle">
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="/company/listjob">JobPost</a>
-              <a class="dropdown-item" href="#">Edit Profile</a>
-              <a class="dropdown-item" th:href="@{'/auth/logout'}">Log Out</a>
+      <div sec:authorize="isAnonymous()">
+        <ul class="navbar-nav mr-5">
+          <div class="flex-row d-flex">
+            <div class="nav-item dropdown">
+              <a th:href="${'/login'}" class="nav-link dropdown-toggle mr-4" aria-expanded="false">Login</a>
             </div>
-          </li>
-        </div>
-      </ul>
+            <div class="nav-item">
+              <a th:href="${'/register'}"  class="btn btn-primary dropdown-toggle sign-up-btn">Sign up</a>
+            </div>
+          </div>
+        </ul>
+      </div>
+
+      <div sec:authorize="isAuthenticated()">
+        <ul class="navbar-nav mr-5"  >
+          <div class="flex-row d-flex align-items-baseline">
+            <h1 id="hello-user" style="color: white;" th:text="${'Hello '+#authentication.getPrincipal().getName()}" ></h1>
+            <li class="nav-item dropdown" id="avt-section">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                     width="40" height="40" class="rounded-circle">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Dashboard</a>
+                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" th:href="${'/auth/logout'}">Log Out</a>
+              </div>
+            </li>
+          </div>
+        </ul>
+      </div>
+
+
     </div>
   </nav>
 </div>

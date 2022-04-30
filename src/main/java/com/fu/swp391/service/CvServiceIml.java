@@ -50,6 +50,7 @@ public class CvServiceIml implements CvService {
         return cvRepository.findAllCVSkill();
     }
 
+
     @Override
     public List<CV> listDetailAllOneCV() {
         return cvRepository.listDetailAllOneCV();
@@ -101,6 +102,10 @@ public class CvServiceIml implements CvService {
         cvRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<CV> getCVBySpecificId(Long id){
+        return cvRepository.findById(id);
+    }
 
 //    @Override
 //    public Optional<CV> findbyId(Long id) {
