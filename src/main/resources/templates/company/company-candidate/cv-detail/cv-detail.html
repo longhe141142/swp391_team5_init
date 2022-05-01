@@ -503,8 +503,11 @@
 																	placeholder="Message"></textarea>
 											</div>
 											<div class="form-group">
-												<input type="submit" class="btn btn-primary "
+												<input id="send_request" type="submit" class="btn btn-primary "
 															 value="Send Request">
+											</div>
+											<div id="send_success" class="alert alert-success"  role="alert">
+												Success!
 											</div>
 										</form>
 									</div>
@@ -560,12 +563,20 @@
 			return str === null || str.match(/^ *$/) !== null;
 		}
 
+		var time = 0;
+		var dataDelayToShow = 15;
+
+
 		console.log("entry")
 
 		// $.noConflict();
 		$(document).ready(function () {
+			$("#send_success").hide();
+
 			$('#sendRequest').submit(function (e) {
 				e.preventDefault();
+				$( "#send_request" ).prop( "disabled", true );
+
 				console.log("");
 				let error = false;
 				let content = document.getElementById("content").value;
@@ -600,6 +611,9 @@
 				console.log(dataToSend)
 				e.preventDefault();
 
+				if (error){
+					$( "#send_request" ).prop( "disabled", false );
+				}
 				if (!error) {
 					$.ajax({
 						url: '/company/sendRequest',
@@ -609,6 +623,18 @@
 						contentType: 'application/json',
 						type: 'POST',
 						success: function (data) {
+							console.log(data)
+							$( "#send_request" ).prop( "disabled", false );
+							$("#send_success").show();
+							var cookieDelaySecond = dataDelayToShow * 1000;
+							setInterval(function () {
+								time = time + 1;
+							}, 1000);
+							if(time >= dataDelayToShow)
+							{
+								time= 0;
+								$("#send_success").hide();
+							}
 							console.log('success')
 						},
 						error: function (xhr, status, error) {
