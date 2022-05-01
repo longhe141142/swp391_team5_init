@@ -94,7 +94,7 @@
                   <div class="d-flex flex-column ml-2"><h4 th:utext="'Job Name: '+${x.getMajorName()}">Stripe</h4><span class="text-black-50">Personal Need: <a th:text="${x.maxCandidate}"/></span></div>
                 </div>
                 <h6 th:utext="'Job description: '+${x.getJobDescription()}">Get more context on your users with stripe data inside our platform.</h6>
-                <div class="d-flex justify-content-between install mt-3"><a class="text-primary" href="#">View&nbsp;<i class="fa fa-angle-right"></i></a></div>
+                <div class="d-flex justify-content-between install mt-3"><a class="text-primary" th:href="@{'/candidate/jobdetail/'+${x.getId()}}">View&nbsp;<i class="fa fa-angle-right"></i></a></div>
               </div>
             </div>
 

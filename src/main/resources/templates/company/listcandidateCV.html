@@ -253,9 +253,8 @@
       </tr>
       </thead>
       <tbody>
-      <th:block th:each="request,request : ${ListRequest}" >
+      <th:block th:each="request : ${ListRequest}" >
         <tr>
-          <td th:utext="${request.index}">No</td>
           <td th:utext="${request.getId()}">No</td>
           <td th:utext="${request.getContent()}">No</td>
           <td th:utext="${request.getExperience()}">No</td>
