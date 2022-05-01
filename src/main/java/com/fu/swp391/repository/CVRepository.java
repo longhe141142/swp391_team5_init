@@ -40,7 +40,7 @@ public interface CVRepository extends JpaRepository<CV, Long> {
 //    @Query(value = " ", nativeQuery = true)
 //    List<CV> listDetailAllOneCV();
 
-
+        CV findById(long id);
 
 
 //

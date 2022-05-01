@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CertificateRepository extends JpaRepository<CertificateCV, Long> {
-    @Query(value = "SELECT * FROM cv join certificate_cv ctv where cv.id = ctv.cv_id and ctv.cv_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT cer.* FROM  certificate_cv cer join cv on cer.cv_id = cv.id where cer.cv_id = ?1", nativeQuery = true)
     List<CertificateCV> listAllCertificateCV(long id);
 }

@@ -5,6 +5,7 @@ import com.fu.swp391.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,10 +101,42 @@ public class CvServiceIml implements CvService {
         return cvRepository.findById(id);
     }
 
+    @Override
+    public ExperienceCV SaveExperienceCV(String companyName, String des, Date endTime, String job, Date startTime, long id) {
+        return experienceRepository.SaveExperienceCV(companyName, des, endTime ,job,startTime,id);
+    }
+
+    @Override
+    public CV findById(long id) {
+        return cvRepository.findById(id);
+    }
+
+
 //    @Override
 //    public Optional<CV> findbyId(Long id) {
 //        return cvRepository.findById(id);
 //    }
 
+
+    //add experience
+    @Override
+    public void saveExperience(ExperienceCV experienceCV){
+         experienceRepository.save(experienceCV);
+    }
+
+    @Override
+    public void saveEducation(EducateCV educateCV){
+        educateRepository.save(educateCV);
+    }
+
+    @Override
+    public void saveCertificate(CertificateCV certificateCV){
+        certificateRepository.save(certificateCV);
+    }
+
+    @Override
+    public void saveSkillCV(SkillCV skillCV){
+        skillCVRepository.save(skillCV);
+    }
 
 }

@@ -13,6 +13,7 @@ import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.ExperienceRepository;
 import com.fu.swp391.service.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.http.HttpRequest;
@@ -55,6 +56,7 @@ public class CandidateController {
 
     @Autowired
     CandidateService candidateService;
+
 
     @Autowired
     GenderEnum genderEnum;
@@ -145,13 +147,15 @@ public class CandidateController {
     public String detailOneCV(@PathVariable(value = "id") long id, Model model) {
         model.addAttribute("id",id);
         String name = candidateHelperUntil.getPrincipal();
-        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
         List<SkillCV> skillCVList = cvService.getSkillCVById(id);
         Candidate candidate = candidateService.getCandidate(name);
 
+        //list Experience trong detail oneCV
+        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         model.addAttribute("experienceCVList", experienceCVList);
+
         model.addAttribute("educateCVList1", educateCVList1);
         model.addAttribute("certificateCVS", certificateCVS);
         model.addAttribute("skillCVList", skillCVList);
@@ -159,6 +163,7 @@ public class CandidateController {
         return "/candidate/detailOneCV";
     }
 
+    //add new CV
 
     @GetMapping("/createCV")
     public String createCV(Model model) {
@@ -175,48 +180,10 @@ public class CandidateController {
         String email = candidateHelperUntil.getPrincipal();
         User user = userService.findByEmail(email);
         cv.setCandidate(user.getCandidates().get(0));
-
-//        CertificateCV cer = new CertificateCV();
-//        cer.setCertificateName("certificate1");
-//        cer.setGraduationDate(Date.valueOf("2022-01-02"));
-//        cer.setOrganization("orgati1");
-//        cer.setCv(cv);
-//        cv.getCertificates().add(cer);
-//
-//        SkillCV skillCV = new SkillCV();
-//        skillCV.setDescription("description1");
-//        skillCV.setName("nameskill1");
-//        skillCV.setRate(30);
-//        skillCV.setCv(cv);
-//        cv.getSkills().add(skillCV);
-//
-//        EducateCV edu = new EducateCV();
-//        edu.setDescription("des1");
-//        edu.setMajor("maj1");
-//        edu.setSchoolName("scl1");
-//        edu.setStartTime(Date.valueOf("2022-01-02"));
-//        edu.setCv(cv);
-//        cv.getEducate().add(edu);
-//
-//        ExperienceCV exv = new ExperienceCV();
-//        exv.setCompanyName("cop1");
-//        exv.setDescription("des1");
-//        exv.setEndTime(Date.valueOf("2022-01-02"));
-//        exv.setStartTime(Date.valueOf("2022-01-02"));
-//        exv.setJobTitle("job1");
-//        exv.setCv(cv);
-//        cv.getExperiences().add(exv);
-//
-//        cv.setCertificate("abc");
-//        cv.setContent("con1");
-//        cv.setGender("MALE");
-//        cv.setImageUpload("asd");
-//        cv.setStatus("adsaf");
-//        cv.
         cvService.saveCV(cv);
-
-        return "redirect:/candidate/listAllCV";
+        return "redirect:/candidate/home";
     }
+
 
     @GetMapping("/createCV2")
     public String createCV2(Model model) {
@@ -287,45 +254,74 @@ public class CandidateController {
 
 
 
-    // xử lý add new CV
-//    @GetMapping(value = "/addCertificate")
-//    public String addCertificate(HttpServletRequest request) {
-//
-//        return "candidate/addNewCertificate";
-//    }
+    // xử lý add new Experience
 
     @GetMapping(value = "/addExperience/{id}")
     public String addExperience(Model model, @PathVariable long id) {
-
+        ExperienceCV exp = new ExperienceCV();
+        exp.setCv(cvService.findById(id));
+        model.addAttribute("exp",exp);
         return "candidate/addExperience";
     }
 
+    //save experience
+    @PostMapping("/saveExperience")
+    public String saveExperience(@ModelAttribute("exp") ExperienceCV exp){
+//        cvService.SaveExperienceCV(exp.getCompanyName(),exp.getDescription(),exp.getEndTime(),
+//                 exp.getJobTitle(), exp.getStartTime(),exp.getCv().getId());
+        cvService.saveExperience(exp);
+        return "redirect:/candidate/detailOneCV/"+exp.getCv().getId()+"";
+    }
+
+    //add new Education
     @GetMapping(value = "/addEducation/{id}")
     public String addEducation(Model model, @PathVariable long id) {
-
+        EducateCV edu = new EducateCV();
+        edu.setCv(cvService.findById(id));
+        model.addAttribute("edu",edu);
         return "candidate/addEducation";
     }
 
+    //save new education
+    @PostMapping("/saveEducation")
+    public String saveEducation(@ModelAttribute("edu") EducateCV edu){
+        cvService.saveEducation(edu);
+        return "redirect:/candidate/detailOneCV/"+edu.getCv().getId()+"";
+    }
+
+    //add new certificate
     @GetMapping(value = "/addCertificate/{id}")
     public String addCertificate(Model model, @PathVariable long id) {
-
+        CertificateCV cer = new CertificateCV();
+        cer.setCv(cvService.findById(id));
+        model.addAttribute("cer",cer);
         return "candidate/addCertificate";
     }
-    @GetMapping(value = "/addSkill/{id}")
-    public String addSkill(Model model, @PathVariable long id) {
 
+    //save certificate
+    @PostMapping("/saveCertificate")
+    public String saveCertificate(@ModelAttribute("cer") CertificateCV cer){
+        cvService.saveCertificate(cer);
+        return "redirect:/candidate/detailOneCV/"+cer.getCv().getId()+"";
+    }
+
+
+
+    //add new SKillCV
+    @GetMapping(value = "/addSkill/{id}")
+    public String addSkillCV(Model model, @PathVariable long id) {
+        SkillCV skiCV = new SkillCV();
+        skiCV.setCv(cvService.findById(id));
+        model.addAttribute("skiCV", skiCV);
         return "candidate/addSkill";
     }
 
-//    @RequestMapping(value = "/addExperience", method = RequestMethod.GET)
-//    public @ResponseBody String addExperience(HttpServletRequest request){
-//        return "";
-//    }
-//
-//    @RequestMapping(value = "/addEducation", method = RequestMethod.GET)
-//    public ResponseBody String addEducation(HttpServletRequest request){
-//        return "";
-//    }
+    //save skillCV
+    @PostMapping("/saveSkillCV")
+    public String saveSkillCV(@ModelAttribute("ski") SkillCV skiCV){
+        cvService.saveSkillCV(skiCV);
+        return "redirect:/candidate/detailOneCV/"+skiCV.getCv().getId()+"";
+    }
 
 
 

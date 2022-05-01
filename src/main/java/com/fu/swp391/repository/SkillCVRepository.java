@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface SkillCVRepository extends JpaRepository<SkillCV, Long> {
 
-    @Query(value = "SELECT * FROM cv join skills_cv skv where cv.id = skv.cv_id and skv.cv_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT ski.* FROM  skills_cv ski join cv on ski.cv_id = cv.id where ski.cv_id = ?1", nativeQuery = true)
     List<SkillCV> listAllSkillCV(long id);
 }
