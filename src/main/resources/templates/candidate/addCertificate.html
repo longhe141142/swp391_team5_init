@@ -30,6 +30,7 @@
 <br>
 <br>
 <div class = "container">
+    <form class="needs-validation" th:action="@{/candidate/saveCertificate}" method="post" th:object="${cer}" novalidate>
     <div class = "row">
         <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
             <h1 class = "text-center"> Create New Certificate </h1>
@@ -39,6 +40,7 @@
                         <label> Certificate Name </label>
                         <input
                                 type = "text"
+                                th:field="*{certificateName}"
                                 name = "firstName"
                                 class = "form-control"
                                 placeholder="Enter Student First Name"
@@ -49,6 +51,7 @@
                         <label> Graduation Date </label>
                         <input
                                 type = "text"
+                                th:field="*{graduationDate}"
                                 name = "lastName"
                                 class = "form-control"
                                 placeholder="Enter Student Last Name"
@@ -60,10 +63,22 @@
                         <input
                                 type = "text"
                                 name = "email"
+                                th:field="*{organization}"
                                 class = "form-control"
                                 placeholder="Enter Student Email"
                         />
                     </div>
+
+                <div class ="form-group">
+                    <input
+                            style="display: none"
+                            type = "text"
+                            name = "email"
+                            th:field="*{cv}"
+                            class = "form-control"
+                            placeholder="Enter Student Email"
+                    />
+                </div>
 
                     <div class = "box-footer">
                         <button type="submit" class = "btn btn-primary">
@@ -75,6 +90,7 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 </body>
 </html>
