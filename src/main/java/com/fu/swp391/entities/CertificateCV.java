@@ -3,6 +3,7 @@ package com.fu.swp391.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -30,6 +31,7 @@ public class CertificateCV {
     @NotNull
     private String organization;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Column(name = "graduation_date")
     private Date graduationDate;
 
