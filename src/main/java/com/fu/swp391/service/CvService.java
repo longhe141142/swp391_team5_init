@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CvService {
     List<CV> getAllCVById(Long id);
 
-    List<CV> getAllCV();
+    List<CV> getAllCV(String name);
     List<CV> getAllCVSkill();
 
 
@@ -19,7 +19,7 @@ public interface CvService {
 
    // List<skillFake> getSkillFake();
 
-    void addNewCVe(CV cv);
+    CV saveCV(CV cv);
 
 
     List<ExperienceCV> getExperienceCVById(long id);

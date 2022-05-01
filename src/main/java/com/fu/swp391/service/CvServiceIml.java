@@ -38,8 +38,8 @@ public class CvServiceIml implements CvService {
     }
 
     @Override
-    public List<CV> getAllCV() {
-        return cvRepository.listAllCV();
+    public List<CV> getAllCV(String name) {
+        return cvRepository.listAllCV(name);
     }
 
 
@@ -54,14 +54,9 @@ public class CvServiceIml implements CvService {
         return cvRepository.listDetailAllOneCV();
     }
 
-//    @Override
-//    public List<skillFake> getSkillFake() {
-//        return cvRepository.findSkillFake();
-//    }
-
     @Override
-    public void addNewCVe(CV cv) {
-
+    public CV saveCV(CV cv) {
+        return cvRepository.save(cv);
     }
 
     @Override

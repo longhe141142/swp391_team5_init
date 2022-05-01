@@ -47,71 +47,47 @@
 
             <div class="title" >
               <i class="fa fa-briefcase" aria-hidden="true"></i>
-              <h2>EXPERIENCE</h2>
+              <h2>EXPERIENCE </h2> <a th:href="@{'/candidate/addExperience/'+${id}}">ADD EXPERIENCE</a>
               <div class="item" th:each="listEx: ${experienceCVList}">
                 <h3><a th:text="${listEx.getJobTitle()}"/> <a>  </a><span><a th:text="${listEx.getEndTime()}"/></span> </h3>
                 <p><a th:text="${listEx.getDescription()}"/></p>
               </div>
-<!--              <div class="item">-->
-<!--                <h3>FrontEnd JR @ APP Media <span>Jan 2013 -  2016</span> </h3>-->
-<!--                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>-->
-<!--              </div>-->
             </div>
+
+
             <div class="title">
               <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              <h2>EDUCATION</h2>
+              <h2>EDUCATION</h2><a th:href="@{'/candidate/addEducation/'+${id}}">ADD EDUCATION</a>
               <div class="item" th:each="lisEdu: ${educateCVList1}">
                 <h3><a th:text="${lisEdu.schoolName}"/>  <span><a th:text="${lisEdu.startTime}"/> </span></h3>
                 <p><a th:text="${lisEdu.description}"/></p>
               </div>
-<!--              <div class="item">-->
-<!--                <h3>My Collage  @  Sanfracisco Collage <span>2007 -  2011</span> </h3>-->
-<!--                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>-->
-<!--              </div>-->
             </div>
+
+
 
             <div class="title">
               <i class="fa fa-trophy" aria-hidden="true"></i>
-              <h2>CERTIFICATES</h2>
+              <h2>CERTIFICATES</h2> <a th:href="@{'/candidate/addCertificate/'+${id}}">ADD CERTIFICATE</a>
               <div class="item" th:each="listCer: ${certificateCVS}">
                 <h3><a th:text="${listCer.certificateName}"/> <span><a th:text="${listCer.graduationDate}"/></span> </h3>
                 <p><a th:text="${listCer.organization}"/> </p>
               </div>
-<!--              <div class="item">-->
-<!--                <h3>Graphic Designer @ Coursera <span>Jan 2015</span> </h3>-->
-<!--                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>-->
-<!--              </div>-->
+
+
+
+
             </div>
 
             <div class="title">
               <i class="fa fa-code" aria-hidden="true"></i>
-              <h2>SKILLS</h2>
+              <h2>SKILLS</h2><a th:href="@{'/candidate/addSkill/'+${id}}">ADD SKILL</a><br>
               <div class="item w33" th:each="lisSkil: ${skillCVList}">
                 <h3><a th:text="${lisSkil.name}"/></h3>
                 <div class="skills">
                   <span style="width: 65%"></span>
                 </div>
               </div>
-<!--              <div class="item w33" >-->
-<!--                <h3>CSS3</h3>-->
-<!--                <div class="skills">-->
-<!--                  <span style="width: 75%"></span>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <div class="item w33" >-->
-<!--                <h3>JAVASCRIPT</h3>-->
-<!--                <div class="skills">-->
-<!--                  <span style="width: 50%"></span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="item w33">-->
-<!--                <h3>PHP</h3>-->
-<!--                <div class="skills">-->
-<!--                  <span style="width: 25%"></span>-->
-<!--                </div>-->
-<!--              </div>-->
-
             </div>
 
           </div>
