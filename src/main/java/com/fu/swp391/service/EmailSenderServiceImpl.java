@@ -22,28 +22,20 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
   @Override
   public void sendHtmlMessage(Email email) throws MessagingException {
-    System.out.println("Email:"+""
-        + "mail:"+ email.getTemplate()+"\n"
-        + "mail to:"+ email.getTo());
+
+    email.printClass();
 
     MimeMessage message = emailSender.createMimeMessage();
-    System.out.println("1");
+    System.out.println("step1: success");
     MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
     Context context = new Context();
-//    context.setVariables(email.getProperties());
-//    String s1 = new String("ab");
-//    String s12 = new String("ab");
-//    context.setVariable("example","abc");
-//    context.setVariable("example2","abc");
-//    context.setVariable("example3","abc");
-
-
-//    System.out.println("2");
+    context.setVariables(email.getProperties());
+    System.out.println("step2: success");
     helper.setFrom(email.getFrom());
     helper.setTo(email.getTo());
     helper.setSubject(email.getSubject());
+
     String html = templateEngine.process(email.getTemplate(), context);
-//    String html = templateEngine.process(email.getTemplate(), context);
 
     helper.setText(html, true);
     System.out.println("Sending email: {} with html body: {}\n"
@@ -51,12 +43,10 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         + "html:" +html);
     try {
       emailSender.send(message);
-      System.out.println("Thành công");
-
+      System.out.println("SUCCESS");
     }catch (Exception e){
       e.printStackTrace();
-      System.out.println("That bai");
-
+      System.out.println("FAILED");
     }
 
   }
