@@ -237,12 +237,7 @@ public class CompanyController {
 
 
     @GetMapping("/candidate/cv/seeMore")
-    public String seeMoreCV(
-        //id value candidateId
-        @RequestParam(value = "id") Long id,
-        @RequestParam(value = "page") Integer page,
-        Model model
-    ) throws CandidateNotFound {
+    public String seeMoreCV1( @RequestParam(value = "id") Long id,@RequestParam(value = "page") Integer page,Model model) throws CandidateNotFound {
         Optional<Candidate> candidate = candidateService.getCandidateById(id);
         //validate @RequestParam
         int pageIndex = page == null ? 1 : page;
@@ -251,20 +246,21 @@ public class CompanyController {
             //get list of cv which is PUBLIC
             List<CV> cvsPublic = candidate.get().getCVPublic();
             //Get total page
-            int totalPage = cvHelperUntil.getTotalSize(cvsPublic.size(),
-                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
-            //Ignore bagException
-            ArrayList<CV> cvsPublicConvertToArrayList = new ArrayList<>(cvsPublic);
-            //paging by helper.util, get arraylist in one page
-            cvsPublicConvertToArrayList = cvHelperUntil.PagingElement(cvsPublicConvertToArrayList,
-                pageIndex, PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
-            //get PagingParam
-            PagingParam pagingParam = new PagingParam(totalPage, cvsPublicConvertToArrayList.size(),
-                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV, pageIndex);
-
-            model.addAttribute("listCvsPublic",cvsPublicConvertToArrayList);
-            model.addAttribute("pagingParam",pagingParam);
-            model.addAttribute("candidate",cvsPublicConvertToArrayList.get(0).getCandidate());
+            ArrayList<CV> listcompanypage = helperUntilCV.PagingElement((ArrayList<CV>) cvsPublic,page,3);
+            int size = cvsPublic.size();
+            int sopage = 0;
+            if ((size%3)!=0){
+                sopage = size/3 + 1;
+            }else{
+                sopage = size/3;
+            }
+            ArrayList<Integer> listsopage = new ArrayList<>();
+            for (int i=0;i<sopage;i++){
+                listsopage.add(i+1);
+            }
+            model.addAttribute("ListCV",listcompanypage);
+            model.addAttribute("ListPage",listsopage);
+            model.addAttribute("candidate",cvsPublic.get(0).getCandidate());
             return "/company/company-candidate/cv-list/cvList";
         } else {
             throw new CandidateNotFound(id);
