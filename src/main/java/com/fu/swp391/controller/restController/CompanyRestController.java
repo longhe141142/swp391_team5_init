@@ -105,6 +105,8 @@ public class CompanyRestController {
           HttpStatus.BAD_REQUEST);
     }
 
+    Long maxId = requestRepository.findMaxId();
+
     Request request = new Request();
     request.setSubject(sendRequest.getSubject());
     request.setFromUser(user.get());
@@ -112,6 +114,7 @@ public class CompanyRestController {
     request.setContent(sendRequest.getContent());
     request.setCv(cv.get());
     request.setStatus(StatusEnum.SENT);
+    request.setId(maxId+1);
 
     Email emailToSend = new Email();
     emailToSend.setSubject(sendRequest.getSubject());
@@ -121,6 +124,7 @@ public class CompanyRestController {
     Map<String, Object> model = new HashMap<String, Object>();
     model.put("candidateName",cv.get().getCandidate().getName());
     model.put("companyName",user.get().getCompanies().get(0).getName());
+    model.put("requestId",request.getId());
     System.out.println(cv.get().getCandidate().getName()+" candidate name");
     System.out.println(user.get().getCompanies().get(0).getName()+" company name");
 

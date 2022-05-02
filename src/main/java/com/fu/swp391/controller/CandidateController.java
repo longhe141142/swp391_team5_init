@@ -8,8 +8,11 @@ import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.EducateCV;
 import com.fu.swp391.entities.ExperienceCV;
 import com.fu.swp391.entities.JobPost;
+import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.SkillCV;
+import com.fu.swp391.entities.User;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
@@ -71,6 +74,8 @@ public class CandidateController {
     @Autowired
     HelperUntil<Candidate> candidateHelperUntil;
 
+    @Autowired
+    RequestRepository requestRepository;
 
 
 
@@ -204,5 +209,17 @@ public class CandidateController {
         Optional<Company> company = companyService.findbyId(id);
         model.addAttribute("company",company);
         return "candidate/detailCompany";
+    }
+
+    @GetMapping("/request-detail")
+    public String requestDetail(@RequestParam(value = "id",required = true) Long id,Model model)
+        throws Exception {
+        Optional<Request> request = requestRepository.findById(id);
+        if (!request.isPresent()){
+            throw new Exception("Request doesn't exist!");
+        }
+//        Optional<User> company =  userService.findById(request.get().getFromUser());
+         model.addAttribute("request",request.get());
+        return "/request/request-detail";
     }
 }
