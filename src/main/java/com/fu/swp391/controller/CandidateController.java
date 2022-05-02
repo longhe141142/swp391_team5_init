@@ -18,6 +18,7 @@ import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
 
+import java.sql.Date;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("candidate")
@@ -49,6 +49,8 @@ public class CandidateController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    CandidateRepository candidateRepository;
     @Autowired
     CompanyService companyService;
 
@@ -238,4 +240,32 @@ model.addAttribute("email",email);
 model.addAttribute("candidate",candidate);
         return "candidate/Profilecandidate";
     }
+    @GetMapping("/editprofile")
+    public String editcandidateprofile(Model model) {
+        String email = getPrincipal();
+        Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
+        Candidate a = candidate.get();
+        System.out.println(a.getName());
+        model.addAttribute("email",email);
+        model.addAttribute("candidate",a);
+        return "candidate/editProfile";
+    }
+    @PostMapping("editCandidate")
+    public String editcandidate(@Validated @ModelAttribute("Candidate") Candidate candidate, BindingResult result,
+                                    @RequestParam Long id){
+//        if (result.hasErrors()){
+//            List<FieldError> fields = result.getFieldErrors();
+//            for (int i =0;i<fields.size();i++){
+//                System.out.println("error field name:"+fields.get(i).getField()+
+//                        "\nError message: "+fields.get(i).getDefaultMessage());
+//            }
+//            System.out.println("12345678");
+//            return "redirect:/admin/loadCompanyToEdit?id="+id;
+//        }
+        candidateRepository.updateCandidate(id,candidate.getPhoneNumber(), candidate.getDob());
+        System.out.println("123456");
+        return "redirect:/candidate/home";
+
+    }
+
 }
