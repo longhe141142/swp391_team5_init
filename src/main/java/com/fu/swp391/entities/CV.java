@@ -1,5 +1,6 @@
 package com.fu.swp391.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fu.swp391.common.enumConstants.messageEnum;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "cv")
@@ -32,20 +34,13 @@ public class CV {
     private Long id;
 
     @Column(name = "image_upload")
-    @NotNull
-    @NotEmpty
     private String imageUpload;
 
-    @NotNull
     private int experience;
 
     @Column(length = 1600)
-    @NotNull
-    @NotEmpty
     private String content;
 
-    @NotNull
-    @NotEmpty
     private String certificate;
 
 
@@ -64,21 +59,17 @@ public class CV {
     @JoinColumn(name = "candidate_id", nullable = false)
     private Candidate candidate;
 
-    @NotNull
-    @NotEmpty
     private String email;
 
 
     @Size(max = 10, min = 10, message = messageEnum.PHONE_NUMBER_ERR_SIZE)
     @Pattern(regexp = "[0-9]{9,12}" ,message = messageEnum.PHONE_NUMBER_ERR_RULE)
-    @NotNull
-    @NotEmpty
     private String phone;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @Column(name = "dob")
     private Date dob;
 
-    @NotNull
-    @NotEmpty
     private String status;
 
     public Long getId() {
@@ -89,30 +80,26 @@ public class CV {
         this.id = id;
     }
 
-    @NotNull
-    @NotEmpty
     private String gender;
 
-    @NotNull
-    @NotEmpty
     private String purpose;
 
 
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
-    private List<SkillCV> skills;
+    private List<SkillCV> skills = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
-    private List<ProjectCV> projects;
+    private List<ProjectCV> projects = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
-    private List<EducateCV> educate;
+    private List<EducateCV> educate = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
-    private List<ExperienceCV> experiences;
+    private List<ExperienceCV> experiences = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
-    private List<CertificateCV> certificates;
+    private List<CertificateCV> certificates = new ArrayList<>();
 
 
 
@@ -244,6 +231,7 @@ public class CV {
     public void setProjects(List<ProjectCV> projects) {
         this.projects = projects;
     }
+
 
 
     public List<EducateCV> getEducate() {

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface EducateRepository extends JpaRepository<EducateCV, Long> {
-    @Query(value = "SELECT * FROM cv join educate_cv edc where cv.id = edc.id and edc.cv_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT edu.* FROM  educate_cv edu join cv on edu.cv_id = cv.id where edu.cv_id = ?1", nativeQuery = true)
     List<EducateCV> listAllEducateCV(long id);
 }

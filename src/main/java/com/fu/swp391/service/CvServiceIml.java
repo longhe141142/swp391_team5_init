@@ -5,11 +5,13 @@ import com.fu.swp391.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CvServiceIml implements CvService {
+
     @Autowired
     private CVRepository cvRepository;
     @Autowired
@@ -38,8 +40,8 @@ public class CvServiceIml implements CvService {
     }
 
     @Override
-    public List<CV> getAllCV() {
-        return cvRepository.listAllCV();
+    public List<CV> getAllCV(String name) {
+        return cvRepository.listAllCV(name);
     }
 
 
@@ -48,20 +50,20 @@ public class CvServiceIml implements CvService {
         return cvRepository.findAllCVSkill();
     }
 
+    @Override
+    public CV listOneAllCVById(Long id) {
+        return cvRepository.listOneAllCVById(id);
+    }
+
 
     @Override
     public List<CV> listDetailAllOneCV() {
         return cvRepository.listDetailAllOneCV();
     }
 
-//    @Override
-//    public List<skillFake> getSkillFake() {
-//        return cvRepository.findSkillFake();
-//    }
-
     @Override
-    public void addNewCVe(CV cv) {
-
+    public CV saveCV(CV cv) {
+        return cvRepository.save(cv);
     }
 
     @Override
@@ -105,10 +107,47 @@ public class CvServiceIml implements CvService {
         return cvRepository.findById(id);
     }
 
+    @Override
+    public ExperienceCV SaveExperienceCV(String companyName, String des, Date endTime, String job, Date startTime, long id) {
+        return experienceRepository.SaveExperienceCV(companyName, des, endTime ,job,startTime,id);
+    }
+
+    @Override
+    public CV findById(long id) {
+        return cvRepository.findById(id);
+    }
+
+
 //    @Override
 //    public Optional<CV> findbyId(Long id) {
 //        return cvRepository.findById(id);
 //    }
 
+
+    //add experience
+    @Override
+    public void saveExperience(ExperienceCV experienceCV){
+         experienceRepository.save(experienceCV);
+    }
+
+    @Override
+    public void saveEducation(EducateCV educateCV){
+        educateRepository.save(educateCV);
+    }
+
+    @Override
+    public void saveCertificate(CertificateCV certificateCV){
+        certificateRepository.save(certificateCV);
+    }
+
+    @Override
+    public void saveSkillCV(SkillCV skillCV){
+        skillCVRepository.save(skillCV);
+    }
+
+    @Override
+    public CV UpdateCV(CV cv) {
+        return cvRepository.save(cv);
+    }
 
 }
