@@ -1,6 +1,7 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
+import com.fu.swp391.common.enumConstants.StatusEnum;
 import com.fu.swp391.entities.*;
 import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Candidate;
@@ -117,6 +118,22 @@ public class CandidateController {
         return "/candidate/contact-us";
     }
 
+    @GetMapping("/statusPublic")
+    public String statusPublic(@RequestParam (value = "id") Long id) throws Exception {
+        if(id == null) throw new Exception("CV not Found!!");
+        Optional<CV> cv = cvRepository.findById(id);
+        cv.get().setStatus(StatusEnum.PUBLIC);
+        cvRepository.save(cv.get());
+        return "redirect:/candidate/detailOneCV/"+id;
+    }
+    @GetMapping("/statusPrivate")
+    public String statusPrivate(@RequestParam (value = "id") Long id) throws Exception {
+        if(id == null) throw new Exception("CV not Found!!");
+        Optional<CV> cv = cvRepository.findById(id);
+        cv.get().setStatus(StatusEnum.PRIVATE);
+        cvRepository.save(cv.get());
+        return "redirect:/candidate/detailOneCV/"+id;
+    }
 
     @GetMapping("/listAllCV/{id}")
     public String listAllCV(Model model, @PathVariable(value = "id")Long id) {
@@ -149,13 +166,16 @@ public class CandidateController {
     }
 
     @GetMapping("/detailOneCV/{id}")
-    public String detailOneCV(@PathVariable(value = "id") long id, Model model) {
+    public String detailOneCV(@PathVariable(value = "id") Long id, Model model) {
         model.addAttribute("id",id);
         String email = candidateHelperUntil.getPrincipal();
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
         List<SkillCV> skillCVList = cvService.getSkillCVById(id);
         Candidate candidate = candidateService.getCandidate(email);
+
+        Optional<CV> cv = cvRepository.findById(id);
+        model.addAttribute("cv",cv.get());
 
         //list Experience trong detail oneCV
         List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
