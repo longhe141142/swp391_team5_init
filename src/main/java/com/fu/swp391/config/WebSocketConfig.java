@@ -16,9 +16,10 @@ import java.util.Arrays;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker(BrokerHeader.NOTIFICATION);//subscribe
         registry.enableSimpleBroker(BrokerHeader.NOTIFICATION);
-        registry.setApplicationDestinationPrefixes("/swpp391");
-        registry.setUserDestinationPrefix("/secured/user");
+        registry.setApplicationDestinationPrefixes("/swp391");
+        registry.setUserDestinationPrefix("/secured/user");//send message mapping
     }
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

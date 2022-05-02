@@ -251,7 +251,6 @@ function reCorrectDateString(dateString) {
 $(document).ready(function () {
     $('#submit-now').submit(function (e) {
 
-
         e.preventDefault();
         // $('[data-toggle="tooltip"]').tooltip();
         let getAll = getAllInput();

@@ -1,5 +1,6 @@
 package com.fu.swp391.controller;
 
+import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
@@ -30,6 +31,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -226,9 +232,11 @@ public class CompanyController {
         @RequestParam(value = "id") Long id,
         Model model
     ) throws Exception {
+        Email email = new Email();
         Optional<CV> cv = cvService.getCVBySpecificId(id);
         if (cv.isPresent()) {
             model.addAttribute("cv", cv.get());
+            model.addAttribute("email",email);
             return "/company/company-candidate/cv-detail/cv-detail";
         } else {
             throw new Exception("CV doesn't exist");
@@ -301,6 +309,8 @@ public class CompanyController {
             throw new CandidateNotFound(id);
         }
     }
+
+
 
 }
 

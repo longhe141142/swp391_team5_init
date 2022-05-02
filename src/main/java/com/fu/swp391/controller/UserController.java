@@ -63,17 +63,18 @@ public class UserController {
       throws Exception {
     try {
       System.out.println(userCandidate.getUser().getPasswordEncoder() + "9999[password]");
-//      if (userCandidateResult.hasErrors()) {
-//        List<FieldError> f = userCandidateResult.getFieldErrors();
-//        f.forEach(
-//            name -> {
-//              System.out.println(name.getField());
-//              System.out.println(name.getDefaultMessage());
-//            });
-//        System.out.println("error occured");
-//        //add atrribute
-//        return "redirect:/register";
-//      }
+      if (userCandidateResult.hasErrors()) {
+        List<FieldError> f = userCandidateResult.getFieldErrors();
+        f.forEach(
+            name -> {
+              System.out.println(name.getField());
+              System.out.println(name.getDefaultMessage());
+            });
+        System.out.println("error occured");
+        //add atrribute
+
+        return "redirect:/register";
+      }
 
       String[] roleArray = new String[] {roleEnum.USER, roleEnum.CANDIDATE};
       List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));
@@ -88,8 +89,8 @@ public class UserController {
       System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
       System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
       user.setPasswordEncoder(encoder.encode( user.getPasswordEncoder()));
-user.setPasswordEncoder(user.getPasswordEncoder());
       userService.save(user);
+
       return "login/login";
     } catch (Exception e) {
       System.out.println(e.getStackTrace());
