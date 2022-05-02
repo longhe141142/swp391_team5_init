@@ -14,7 +14,7 @@ public interface CvService {
     List<CV> getAllCV(String name);
     List<CV> getAllCVSkill();
 
-
+    CV listOneAllCVById(Long id);
 
     List<CV> listDetailAllOneCV();
 
@@ -49,4 +49,7 @@ public interface CvService {
     void saveCertificate(CertificateCV certificateCV);
 
     void saveSkillCV(SkillCV skillCV);
+
+    CV UpdateCV(CV cv);
+
 }

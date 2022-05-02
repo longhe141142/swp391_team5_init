@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -20,7 +20,7 @@
 <body class="bg-light">
 
 <div class="container">
-    <form class="needs-validation" th:action="@{/candidate/postCV}" method="post" th:object="${cv}" novalidate>
+    <form class="needs-validation" th:action="@{/candidate/saveEditCV/{id}(id =${cv.id})}" method="post" th:object="${cv}" novalidate>
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
                 <div class="w3-col ">
@@ -38,27 +38,28 @@
                     <br>
                     <a onclick="document.getElementById('id01').style.display='block'" class="w3-button  w3-blue">Add
                         Image</a>
-                    <img   class="w3-table-all" id="myTable" th:src="${candidate.getAvatar()}"/>
+                    <img   class="w3-table-all" id="myTable" th:src="${cv.getImageURL()}"/>
 
                     </img>
 
                 </div>
             </div>
             <div class="col-md-8 order-md-1">
-                <h4 class="mb-3">Edit CV</h4>
+                <h4 class="mb-3">Create New CV</h4>
                 <div class="row">
 
                     <div class="col-md-6 mb-3">
                         <label>Name</label>
-                        <label type="text" class="form-control" value=""><a th:text="${candidate.getName()}"/></label>
+                        <label type="text" class="form-control" value=""><a th:text="${candidate1.getName()}"/></label>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label>Date of birth</label>
-                        <input type="text" class="form-control"   required
-                            th:field="*{dob}"
+                        <input type="text" class="form-control"
+                               name="dob"
+                               th:field="*{dob}"
                         >
                         <div class="invalid-feedback">
                             Valid last name is required.
@@ -69,7 +70,7 @@
                     <label>Age</label>
                     <div class="input-group">
                         <!--            <input type="text" class="form-control"  placeholder="age" required>-->
-                        <label type="text" class="form-control" value=""><a th:text="${candidate.getAge()}" /></label>
+                        <label type="text" class="form-control" value=""><a th:text="${candidate1.getAge()}" /></label>
                         <div class="invalid-feedback" style="width: 100%;">
                             Your username is required.
                         </div>
@@ -78,9 +79,9 @@
                 <div class="mb-3">
                     <label>Phone Number</label>
                     <div class="input-group">
-                      <input type="number" class="form-control"  placeholder="phone" required
-                             th:field="*{phone}"
-                      >
+                        <input type="number" class="form-control"  placeholder="phone"
+                               name="phone"
+                               th:field="*{phone}"/>
                         <div class="invalid-feedback" style="width: 100%;">
                             Your username is required.
                         </div>
@@ -90,8 +91,8 @@
                 <div class="mb-3">
                     <label>Email</label>
                     <input type="text" class="form-control" placeholder="email"
-                           th:field="*{email}"
-                    >
+                           name="email"
+                           th:field="*{email}"/>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -99,9 +100,10 @@
 
                 <div class="mb-3">
                     <label>Purpose</label>
-                    <input type="text" class="form-control" placeholder="purpose description" required
-                           th:field="*{purpose}"
-                    >
+                    <input type="text" class="form-control" placeholder="purpose description"
+                           name="purpose"
+                           th:field="*{purpose}" />
+
                     <div class="invalid-feedback">
                         Please enter your shipping address.
                     </div>
