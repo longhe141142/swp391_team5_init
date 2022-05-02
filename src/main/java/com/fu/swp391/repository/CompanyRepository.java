@@ -26,7 +26,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
             " c.address = :address,c.phone = :phone, c.email = :email," +
             " c.personnel_size = :personnel_size, c.description = :description," +
             " c.founding_at = :founding_at, c.company_intro = :company_intro where c.id = :id", nativeQuery=true)
-    void updatePhone(@Param(value = "id") long id, @Param(value = "name") String name,
+    void update(@Param(value = "id") long id, @Param(value = "name") String name,
                      @Param(value = "address") String address, @Param(value = "phone") String phone,
                      @Param(value = "email") String email, @Param(value = "personnel_size") Integer personnel_size,
                      @Param(value = "description") String description, @Param(value = "founding_at") Date founding_at,
@@ -36,4 +36,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
 
     @Query("SELECT c FROM Company c WHERE c.name LIKE %?1%")
     ArrayList<Company> search(String keyword);
+
+    @Query(value = "SELECT c.* FROM company c join users u on c.user_id = u.id where u.email = ?1" , nativeQuery = true)
+    Optional<Company> findCompanyByEmail(String email);
 }

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableWebSecurity
@@ -33,11 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
+
   @Autowired
   CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
-//  @Autowired
-//  UserDetailsService userDetailsService;
+  @Autowired
+  UserDetailsService userDetailsService;
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
@@ -52,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -74,5 +75,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and().logout().logoutUrl("/auth/logout").addLogoutHandler(customLogoutSuccessHandler)
             .invalidateHttpSession(true).and().cors().and().csrf().disable();
 
+
+
+//        http.authorizeRequests().and() //
+//                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
+//                .1tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
   }
 }

@@ -1,17 +1,28 @@
 package com.fu.swp391.entities;
 
 import com.fu.swp391.common.enumConstants.messageEnum;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "cv")
@@ -26,7 +37,6 @@ public class CV {
     private String imageUpload;
 
     @NotNull
-    @NotEmpty
     private int experience;
 
     @Column(length = 1600)
@@ -51,7 +61,7 @@ public class CV {
     private Date updatedAt;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "candidate_id", nullable = false)
     private Candidate candidate;
 
     @NotNull
@@ -89,20 +99,21 @@ public class CV {
 
 
 
-    @OneToMany(mappedBy = "cv")
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
     private List<SkillCV> skills;
 
-    @OneToMany(mappedBy = "cv")
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
     private List<ProjectCV> projects;
 
-    @OneToMany(mappedBy = "cv")
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
     private List<EducateCV> educate;
 
-    @OneToMany(mappedBy = "cv")
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
     private List<ExperienceCV> experiences;
 
-    @OneToMany(mappedBy = "cv")
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
     private List<CertificateCV> certificates;
+
 
 
 
@@ -219,6 +230,7 @@ public class CV {
         this.projects = projects;
     }
 
+
     public List<EducateCV> getEducate() {
         return educate;
     }
@@ -226,6 +238,8 @@ public class CV {
     public void setEducate(List<EducateCV> educate) {
         this.educate = educate;
     }
+
+
 
     public String getImageURL() {
         return imageUpload;
@@ -250,10 +264,49 @@ public class CV {
     public void setContent(String content) {
         this.content = content;
     }
-//
+
+    //
 //    @OneToMany(mappedBy = "cv")
 //    @JsonIgnore
 //    private List<CVSkill> cvSkills;
 
+    //LONG HE141142
+    public void setProject(ProjectCV project) {
+        if (this.projects == null) {
+            this.projects = new ArrayList<>();
+        }
+        this.projects.add(project);
+    }
+
+    public void setSkill(SkillCV skill) {
+        if (this.skills == null) {
+            this.skills = new ArrayList<>();
+        }
+        this.skills.add(skill);
+    }
+
+    public void setOneEducate(EducateCV educate) {
+        if (this.educate == null) {
+            this.educate = new ArrayList<>();
+        }
+        this.educate.add(educate);
+    }
+
+
+    public void setExperience(ExperienceCV experienceCV) {
+        if (this.experiences == null) {
+            this.experiences = new ArrayList<>();
+        }
+        this.experiences.add(experienceCV);
+    }
+
+    public void setCertificate(CertificateCV certificateCV) {
+        if (this.certificates == null) {
+            this.certificates = new ArrayList<>();
+        }
+        this.certificates.add(certificateCV);
+    }
+
+    //LONG HE141142 END
 
 }

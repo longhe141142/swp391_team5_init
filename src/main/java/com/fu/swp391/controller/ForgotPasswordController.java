@@ -55,6 +55,7 @@ public class ForgotPasswordController {
         return "redirect:/forgot_password_form";
     }
 
+
     public void sendEmail(String recipientEmail, String link)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();

@@ -1,6 +1,7 @@
 package com.fu.swp391.service;
 
 import com.fu.swp391.binding.entiity.UserCandidate;
+import com.fu.swp391.binding.entiity.exception.PrincipalBuildException;
 import com.fu.swp391.common.enumConstants.Gender;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.StatusEnum;
@@ -61,8 +62,6 @@ public class UserServiceImpl2 implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        System.out.println("load function");
-        System.out.println(username);
         User user = null;
         try {
             user = userRepository.findByEmail(username);
@@ -77,8 +76,7 @@ public class UserServiceImpl2 implements UserService {
             }
             //phan long code
             return AuthPrinciple.built(user);
-//            return AuthPrinciple.built(user);
-        } catch (UserBlockedException e) {
+        } catch (UserBlockedException | PrincipalBuildException e) {
             e.printStackTrace();
         }
         return null;
@@ -161,5 +159,10 @@ public class UserServiceImpl2 implements UserService {
 //        user.setPasswordEncoder(null);
         userRepository.save(user);
     }
+
+//    @Override
+//    public User getAdmin(String email) {
+//        return userRepository.getAdmin("email");
+//    }
 }
 

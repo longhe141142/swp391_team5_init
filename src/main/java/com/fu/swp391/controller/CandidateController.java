@@ -1,19 +1,32 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
-import com.fu.swp391.entities.*;
+import com.fu.swp391.entities.CV;
+import com.fu.swp391.entities.Candidate;
+import com.fu.swp391.entities.CertificateCV;
 import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.EducateCV;
+import com.fu.swp391.entities.ExperienceCV;
 import com.fu.swp391.entities.JobPost;
+import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.helper.HelperUntil;
-import com.fu.swp391.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import com.fu.swp391.service.CandidateService;
+import com.fu.swp391.service.CompanyMajorService;
+import com.fu.swp391.service.CompanyService;
+import com.fu.swp391.service.CvService;
+import com.fu.swp391.service.RoleService;
+import com.fu.swp391.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("candidate")
@@ -54,6 +67,9 @@ public class CandidateController {
 //        model.addAttribute("listCandidateCV", candidateService.getAllCandidate());
 //        return "candidate/listAllCV";
 //    }
+
+    @Autowired
+    HelperUntil<Candidate> candidateHelperUntil;
 
 
 
@@ -114,9 +130,19 @@ public class CandidateController {
 
     @GetMapping("/createCV")
     public String createCV(Model model) {
+        candidateHelperUntil.getPrincipal();
         Candidate candidate = candidateService.getCandidate();
         model.addAttribute("candidate", candidate);
+        CV cv = new CV();
+        model.addAttribute("cv", cv);
+        return "/candidate/CreateCV";
+    }
 
+    @GetMapping("/createCV2")
+    public String createCV2(Model model) {
+        candidateHelperUntil.getPrincipal();
+        Candidate candidate = candidateService.getCandidate();
+        model.addAttribute("candidate", candidate);
         CV cv = new CV();
         model.addAttribute("cv", cv);
         return "/candidate/CreateCV";

@@ -6,17 +6,16 @@ import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.SortParam;
 import com.fu.swp391.common.enumConstants.PagingParameter;
 import com.fu.swp391.common.enumConstants.SortEnum;
-import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.Role;
+import com.fu.swp391.entities.*;
+import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
-import com.fu.swp391.service.CandidateService;
-import com.fu.swp391.service.CompanyService;
-import com.fu.swp391.service.RoleService;
+import com.fu.swp391.service.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +42,27 @@ public class AdminController {
 
   @Autowired
   RoleService roleService;
-  @Autowired CandidateService candidateService;
 
-  @Autowired CompanyService companyService;
+  @Autowired
+  CandidateService candidateService;
+
+  @Autowired
+  AdminService adminService;
+
+  @Autowired
+  CompanyService companyService;
+
   @Autowired
   CompanyRepository companyRepository;
-    @GetMapping("/")
-    public String renderAdminHome(){
+
+  @Autowired
+  UserService userService;
+
+  @Autowired
+  HelperUntil<Candidate> helperUntil;
+
+  @GetMapping("/")
+  public String renderAdminHome(){
         return "admin/homeAdmin";
     }
 
@@ -77,12 +90,12 @@ public class AdminController {
           @RequestParam(value = "page", required = false) Integer page, Model model) {
     ArrayList<Company> companyList = (ArrayList<Company>) companyService.findAllCompany();
     int pageIndex = 1;
-    if (page != null) {
-      pageIndex = page;
-    }
-    companyList =
-            companyService.getAllCompanyByPaging(
-                    companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
+//    if (page != null) {
+//      pageIndex = page;
+//    }
+//    companyList =
+//        companyService.getAllCompanyByPaging(
+//            companyList, pageIndex, PagingParameter.PAGE_SIZE_COMPANY_ADMIN);
     model.addAttribute("companies", companyList);
     return "company/ListAllCompany3";
     }
@@ -225,7 +238,7 @@ public class AdminController {
       System.out.println("12345678");
       return "redirect:/admin/loadCompanyToEdit?id="+id;
     }
-    companyRepository.updatePhone(id, company.getName(), company.getAddress(),
+    companyRepository.update(id, company.getName(), company.getAddress(),
             company.getPhone(), company.getEmail(), company.getPersonnelSize(),
             company.getDescription(), company.getFoundingAt(), company.getCompanyIntro());
     System.out.println("123456");
@@ -257,4 +270,19 @@ public class AdminController {
     return "sang trang list company";
   }
 
+
+  @Transactional
+  @GetMapping("cv-seeding")
+  public String seedingCvForSpecificCandidate() throws Exception {
+    adminService.InsertBulkCandidatesCV();
+    return "company/ListAllCompany3";
+  }
+
+  @GetMapping("/adminProfile")
+  public String adminProfile(Model model) {
+    String email = helperUntil.getPrincipal();
+    Optional<User> admin = userService.findUserByEmail(email);
+    model.addAttribute("admin", admin.get());
+    return "/admin/adminProfile";
+  }
 }

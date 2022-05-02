@@ -30,6 +30,10 @@ public class PagingParam {
         }
     }
 
+    public PagingParam(int perPage) {
+        this.perPage = perPage;
+    }
+
     public List<Integer> getPageList() {
         return pageList;
     }

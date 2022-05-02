@@ -2,15 +2,24 @@ package com.fu.swp391.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "candidates")
@@ -53,9 +62,9 @@ public class Candidate {
 
     private String name;
 
-    @OneToMany(mappedBy = "candidate")
-    @JsonIgnore
-    private List<CV> cv;
+  @OneToMany(mappedBy = "candidate",fetch = FetchType.EAGER)
+  @JsonIgnore
+  private List<CV> cv = new ArrayList<>();
 
     @ManyToOne(optional = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -126,15 +135,23 @@ public class Candidate {
         this.name = name;
     }
 
-    private String avatar;
+  private String avatar;
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
 
-    public String getAvatar() {
-        return avatar;
+  public String getAvatar() {
+    return avatar;
+  }
+
+
+  public void setOneCv(CV cv) {
+    if (this.cv == null) {
+      this.cv = new ArrayList<>();
     }
+    this.cv.add(cv);
+  }
 
 
 }
