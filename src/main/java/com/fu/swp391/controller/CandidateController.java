@@ -3,6 +3,7 @@ package com.fu.swp391.controller;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.CVRepository;
 import com.fu.swp391.repository.ExperienceRepository;
 import com.fu.swp391.service.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,13 +61,18 @@ public class CandidateController {
     @Autowired
     CompanyMajorService companyMajorService;
 
+
+    @Autowired
+    CVRepository cvRepository;
+
     @Autowired
     HelperUntil<Company> helperUntilCompany;
-    public CandidateController(CandidateService candidateService,CompanyService companyService,CvService cvService,CompanyMajorService companyMajorService) {
+    public CandidateController(CVRepository cvRepository, CandidateService candidateService,CompanyService companyService,CvService cvService,CompanyMajorService companyMajorService) {
         this.candidateService = candidateService;
         this.companyService = companyService;
         this.cvService = cvService;
         this.companyMajorService = companyMajorService;
+        this.cvRepository = cvRepository;
     }
 
 
@@ -100,32 +107,30 @@ public class CandidateController {
 
     @GetMapping("/listAllCV/{id}")
     public String listAllCV(Model model, @PathVariable(value = "id")Long id) {
-        String name = candidateHelperUntil.getPrincipal();
-        Candidate can= candidateService.getCandidate(name);
+        String email = candidateHelperUntil.getPrincipal();
+        Candidate can= candidateService.getCandidate(email);
 
 
         List<CV> cvList = cvService.getAllCVById(id);
         model.addAttribute("listCandidateCV", cvList);
 
-
-
-
-        List<CV> cvListSkill = cvService.getAllCVSkill();
-        Candidate candidate = candidateService.getCandidate(name);
-        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
-        List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
-
-        //List<skillFake> skillFakes =  cvService.getSkillFake();
-
-
         List<CV> cvList1 = cvService.getAllCV(can.getName());
         model.addAttribute("listCandidateCV1", cvList1);
 
-
-
+        Candidate candidate = candidateService.getCandidate(email);
         model.addAttribute("candidate", candidate);
+
+        List<SkillCV> skillCVList = cvService.getSkillCVById(id);
+        model.addAttribute("skillCVList", skillCVList);
+
+        List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
         model.addAttribute("experienceCVList", experienceCVList);
+
+        List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         model.addAttribute("educateCVList1", educateCVList1);
+
+
+        //List<skillFake> skillFakes =  cvService.getSkillFake();
         //model.addAttribute("skillFakes",skillFakes);
         return "/candidate/listAllCV";
     }
@@ -133,11 +138,11 @@ public class CandidateController {
     @GetMapping("/detailOneCV/{id}")
     public String detailOneCV(@PathVariable(value = "id") long id, Model model) {
         model.addAttribute("id",id);
-        String name = candidateHelperUntil.getPrincipal();
+        String email = candidateHelperUntil.getPrincipal();
         List<EducateCV> educateCVList1 = cvService.getEducateCVById(id);
         List<CertificateCV> certificateCVS = cvService.getCertificateCVById(id);
         List<SkillCV> skillCVList = cvService.getSkillCVById(id);
-        Candidate candidate = candidateService.getCandidate(name);
+        Candidate candidate = candidateService.getCandidate(email);
 
         //list Experience trong detail oneCV
         List<ExperienceCV> experienceCVList = cvService.getExperienceCVById(id);
@@ -188,7 +193,43 @@ public class CandidateController {
     @GetMapping("/delete/{id}")
     public String deleteCV(Model model, @PathVariable(value = "id") long id) {
         cvService.deleteCVById(id);
-        return "redirect:/candidate/listAllCV";
+        return "redirect:/candidate/listAllCV/"+id+"";
+    }
+
+    @GetMapping("/editCV/{id}")
+    public String editCV(Model model, @PathVariable(value = "id") long id) {
+        String email = candidateHelperUntil.getPrincipal();
+        Candidate candidate = candidateService.getCandidate(email);
+        model.addAttribute("candidate1",candidate);
+
+        CV cv = cvService.listOneAllCVById(id);
+        model.addAttribute("cv",cv);
+
+//        CV cv = new CV();
+//        model.addAttribute("cv",cv);
+//        cvService.deleteCVById(id);
+        return "/candidate/editCV";
+    }
+
+
+    @PostMapping("/saveEditCV/{id}")
+    public String saveEditCV(@PathVariable long id, @ModelAttribute("cv") CV cv,Model model) {
+        //get cv by id
+        CV cvList = cvService.listOneAllCVById(id);
+        cvList.setId(id);
+        cvList.setPhone(cv.getPhone());
+        cvList.setDob(cv.getDob());
+        cvList.setGender(cv.getGender());
+        cvList.setEmail(cv.getEmail());
+        cvList.setPurpose(cv.getPurpose());
+
+        //update cv object
+        cvService.UpdateCV(cvList);
+
+
+   //     cvRepository.saveEditCV(cv.getId(), cv.getEmail(),cv.getGender(),cv.getPhone(),cv.getPurpose(),cv.getDob());
+      //  return "redirect:/candidate/saveEditCV";
+        return "redirect:/candidate/home";
     }
 
 

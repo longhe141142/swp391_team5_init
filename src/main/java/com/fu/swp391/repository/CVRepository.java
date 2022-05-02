@@ -5,10 +5,14 @@ import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.entities.skillFake;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -22,6 +26,9 @@ public interface CVRepository extends JpaRepository<CV, Long> {
 
     @Query(value = "SELECT * FROM cv where cv.id = ?1 ", nativeQuery = true)
     List<CV> listAllCVById(Long id);
+
+    @Query(value = "SELECT * FROM cv where cv.id = ?1 ", nativeQuery = true)
+    CV listOneAllCVById(Long id);
 
     @Query(value = "SELECT cv.* FROM swp391.cv join candidates c  on cv.candidate_id = c.id  where c.name = ?1  ", nativeQuery = true )
     List<CV> listAllCV(String name);
@@ -41,6 +48,18 @@ public interface CVRepository extends JpaRepository<CV, Long> {
 //    List<CV> listDetailAllOneCV();
 
         CV findById(long id);
+
+   // void saveEditCV(CV cv);
+
+//    @Transactional
+//    @Modifying
+//    @Query(value = "update CV c set c.email = :email," +
+//            " c.gender = :gender,c.phone = :phone, c.purpose = :purpose," +
+//            " c.dob = :dob where c.id = :id", nativeQuery=true)
+//    void saveEditCV(@Param(value = "id") long id, @Param(value = "email") String email,
+//                @Param(value = "gender") String gender, @Param(value = "phone") String phone
+//                , @Param(value = "purpose") String purpose,
+//                @Param(value = "dob") Date dob);
 
 
 //

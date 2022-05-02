@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class CvServiceIml implements CvService {
+
     @Autowired
     private CVRepository cvRepository;
     @Autowired
@@ -47,6 +48,11 @@ public class CvServiceIml implements CvService {
     @Override
     public List<CV> getAllCVSkill() {
         return cvRepository.findAllCVSkill();
+    }
+
+    @Override
+    public CV listOneAllCVById(Long id) {
+        return cvRepository.listOneAllCVById(id);
     }
 
 
@@ -137,6 +143,11 @@ public class CvServiceIml implements CvService {
     @Override
     public void saveSkillCV(SkillCV skillCV){
         skillCVRepository.save(skillCV);
+    }
+
+    @Override
+    public CV UpdateCV(CV cv) {
+        return cvRepository.save(cv);
     }
 
 }
