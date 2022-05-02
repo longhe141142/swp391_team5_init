@@ -112,7 +112,7 @@
               <td>
                 <img
                         alt="Avatar"
-                        class="avatar" th:src="${company.getCompanyImageUrl()}">
+                        class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
                 <a data-toggle="modal"
                    th:href="${'#company-'+ company.getId()}"
                    th:text="${company.getName()}"

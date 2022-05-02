@@ -156,7 +156,7 @@ public class AdminRestController {
     return new ResponseEntity<Object>(companyCreate, HttpStatus.OK);
   }
 
-  @Value("${upload.path}")
+  @Value("C:/Users/BVCN 2/Desktop/Clone/src/main/resources/fileUpload/")
   private String fileUpload;
 
   private boolean checkFileEmpty(MultipartFile file) {
