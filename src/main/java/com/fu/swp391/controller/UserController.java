@@ -72,6 +72,7 @@ public class UserController {
             });
         System.out.println("error occured");
         //add atrribute
+
         return "redirect:/register";
       }
 
@@ -89,6 +90,7 @@ public class UserController {
       System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
       user.setPasswordEncoder(encoder.encode( user.getPasswordEncoder()));
       userService.save(user);
+
       return "login/login";
     } catch (Exception e) {
       System.out.println(e.getStackTrace());
