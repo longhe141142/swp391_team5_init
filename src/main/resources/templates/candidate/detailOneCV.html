@@ -10,12 +10,42 @@
   <link rel="stylesheet" href="/home/css/style.css">
   <script src="https://use.fontawesome.com/809c2bfca6.js"></script>
   <script src="/home/scripts/index.js"></script>
+  <style type="text/css">
+    .setStatus #public{
+      display: inline;
+      width: 130px;
+      background-color: rgb(4, 170, 109);
+      color: white;
+      border-radius: 25px;
+      margin-left: 1000px;
+      margin-top: 5px;
+      margin-right: 20px;
+    }
+    .setStatus #private{
+      display: inline;
+      width: 130px;
+      background-color: rgb(170, 4, 62);
+      color: white;
+      border-radius: 25px;
+      margin-top: 5px;
+    }
+    h4{
+      margin-left: 1100px;
+    }
+    h4 a{
+      background-color: rgb(7, 215, 11);
+    }
+  </style>
+
 </head>
 <body>
 
+
 <header>
 
-    <div class="wrapper"> 
+    <div class="wrapper">
+
+
 
       <div class="sidebar">
           <div class="bio">
@@ -47,8 +77,14 @@
       </div>
 
       <div class="content-wrapper">
-          <div class="content">
 
+        <div class="setStatus">
+          <a id="public" th:href="'/candidate/statusPublic?id='+${id}">PUBLIC</a>
+          <a id="private" th:href="'/candidate/statusPrivate?id='+${id}">PRIVATE</a>
+          <h4>Status: <a th:text="${cv.status}"></a></h4>
+        </div>
+
+          <div class="content">
             <div class="title" >
               <i class="fa fa-briefcase" aria-hidden="true"></i>
               <h2>EXPERIENCE </h2> <a th:href="@{'/candidate/addExperience/'+${id}}">ADD EXPERIENCE</a>
