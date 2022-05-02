@@ -63,7 +63,8 @@ public class CandidateController {
 
     @Autowired
     CompanyService companyService;
-
+@Autowired
+    CandidateRepository candidateRepository;
     @Autowired
     CompanyMajorService companyMajorService;
 
@@ -247,7 +248,7 @@ public class CandidateController {
 
     @GetMapping("/profileCandidate")
     public String profileCandidate(Model model) {
-String email = getPrincipal();
+String email = helperUntilCompany.getPrincipal();
 Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
 model.addAttribute("email",email);
 model.addAttribute("candidate",candidate);
@@ -255,7 +256,7 @@ model.addAttribute("candidate",candidate);
     }
     @GetMapping("/editprofile")
     public String editcandidateprofile(Model model) {
-        String email = getPrincipal();
+        String email = helperUntilCompany.getPrincipal();
         Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
         Candidate a = candidate.get();
         System.out.println(a.getName());
