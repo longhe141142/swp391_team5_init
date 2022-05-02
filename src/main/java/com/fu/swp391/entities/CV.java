@@ -232,21 +232,7 @@ public class CV {
         this.projects = projects;
     }
 
-    public List<ExperienceCV> getExperiences() {
-        return experiences;
-    }
 
-    public void setExperiences(List<ExperienceCV> experiences) {
-        this.experiences = experiences;
-    }
-
-    public List<CertificateCV> getCertificates() {
-        return certificates;
-    }
-
-    public void setCertificates(List<CertificateCV> certificates) {
-        this.certificates = certificates;
-    }
 
     public List<EducateCV> getEducate() {
         return educate;
