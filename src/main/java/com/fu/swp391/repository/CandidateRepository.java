@@ -35,8 +35,8 @@ public interface CandidateRepository extends CrudRepository<Candidate,Long> {
 
   @Transactional
   @Modifying
-  @Query(value = "update candidates c set  c.phone_number = :phone, c.dob = :dob where c.id = :id", nativeQuery=true)
-  void updateCandidate(@Param(value = "id") long id,
+  @Query(value = "update candidates c set c.avatar = :avatar, c.phone_number = :phone, c.dob = :dob where c.id = :id", nativeQuery=true)
+  void updateCandidate(@Param(value = "id") long id, @Param(value = "avatar") String avatar,
               @Param(value = "phone") String phone,
               @Param(value = "dob") Date dob);
 

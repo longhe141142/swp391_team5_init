@@ -18,6 +18,12 @@ import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.util.*;
 
@@ -30,6 +36,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
 
 @Controller
 @RequestMapping("candidate")
@@ -37,6 +46,8 @@ public class CandidateController {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    ServletContext servletContext;
     @Autowired
     CvService cvService;
 
@@ -252,7 +263,7 @@ model.addAttribute("candidate",candidate);
     }
     @PostMapping("editCandidate")
     public String editcandidate(@Validated @ModelAttribute("Candidate") Candidate candidate, BindingResult result,
-                                    @RequestParam Long id){
+                                @RequestParam Long id, @RequestParam("photo")MultipartFile photo){
 //        if (result.hasErrors()){
 //            List<FieldError> fields = result.getFieldErrors();
 //            for (int i =0;i<fields.size();i++){
@@ -262,10 +273,15 @@ model.addAttribute("candidate",candidate);
 //            System.out.println("12345678");
 //            return "redirect:/admin/loadCompanyToEdit?id="+id;
 //        }
-        candidateRepository.updateCandidate(id,candidate.getPhoneNumber(), candidate.getDob());
+        candidate.setAvatar(photo.getOriginalFilename());
+
+
+        candidateRepository.updateCandidate(id,candidate.getAvatar(),candidate.getPhoneNumber(), candidate.getDob());
         System.out.println("123456");
         return "redirect:/candidate/home";
 
     }
+
+
 
 }
