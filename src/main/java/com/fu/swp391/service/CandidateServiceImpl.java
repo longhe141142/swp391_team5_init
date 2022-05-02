@@ -102,4 +102,9 @@ public class CandidateServiceImpl implements CandidateService {
     public Optional<Candidate> getCandidateById(Long id){
         return candidateRepository.findById(id);
     }
+
+    @Override
+    public Optional<Candidate> getcandidatebyEmail(String email) {
+        return candidateRepository.findCandidateByMailUser(email);
+    }
 }

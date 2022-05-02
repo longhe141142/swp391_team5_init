@@ -10,6 +10,7 @@ import com.fu.swp391.entities.ExperienceCV;
 import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.repository.CandidateRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
@@ -20,6 +21,8 @@ import com.fu.swp391.service.UserService;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -214,5 +217,25 @@ public class CandidateController {
         Optional<Company> company = companyService.findbyId(id);
         model.addAttribute("company",company);
         return "candidate/detailCompany";
+    }
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
+    @GetMapping("/profileCandidate")
+    public String profileCandidate(Model model) {
+String email = getPrincipal();
+Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
+model.addAttribute("email",email);
+model.addAttribute("candidate",candidate);
+        return "candidate/Profilecandidate";
     }
 }
