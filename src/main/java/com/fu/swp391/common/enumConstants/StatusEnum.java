@@ -7,5 +7,7 @@ public class StatusEnum {
     public static final String CLOSED = "CLOSED";
     public static final String REJECTED = "REJECTED";
     public static final String PUBLIC = "PUBLIC";
+    public static final String SENT = "SENT";
+
 
 }

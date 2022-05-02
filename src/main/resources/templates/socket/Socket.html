@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello WebSocket</title>
+  <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+  <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+  <script src="/app.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+  enabled. Please enable
+  Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="connect">WebSocket connection:</label>
+          <button id="connect" class="btn btn-default" type="submit">Connect</button>
+          <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="name">What is your name?</label>
+          <input type="text" id="name" class="form-control" placeholder="Your name here...">
+        </div>
+        <button id="send" class="btn btn-default" type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table id="conversation" class="table table-striped">
+        <thead>
+        <tr>
+          <th>Greetings</th>
+        </tr>
+        </thead>
+        <tbody id="greetings">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  var stompClient = null;
+
+  function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+      $("#conversation").show();
+    }
+    else {
+      $("#conversation").hide();
+    }
+    $("#greetings").html("");
+  }
+
+  connect();
+
+  function connect() {
+    var socket = new SockJS('/gs-guide-websocket');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+      var url = stompClient.ws._transport.url;
+      // url = url.replace(
+      //     "ws://localhost:8080/spring-security-mvc-socket/secured/room/",  "");
+      // url = url.replace("/websocket", "");
+      // url = url.replace(/^[0-9]+\//, "");
+      url = url.replace(
+          "ws://localhost:8002/gs-guide-websocket/",  "");
+      url = url.replace("/websocket", "");
+      url = url.replace(/^[0-9]+\//, "");
+      console.log("Your current session is: " + url);
+      sessionId = url;
+      setConnected(true);
+      console.log('Connected: ' + frame);
+      stompClient.subscribe('/notification/subscribe', function (greeting) {
+        showGreeting(JSON.parse(greeting.body).content);
+      });
+      stompClient.subscribe('secured/user/queue/specific-user'
+          + '-user' + sessionId, function (msgOut) {
+        //handle messages
+        console.log(msgOut);
+      });
+    });
+  }
+
+  function disconnect() {
+    if (stompClient !== null) {
+      stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+  }
+
+  function sendName() {
+    stompClient.send("/swp391/base", {}, JSON.stringify({'name': $("#name").val()}));
+  }
+
+  function sendNameSecured() {
+    stompClient.send("/swp391/secured/room", {}, JSON.stringify({
+      'from':'abc@gmail.com',
+      'to':'to@gmail.com',
+      'text':'text abc'
+    }));
+  }
+
+  function showGreeting(message) {
+    console.log(message)
+    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+  }
+
+  $(function () {
+    $("form").on('submit', function (e) {
+      e.preventDefault();
+    });
+    $( "#connect" ).click(function() { connect(); });
+    $( "#disconnect" ).click(function() { disconnect(); });
+    $( "#send" ).click(function() { sendNameSecured(); });
+  });
+</script>
+</body>
+</html>

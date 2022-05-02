@@ -1,5 +1,6 @@
 package com.fu.swp391.controller;
 
+import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -149,12 +151,13 @@ public class CompanyController {
         @RequestParam(value = "id") Long id,
         Model model
     ) throws Exception {
-        Optional<CV> cv =cvService.getCVBySpecificId(id);
-
-        if (cv.isPresent()){
-             model.addAttribute("cv",cv);
-             return "/company/company-candidate/cv-detail/cv-detail";
-        }else {
+        Email email = new Email();
+        Optional<CV> cv = cvService.getCVBySpecificId(id);
+        if (cv.isPresent()) {
+            model.addAttribute("cv", cv.get());
+            model.addAttribute("email",email);
+            return "/company/company-candidate/cv-detail/cv-detail";
+        } else {
             throw new Exception("CV doesn't exist");
         }
     }
@@ -165,6 +168,41 @@ public class CompanyController {
         Optional<Company> company = companyService.findCompanyByEmail(email);
         model.addAttribute("company", company.get());
         return "/company/companyProfile";
+    }
+
+    @GetMapping("/candidate/cv/seeMore")
+    public String seeMoreCV(
+        //id value candidateId
+        @RequestParam(value = "id") Long id,
+        @RequestParam(value = "page") Integer page,
+        Model model
+    ) throws CandidateNotFound {
+        Optional<Candidate> candidate = candidateService.getCandidateById(id);
+        //validate @RequestParam
+        int pageIndex = page == null ? 1 : page;
+        if (candidate.isPresent()) {
+
+            //get list of cv which is PUBLIC
+            List<CV> cvsPublic = candidate.get().getCVPublic();
+            //Get total page
+            int totalPage = cvHelperUntil.getTotalSize(cvsPublic.size(),
+                    PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            //Ignore bagException
+            ArrayList<CV> cvsPublicConvertToArrayList = new ArrayList<>(cvsPublic);
+            //paging by helper.util, get arraylist in one page
+            cvsPublicConvertToArrayList = cvHelperUntil.PagingElement(cvsPublicConvertToArrayList,
+                    pageIndex, PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+            //get PagingParam
+            PagingParam pagingParam = new PagingParam(totalPage, cvsPublicConvertToArrayList.size(),
+                    PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV, pageIndex);
+
+            model.addAttribute("listCvsPublic", cvsPublicConvertToArrayList);
+            model.addAttribute("pagingParam", pagingParam);
+            model.addAttribute("candidate", cvsPublicConvertToArrayList.get(0).getCandidate());
+            return "/company/company-candidate/cv-list/cvList";
+        } else {
+            throw new CandidateNotFound(id);
+        }
     }
 
 }

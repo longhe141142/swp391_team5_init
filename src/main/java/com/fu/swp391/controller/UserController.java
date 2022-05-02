@@ -19,10 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,18 +28,15 @@ import java.util.List;
 @Controller()
 public class UserController {
 
-    @Autowired
-    RoleService roleService;
+    @Autowired RoleService roleService;
 
-    @Autowired
-    @Qualifier("candidateServiceImpl")
-    CandidateService candidateService;
+    @Autowired @Qualifier("candidateServiceImpl") CandidateService candidateService;
 
-    @Autowired
-    GenderEnum genderEnum;
+    @Autowired GenderEnum genderEnum;
 
     @Autowired
     PasswordEncoder encoder;
+
 
 
     @Autowired
@@ -53,9 +48,10 @@ public class UserController {
         System.out.println("Entry SignUp");
         model.addAttribute("userCandidate", new UserCandidate());
         List<String> genderStringList = userService.getListGender();
-        model.addAttribute("listGender", genderStringList);
+        model.addAttribute("listGender",genderStringList);
         return "register/register";
     }
+
 
 
     @PostMapping("/registerTest")
@@ -76,10 +72,11 @@ public class UserController {
                         });
                 System.out.println("error occured");
                 //add atrribute
+
                 return "redirect:/register";
             }
 
-            String[] roleArray = new String[]{roleEnum.USER, roleEnum.CANDIDATE};
+            String[] roleArray = new String[] {roleEnum.USER, roleEnum.CANDIDATE};
             List<String> roleList = new ArrayList<>(Arrays.asList(roleArray));
             User user = userService.addRoleToUser(roleList, userCandidate);
             user.setToken("user");
@@ -91,8 +88,9 @@ public class UserController {
                             });
             System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
             System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
-            user.setPasswordEncoder(encoder.encode(user.getPasswordEncoder()));
+            user.setPasswordEncoder(encoder.encode( user.getPasswordEncoder()));
             userService.save(user);
+
             return "login/login";
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
@@ -102,6 +100,7 @@ public class UserController {
 //    @RequestMapping(value = "/templates/homeAdmin.html/", method = RequestMethod.GET){
 //
 //    }
+
 
 
     //  @PostMapping("/register")
@@ -135,6 +134,7 @@ public class UserController {
     public String login(Model model) {
         return "login/login";
     }
+
 
 
 //    @PostMapping("/register")
@@ -178,7 +178,5 @@ public class UserController {
 //
 //        }
 //    }
-
-
 
 }
