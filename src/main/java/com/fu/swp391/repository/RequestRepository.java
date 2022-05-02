@@ -5,6 +5,8 @@ import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.Role;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,10 +23,15 @@ public interface RequestRepository extends CrudRepository<Request,Long> {
     @Query(value = "select *  from requests r where r.to_id = :to_id", nativeQuery = true)
     List<Request> fillAllRequestCompanyByTo_Id(@Param(value = "to_id") long to_id);
 
+  @Override
+  Optional<Request> findById(Long aLong);
+
+  @Query(value = "SELECT MAX(id) FROM requests",nativeQuery = true)
+  Long findMaxId();
+}
     @Transactional
     @Modifying
     @Query(value = "update requests r set r.status = :status,r.comment = :comment, where c.id = :id", nativeQuery = true)
     void update(@Param(value = "id") long id, @Param(value = "status") String status, @Param(value = "comment") String comment);
 
-    Optional<Request> findById(Long id);
 }

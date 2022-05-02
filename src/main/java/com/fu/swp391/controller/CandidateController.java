@@ -1,6 +1,16 @@
 package com.fu.swp391.controller;
 
 import com.fu.swp391.common.enumConstants.GenderEnum;
+import com.fu.swp391.entities.CV;
+import com.fu.swp391.entities.Candidate;
+import com.fu.swp391.entities.CertificateCV;
+import com.fu.swp391.entities.Company;
+import com.fu.swp391.entities.EducateCV;
+import com.fu.swp391.entities.ExperienceCV;
+import com.fu.swp391.entities.JobPost;
+import com.fu.swp391.entities.Request;
+import com.fu.swp391.entities.SkillCV;
+import com.fu.swp391.entities.User;
 import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.RequestRepository;
@@ -18,10 +28,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("candidate")
@@ -202,6 +213,18 @@ public class CandidateController {
         Optional<Company> company = companyService.findbyId(id);
         model.addAttribute("company",company);
         return "candidate/detailCompany";
+    }
+
+    @GetMapping("/request-detail")
+    public String requestDetail(@RequestParam(value = "id",required = true) Long id,Model model)
+        throws Exception {
+        Optional<Request> request = requestRepository.findById(id);
+        if (!request.isPresent()){
+            throw new Exception("Request doesn't exist!");
+        }
+//        Optional<User> company =  userService.findById(request.get().getFromUser());
+         model.addAttribute("request",request.get());
+        return "/request/request-detail";
     }
 
     @GetMapping ("loadRequestForDetail")
