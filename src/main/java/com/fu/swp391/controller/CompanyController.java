@@ -128,7 +128,7 @@ public class CompanyController {
         Optional<Candidate> candidate = companyService.getCandidateById(id);
         ArrayList<CV> candidatesListCastIgnorePersistentBagException = new ArrayList<>();
         if (candidate.isPresent()) {
-            for (CV cv : candidate.get().getCv()) {
+            for (CV cv : candidate.get().getCVPublic()) {
                 System.out.println(cv.getId());
                 candidatesListCastIgnorePersistentBagException.add(cv);
             }

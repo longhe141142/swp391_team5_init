@@ -106,6 +106,8 @@ public class CompanyRestController {
     }
 
     Long maxId = requestRepository.findMaxId();
+    if(maxId==null)
+      maxId = 0L;
 
     Request request = new Request();
     request.setSubject(sendRequest.getSubject());
