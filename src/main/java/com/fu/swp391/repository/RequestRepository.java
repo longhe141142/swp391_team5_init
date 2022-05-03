@@ -35,11 +35,3 @@ public interface RequestRepository extends CrudRepository<Request,Long> {
     void update(@Param(value = "id") long id, @Param(value = "status") String status, @Param(value = "comment") String comment);
 }
 
-
-import com.fu.swp391.entities.Request;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface RequestRepository extends JpaRepository<Request,Long> {
-}

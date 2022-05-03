@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.StatusEnum;
-import com.fu.swp391.entities.*;
 import com.fu.swp391.entities.CV;
 import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.CertificateCV;
@@ -16,19 +15,14 @@ import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.entities.User;
-import com.fu.swp391.entities.*;
-import com.fu.swp391.entities.*;
+
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CVRepository;
-import com.fu.swp391.repository.ExperienceRepository;
 import com.fu.swp391.service.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequest;
+
 import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.repository.JobPostRepository;
-import com.fu.swp391.repository.RequestRepository;
-import com.fu.swp391.service.*;
+
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
@@ -36,7 +30,6 @@ import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,28 +38,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("candidate")
@@ -92,8 +76,6 @@ public class CandidateController {
     @Autowired
     CompanyMajorService companyMajorService;
 
-    @Autowired
-    RequestRepository requestRepository;
 
 
     @Autowired
