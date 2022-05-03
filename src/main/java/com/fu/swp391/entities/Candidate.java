@@ -157,6 +157,7 @@ public class Candidate {
   public List<CV> getCVPublic(){
     List<CV> cvPublicOnly = new ArrayList<>();
         for (CV cv : this.getCv()){
+          if (cv.getStatus()!=null)
               if(cv.getStatus().equalsIgnoreCase(StatusEnum.PUBLIC)){
                 cvPublicOnly.add(cv);
               }

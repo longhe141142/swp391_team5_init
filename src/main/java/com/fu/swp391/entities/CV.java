@@ -41,6 +41,7 @@ public class CV {
     @Column(length = 1600)
     private String content;
 
+    @Column(nullable = true)
     private String certificate;
 
 
@@ -86,7 +87,7 @@ public class CV {
 
 
 
-    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<SkillCV> skills = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv",cascade = CascadeType.ALL)

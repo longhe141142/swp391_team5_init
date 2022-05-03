@@ -172,10 +172,10 @@
 
         <div class="row">
           <div class="col-12">
-            <p th:if="${candidate.getCv().size() eq 0 or candidate.getCv() eq null}" style="text-align: center; font-size: 2.4em; font-weight: 700;">
+            <p th:if="${candidate.getCVPublic().size() eq 0 or candidate.getCVPublic() eq null}" style="text-align: center; font-size: 2.4em; font-weight: 700;">
               No CV public Yet...
             </p>
-            <a th:if="${candidate.getCv().size() > pagingParam.perPage }" th:href="'/company/candidate/cv/seeMore?id='+${candidate.getId()}+'&page=1'" href="#" style="text-align: center; font-size: 2.4em; font-weight: 700;">
+            <a th:if="${candidate.getCVPublic().size() > pagingParam.perPage }" th:href="'/company/candidate/cv/seeMore?id='+${candidate.getId()}+'&page=1'" href="#" style="text-align: center; font-size: 2.4em; font-weight: 700;">
               SEE MORE
             </a>
           </div>

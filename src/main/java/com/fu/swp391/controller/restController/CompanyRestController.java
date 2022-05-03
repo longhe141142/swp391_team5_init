@@ -64,6 +64,7 @@ public class CompanyRestController {
 
     if (!user.isPresent()) {
 //      throw new Exception("You did not login");
+      //no user present
       helperUntil.putKeyValue(objectNode, "internal_error", "You did not login");
       return new ResponseEntity<Object>(new ApiError(HttpStatus.BAD_REQUEST, "error", objectNode),
           HttpStatus.BAD_REQUEST);
@@ -72,6 +73,7 @@ public class CompanyRestController {
     if (bindingResult.hasErrors()) {
       System.out.println("Error occurred,Starting validate\n");
 
+      //validate follow dto
       for (FieldError fieldError : bindingResult.getFieldErrors()) {
         helperUntil.putKeyValue(objectNode, fieldError.getField(),
             fieldError.getDefaultMessage());
@@ -105,10 +107,13 @@ public class CompanyRestController {
           HttpStatus.BAD_REQUEST);
     }
 
+    //get max request id
+    //fix bug: chinh sua strategy id: FROM IDENTITY -> AUTO
     Long maxId = requestRepository.findMaxId();
     if(maxId==null)
       maxId = 0L;
 
+    //create request
     Request request = new Request();
     request.setSubject(sendRequest.getSubject());
     request.setFromUser(user.get());
@@ -118,6 +123,7 @@ public class CompanyRestController {
     request.setStatus(StatusEnum.SENT);
     request.setId(maxId+1);
 
+    //start input email
     Email emailToSend = new Email();
     emailToSend.setSubject(sendRequest.getSubject());
     emailToSend.setFrom(user.get().getEmail());
@@ -130,11 +136,11 @@ public class CompanyRestController {
     System.out.println(cv.get().getCandidate().getName()+" candidate name");
     System.out.println(user.get().getCompanies().get(0).getName()+" company name");
 
+    //set properties to bind to email
     emailToSend.setProperties(model);
-    System.out.println("entryy 999");
     try {
-      emailSenderServiceImpl.sendHtmlMessage(emailToSend);
-      requestRepository.save(request);
+      emailSenderServiceImpl.sendHtmlMessage(emailToSend);//send mail
+      requestRepository.save(request);//save request
     } catch (Exception e) {
       e.printStackTrace();
       helperUntil.putKeyValue(objectNode, "internal_error", "Request send failed");
