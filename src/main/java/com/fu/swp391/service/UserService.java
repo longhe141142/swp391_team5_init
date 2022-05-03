@@ -18,4 +18,7 @@ public interface UserService extends UserDetailsService {
     User addRoleToUser(List<String> roles, UserCandidate userCandidate);
     Optional<User> findUserByEmail(String email);
 //    User getAdmin(String email);
+    void updateResetPasswordToken(String token, String email);
+    User getByResetPasswordToken(String token);
+    void updatePassword(User user, String newPassword);
 }
