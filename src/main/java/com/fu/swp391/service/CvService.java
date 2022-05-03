@@ -14,6 +14,7 @@ public interface CvService {
     List<CV> getAllCVById(Long id);
 
     List<CV> getAllCV(String name);
+    List<CV> getAllCV();
     List<CV> getAllCVSkill();
 
     CV listOneAllCVById(Long id);

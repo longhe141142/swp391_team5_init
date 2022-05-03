@@ -29,9 +29,11 @@ public interface CandidateRepository extends CrudRepository<Candidate,Long> {
 
   @Query(value = " SELECT c.* FROM candidates c join users u on c.user_id = u.id where u.email =  ?1 ", nativeQuery = true)
   Optional<Candidate> findCandidateByMailUser(String email);
+//
+//  @Query(value = " SELECT * FROM candidates where name = 'Nguyễn Anh Tuấn' ", nativeQuery = true)
+//    Candidate getCandidate();
 
-  @Query(value = " SELECT * FROM candidates where name = 'Nguyễn Anh Tuấn' ", nativeQuery = true)
-    Candidate getCandidate();
+//  Candidate getCandidate();
 
   @Transactional
   @Modifying

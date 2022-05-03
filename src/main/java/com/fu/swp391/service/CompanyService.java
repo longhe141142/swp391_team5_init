@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CompanyService {
 
-    Company findCompanyByEmail(String email);
+    Company findCompanyByEmail2(String email);
 
     List<Company> findAllCompany();
     //    ArrayList<Company> findAllCompany();

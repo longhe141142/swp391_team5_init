@@ -38,5 +38,7 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
     ArrayList<Company> search(String keyword);
 
 
-    Company findCompanyByEmail(String email);
+//    Company findCompanyByEmail(String email);
+
+    Optional<Company> findCompanyByEmail(String email);
 }

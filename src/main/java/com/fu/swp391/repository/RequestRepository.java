@@ -3,6 +3,7 @@ package com.fu.swp391.repository;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.Role;
+import java.util.ArrayList;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;

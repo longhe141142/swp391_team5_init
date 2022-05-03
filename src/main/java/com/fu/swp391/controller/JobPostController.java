@@ -57,7 +57,7 @@ public class JobPostController {
     public String addjob(JobPost jobPost){
 
 
-        Company company = companyService.findCompanyByEmail(getPrincipal());
+        Company company = companyService.findCompanyByEmail(getPrincipal()).get();
         jobPost.setCompany(company);
 
 //        List<MajorRule> majorRule = new ArrayList<>();

@@ -48,7 +48,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate getCandidate(String email) {
-        return candidateRepository.getCandidate(email);
+        return candidateRepository.findCandidateByMailUser(email).get();
     }
 
     @Override

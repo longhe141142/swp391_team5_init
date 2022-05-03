@@ -15,25 +15,18 @@ import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.fu.swp391.service.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -86,8 +79,8 @@ public class CompanyController {
     public String listAllJob(Model model) {
         model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(1));
 
-        Company company = companyService.findCompanyByEmail(getPrincipal());
-        model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(company.getId()));
+        Optional<Company> company = companyService.findCompanyByEmail(helperUntilCompany.getPrincipal());
+        model.addAttribute("Jobs", jobPostRepository.findJobPostByCompanyId(company.get().getId()));
 
         return "/company/ListAllJob";
     }
@@ -175,18 +168,6 @@ public class CompanyController {
         model.addAttribute("listJob",jobPostList);
         model.addAttribute("ListRequest",ListRequest);
         return "company/listcandidateCV";
-    }
-    private String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
     }
 
     @GetMapping("/home")
