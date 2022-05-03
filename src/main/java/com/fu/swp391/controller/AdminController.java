@@ -6,14 +6,11 @@ import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.SortParam;
 import com.fu.swp391.common.enumConstants.PagingParameter;
 import com.fu.swp391.common.enumConstants.SortEnum;
-import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.Role;
+import com.fu.swp391.entities.*;
+import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CompanyRepository;
-import com.fu.swp391.service.AdminService;
-import com.fu.swp391.service.CandidateService;
-import com.fu.swp391.service.CompanyService;
-import com.fu.swp391.service.RoleService;
+import com.fu.swp391.service.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,15 +42,27 @@ public class AdminController {
 
   @Autowired
   RoleService roleService;
-  @Autowired CandidateService candidateService;
+
+  @Autowired
+  CandidateService candidateService;
 
   @Autowired
   AdminService adminService;
-  @Autowired CompanyService companyService;
+
+  @Autowired
+  CompanyService companyService;
+
   @Autowired
   CompanyRepository companyRepository;
-    @GetMapping("/")
-    public String renderAdminHome(){
+
+  @Autowired
+  UserService userService;
+
+  @Autowired
+  HelperUntil<Candidate> helperUntil;
+
+  @GetMapping("/")
+  public String renderAdminHome(){
         return "admin/homeAdmin";
     }
 
@@ -269,5 +278,11 @@ public class AdminController {
     return "company/ListAllCompany3";
   }
 
-
+  @GetMapping("/adminProfile")
+  public String adminProfile(Model model) {
+    String email = helperUntil.getPrincipal();
+    Optional<User> admin = userService.findUserByEmail(email);
+    model.addAttribute("admin", admin.get());
+    return "/admin/adminProfile";
+  }
 }

@@ -116,6 +116,11 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
+  public Optional<Company> findCompanyByEmail(String email) {
+    return companyRepository.findCompanyByEmail(email);
+  }
+
+  @Override
   public Optional<Candidate>  getCandidateById(Long id){
         return candidateRepository.findById(id);
   }

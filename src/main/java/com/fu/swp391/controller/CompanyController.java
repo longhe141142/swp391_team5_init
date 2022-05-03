@@ -110,7 +110,7 @@ public class CompanyController {
     }
 
 
-    @GetMapping("home")
+    @GetMapping("/home")
     public String renderCompanyHome(@RequestParam(value = "page", required = false) Integer page
         , Model model) {
         ArrayList<Candidate> candidates = candidateService.findAllCandidates();
@@ -189,6 +189,13 @@ public class CompanyController {
         }
     }
 
+    @GetMapping("/companyProfile")
+    public String companyProfile(Model model) {
+        String email = candidateHelperUntil.getPrincipal();
+        Optional<Company> company = companyService.findCompanyByEmail(email);
+        model.addAttribute("company", company.get());
+        return "/company/companyProfile";
+    }
 
     @GetMapping("/candidate/cv/seeMore")
     public String seeMoreCV(
@@ -206,26 +213,24 @@ public class CompanyController {
             List<CV> cvsPublic = candidate.get().getCVPublic();
             //Get total page
             int totalPage = cvHelperUntil.getTotalSize(cvsPublic.size(),
-                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+                    PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
             //Ignore bagException
             ArrayList<CV> cvsPublicConvertToArrayList = new ArrayList<>(cvsPublic);
             //paging by helper.util, get arraylist in one page
             cvsPublicConvertToArrayList = cvHelperUntil.PagingElement(cvsPublicConvertToArrayList,
-                pageIndex, PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
+                    pageIndex, PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV);
             //get PagingParam
             PagingParam pagingParam = new PagingParam(totalPage, cvsPublicConvertToArrayList.size(),
-                PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV, pageIndex);
+                    PagingParameter.PAGE_SIZE_COMPANY_CANDIDATE_DETAIL_CV, pageIndex);
 
-            model.addAttribute("listCvsPublic",cvsPublicConvertToArrayList);
-            model.addAttribute("pagingParam",pagingParam);
-            model.addAttribute("candidate",cvsPublicConvertToArrayList.get(0).getCandidate());
+            model.addAttribute("listCvsPublic", cvsPublicConvertToArrayList);
+            model.addAttribute("pagingParam", pagingParam);
+            model.addAttribute("candidate", cvsPublicConvertToArrayList.get(0).getCandidate());
             return "/company/company-candidate/cv-list/cvList";
         } else {
             throw new CandidateNotFound(id);
         }
     }
-
-
 
 }
 

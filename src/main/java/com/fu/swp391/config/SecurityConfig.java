@@ -39,15 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
-//  @Autowired
-//  UserDetailsService userDetailsService;
+  @Autowired
+  UserDetailsService userDetailsService;
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500"));
     configuration.setAllowedMethods(
-        Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+            Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
     configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
     configuration.setAllowCredentials(true);
@@ -56,27 +56,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return source;
   }
 
+  //Username này là ai trong hệ thống , UserName này có quyền gì.
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService);
-//    auth.userDetailsService(userService);
   }
 
 
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-//    http.cors().and().csrf().disable();
 
-    http.authorizeRequests().antMatchers("/","/register", "login", "*/candidate/*").permitAll()
-        .antMatchers(HttpMethod.POST).permitAll()
-//        .antMatchers("/login").access("hasAnyRole('ROLE_USER','USER')")
-        .antMatchers("/admin/**").access("hasAnyRole('ADMIN','ROLE_ADMIN')")
-        .antMatchers("/company/**").access("hasAnyRole('COMPANY','ROLE_COMPANY','ROLE_ADMIN')")
-        .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
-        .and().formLogin().failureUrl("/fail_login")
-        .and().logout().logoutUrl("/auth/logout").addLogoutHandler(customLogoutSuccessHandler)
-//        .invalidateHttpSession(true).permitAll().and().cors();
+    http.authorizeRequests()
+            // Các trang không yêu cầu login như vậy ai cũng có thể vào được
+            .antMatchers("/","/register", "login", "*/candidate/*").permitAll()
+            .antMatchers(HttpMethod.POST).permitAll()
+            // Trang chỉ dành cho ADMIN
+            .antMatchers("/admin/**").access("hasAnyRole('ADMIN','ROLE_ADMIN')")
+            // Trang chỉ dành cho COMPANY
+            .antMatchers("/company/**").access("hasAnyRole('COMPANY','ROLE_COMPANY','ROLE_ADMIN')")
+            // Cấu hình cho Login Form.
+            // Submit URL của trang login
+            .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
+            .and().formLogin().failureUrl("/fail_login")
+            // Cấu hình cho Logout Page. Khi logout mình trả về trang
+            .and().logout().logoutUrl("/auth/logout").addLogoutHandler(customLogoutSuccessHandler)
             .invalidateHttpSession(true).and().cors().and().csrf().disable();
 
 

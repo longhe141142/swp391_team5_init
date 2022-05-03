@@ -30,4 +30,6 @@ public interface CompanyService {
     Optional<Candidate> getCandidateById(Long id);
 
   void update(long id,  String name);
+
+    Optional<Company> findCompanyByEmail(String email);
 }

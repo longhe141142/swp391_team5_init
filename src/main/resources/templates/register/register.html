@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html"
-      xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<!-- Required meta tags-->
@@ -18,7 +18,7 @@
 	<link href="/register/vendor/font-awesome-4.7/css/font-awesome.min.css" media="all" rel="stylesheet">
 	<!-- Font special for pages-->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-	      rel="stylesheet">
+		  rel="stylesheet">
 
 	<!-- Vendor CSS-->
 	<link href="/register/vendor/select2/selectCan2.min.css" media="all" rel="stylesheet">
@@ -44,18 +44,18 @@
 						<div class="col-2">
 							<div class="input-group">
 								<input class="input--style-4 candidate_email"
-								       name="first_name"
-								       th:field="${userCandidate.user.email}"
-								       type="text">
+									   name="first_name"
+									   th:field="${userCandidate.user.email}"
+									   type="text">
 							</div>
 						</div>
 						<div class="col-2">
 							<div class="input-group">
 								<label class="label">Password</label>
 								<input  class="input--style-4 candidate_password"
-								       name="last_name"
-								       th:field="${userCandidate.user.passwordEncoder}"
-								       type="password">
+										name="last_name"
+										th:field="${userCandidate.user.passwordEncoder}"
+										type="password">
 							</div>
 						</div>
 					</div>
@@ -65,9 +65,9 @@
 								<label class="label">Birthday</label>
 								<div class="input-group-icon">
 									<input class="input--style-4 js-datepicker candidate_dob"
-									       name="birthday"
-									       th:field="${userCandidate.candidate.dob}"
-									       type="text">
+										   name="birthday"
+										   th:field="${userCandidate.candidate.dob}"
+										   type="text">
 									<i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
 								</div>
 							</div>
@@ -82,8 +82,8 @@
 											<!--												<input type="radio" id="test2" name="radio-group">-->
 											<!--												<label for="test2">Pegender</label>-->
 											<input class="candidate_gender" th:field="${userCandidate.candidate.gender}"
-											       th:value="${gender}"
-											       type="radio"/>
+												   th:value="${gender}"
+												   type="radio"/>
 											<label th:for="${#ids.prev('candidate.gender')}" th:text="${gender}">model
 											</label>
 										</p>
@@ -98,18 +98,18 @@
 							<div class="input-group">
 								<label class="label">Your name</label>
 								<input class="input--style-4 candidate_name"
-								       name="email"
-								       th:field="${userCandidate.candidate.name}"
-								       type="text">
+									   name="email"
+									   th:field="${userCandidate.candidate.name}"
+									   type="text">
 							</div>
 						</div>
 						<div class="col-2">
 							<div class="input-group">
 								<label class="label">Phone Number</label>
 								<input id="phone" class="input--style-4 candidate_phone"
-								       name="phone"
-								       th:field="${userCandidate.candidate.phoneNumber}"
-								       type="tel">
+									   name="phone"
+									   th:field="${userCandidate.candidate.phoneNumber}"
+									   type="tel">
 							</div>
 						</div>
 					</div>
@@ -118,9 +118,9 @@
 							<div class="input-group">
 								<label class="label">Age</label>
 								<input class="input--style-4 candidate_age"
-											 name="phone"
-											 th:field="${userCandidate.candidate.age}"
-											 type="number">
+									   name="phone"
+									   th:field="${userCandidate.candidate.age}"
+									   type="number">
 							</div>
 						</div>
 					</div>
@@ -174,7 +174,7 @@
 
 	function validateEmail(email) {
 		let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    return email.match(validRegex);
+		return email.match(validRegex);
 	};
 
 	function checkPhoneRegex(phone) {
@@ -198,7 +198,7 @@
 	// }
 
 	function isNumber(number){
-     return !isNaN(number);
+		return !isNaN(number);
 	}
 
 	function validateInput(){
@@ -274,8 +274,8 @@
 
 
 		if(error){
-       handle_errors(errMessage);
-			 return false;
+			handle_errors(errMessage);
+			return false;
 		}else{
 			return true;
 		}

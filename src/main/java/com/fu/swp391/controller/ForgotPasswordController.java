@@ -1,5 +1,6 @@
 package com.fu.swp391.controller;
 import com.fu.swp391.entities.User;
+import com.fu.swp391.service.UserService;
 import com.fu.swp391.service.UserServiceImpl2;
 import com.fu.swp391.utility.Utility;
 import net.bytebuddy.utility.RandomString;
@@ -28,6 +29,9 @@ public class ForgotPasswordController {
     @Autowired
     private UserServiceImpl2 userServiceImpl2;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm() {
         return "login/forgot_password_form";
@@ -39,7 +43,7 @@ public class ForgotPasswordController {
         String token = RandomString.make(30);
 
         try {
-            userServiceImpl2.updateResetPasswordToken(token, email);
+            userService.updateResetPasswordToken(token, email);
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
@@ -55,6 +59,7 @@ public class ForgotPasswordController {
         return "redirect:/forgot_password_form";
     }
 
+
     public void sendEmail(String recipientEmail, String link)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -62,11 +67,10 @@ public class ForgotPasswordController {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("swp391@gmail.com", "SWP391");
         helper.setTo(recipientEmail);
 
         String subject = "Here's the link to reset your password";
-
         String content = "<p>Hello,</p>"
                 + "<p>You have requested to reset your password.</p>"
                 + "<p>Click the link below to change your password:</p>"
@@ -76,9 +80,7 @@ public class ForgotPasswordController {
                 + "or you have not made the request.</p>";
 
         helper.setSubject(subject);
-
         helper.setText(content, true);
-
         mailSender.send(message);
         System.out.println("Thành công");
     }
@@ -86,7 +88,7 @@ public class ForgotPasswordController {
 
         @GetMapping("/reset_password")
         public String showResetPasswordForm (@Param(value = "token") String token, Model model){
-            User user = userServiceImpl2.getByResetPasswordToken(token);
+            User user = userService.getByResetPasswordToken(token);
             model.addAttribute("token", token);
 
             if (user == null) {
@@ -102,14 +104,14 @@ public class ForgotPasswordController {
             String token = request.getParameter("token");
             String password = request.getParameter("passwordEncoder");
 
-            User user = userServiceImpl2.getByResetPasswordToken(token);
+            User user = userService.getByResetPasswordToken(token);
             model.addAttribute("title", "Reset your password");
 
             if (user == null) {
                 model.addAttribute("message", "Invalid Token");
                 return "message";
             } else {
-                userServiceImpl2.updatePassword(user, password);
+                userService.updatePassword(user, password);
 
                 model.addAttribute("message", "You have successfully changed your password.");
             }

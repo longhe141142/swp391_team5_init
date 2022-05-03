@@ -18,11 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomLogoutSuccessHandler implements LogoutHandler {
 
-//  private final UserCache userCache;
-//
-//  public CustomLogoutHandler(UserCache userCache) {
-//    this.userCache = userCache;
-//  }
   @Autowired
   HelperUntil<User> helperUntil;
 
@@ -32,6 +27,5 @@ public class CustomLogoutSuccessHandler implements LogoutHandler {
   public void logout(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) {
     System.out.println("Good  bye  "+ helperUntil.getPrincipal());
-
   }
 }

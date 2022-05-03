@@ -1,6 +1,7 @@
 package com.fu.swp391.service;
 
 import com.fu.swp391.binding.entiity.UserCandidate;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Role;
 import com.fu.swp391.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,5 +17,8 @@ public interface UserService extends UserDetailsService {
     List<String> getListGender();
     User addRoleToUser(List<String> roles, UserCandidate userCandidate);
     Optional<User> findUserByEmail(String email);
-
+//    User getAdmin(String email);
+    void updateResetPasswordToken(String token, String email);
+    User getByResetPasswordToken(String token);
+    void updatePassword(User user, String newPassword);
 }

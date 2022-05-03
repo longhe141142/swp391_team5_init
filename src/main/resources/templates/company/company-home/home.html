@@ -75,8 +75,8 @@
                      width="40" height="40" class="rounded-circle">
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="/company/listjob">Job Post</a>
-                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" href="#">Dashboard</a>
+                <a class="dropdown-item" href="companyProfile">Profile</a>
                 <a class="dropdown-item" th:href="${'/auth/logout'}">Log Out</a>
               </div>
             </li>
@@ -125,7 +125,7 @@
             </div>
             <!-- Product actions-->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Candidate Detail</a></div>
+              <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:href="${'/company/candidate?id='+candidate.getId()}">Candidate Detail</a></div>
             </div>
           </div>
         </div>

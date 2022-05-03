@@ -44,11 +44,13 @@ public class AuthPrinciple implements UserDetails {
     }
 
     public static AuthPrinciple built(User user) throws PrincipalBuildException {
+        // Dựa vào list quyền trả về tạo đối tượng GrantedAuthority của spring cho quyền đó
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
             System.out.println(role.getName());
         }
+        // Cung cấp id, email , password và authorities (quyền)
         AuthPrinciple authPrinciple = new AuthPrinciple(user.getId(), user.getEmail(),
             user.getPasswordEncoder(), authorities);
         String userName = getUserNameAccordingRole(user.getRoles(),user);
@@ -69,7 +71,6 @@ public class AuthPrinciple implements UserDetails {
 
         if (roleString.contains(roleEnum.COMPANY)){
             List<Company> companies = user.getCompanies();
-
             if (companies == null) {
                 return null;
             } else {

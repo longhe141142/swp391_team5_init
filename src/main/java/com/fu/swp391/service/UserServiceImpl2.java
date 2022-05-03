@@ -62,11 +62,11 @@ public class UserServiceImpl2 implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        System.out.println("load function");
-        System.out.println(username);
         User user = null;
         try {
+            // query xuống database xem user có tồn tại không
             user = userRepository.findByEmail(username);
+            //Nếu không tìm thấy User thì thông báo lỗi
             if (user == null) {
                 throw new UsernameNotFoundException(username);
             }
@@ -77,10 +77,7 @@ public class UserServiceImpl2 implements UserService {
                 throw new UserBlockedException(username + "Has been blocked");
             }
             //phan long code
-
-            System.out.println(user.getPasswordEncoder());
             return AuthPrinciple.built(user);
-//            return AuthPrinciple.built(user);
         } catch (UserBlockedException | PrincipalBuildException e) {
             e.printStackTrace();
         }
@@ -109,16 +106,7 @@ public class UserServiceImpl2 implements UserService {
         User user = userCandidate.getUser();
         System.out.println("ROLE1["+roles.get(0)+"]");
         System.out.println("ROLE2["+roles.get(1)+"]");
-//        for (String roleName: roles){
-//            System.out.println("ROLE["+roleName+"]");
-//            Optional<Role> roleUser = roleService.findRoleByName(roleName);
-//            System.out.println("ROLE["+roleName+"]");
-//            System.out.println("ROLE::NAME["+roleUser.get().getName()+"]");
-//            roleUser.get().addUser(user);
-//            // tham chieu phuong thuc
-//            // consumer bind
-//            roleUser.ifPresent(user::setRole);
-//        }
+
         roles.forEach(roleName->{
             Optional<Role> roleUser = roleService.findRoleByName(roleName);
             // tham chieu phuong thuc
@@ -147,7 +135,7 @@ public class UserServiceImpl2 implements UserService {
             user.setResetPasswordToken(token);
             userRepository.save(user);
         } else {
-            throw new UsernameNotFoundException("Could not find any customer with the email " + email);
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
         }
     }
 
@@ -164,5 +152,6 @@ public class UserServiceImpl2 implements UserService {
 //        user.setPasswordEncoder(null);
         userRepository.save(user);
     }
+
 }
 
