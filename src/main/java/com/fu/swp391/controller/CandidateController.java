@@ -28,11 +28,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("candidate")
@@ -79,8 +80,6 @@ public class CandidateController {
 
     @Autowired
     HelperUntil<Candidate> candidateHelperUntil;
-
-
 
 
     ///candidate/HomeCandidate
@@ -222,7 +221,6 @@ public class CandidateController {
         if (!request.isPresent()){
             throw new Exception("Request doesn't exist!");
         }
-//        Optional<User> company =  userService.findById(request.get().getFromUser());
          model.addAttribute("request",request.get());
         return "/request/request-detail";
     }
@@ -233,28 +231,35 @@ public class CandidateController {
         model.addAttribute("optionalRequest",optionalRequest.get());
         return "/candidate/detailRequest";
     }
-    @PostMapping("editRequest")
-    public String editCompanyToEdit(@Validated @ModelAttribute("optionalCompany") Request request, BindingResult result,
-                                    @RequestParam Long id){
-        if (result.hasErrors()){
-            List<FieldError> fields = result.getFieldErrors();
-            for (int i =0;i<fields.size();i++){
-                System.out.println("error field name:"+fields.get(i).getField()+
-                        "\nError message: "+fields.get(i).getDefaultMessage());
-            }
-            System.out.println("12345678");
-            return "redirect:/candidate/loadRequestForDetail?id="+id;
-        }
-        requestRepository.update(id, request.getStatus(), request.getComment());
+    @GetMapping("editRequestAccept")
+    public String editRequestAccept(HttpServletRequest request){
+        String comment =  request.getParameter("comment");
+        long id = Long.parseLong(request.getParameter("id"));
+        String accept = request.getParameter("ACCEPT");
+        System.out.println("ACC"+ accept);
+        requestRepository.update(id, accept, comment);
         System.out.println("123456");
         return "redirect:/candidate/listRequestCompany";
+
+    }
+    @GetMapping("editRequestDeny")
+    public String editRequestDeny(HttpServletRequest request){
+        String comment =  request.getParameter("comment");
+        long id = Long.parseLong(request.getParameter("id"));
+        String deny = request.getParameter("DENY");
+        System.out.println("ACC"+ deny);
+        requestRepository.update(id, deny, comment);
+        System.out.println("123456");
+        return "redirect:/candidate/listRequestCompany";
+
 
     }
 
     @GetMapping("/listRequestCompany")
     public String listRequestCompany(Model model) {
         User user = userService.findByEmail(getPrincipal());
-        Optional<Request> rq = requestRepository.findById(user.getId());
+       // Optional<Request> rq = requestRepository.findById(user.getId());
+        System.out.println("ID: "+user.getId());
         List<Request> requestcompany = requestRepository.fillAllRequestCompanyByTo_Id(user.getId());
         model.addAttribute("requestcompany",requestcompany);
         return "candidate/listRequestCompanySendCandidate";

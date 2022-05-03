@@ -28,10 +28,11 @@ public interface RequestRepository extends CrudRepository<Request,Long> {
 
   @Query(value = "SELECT MAX(id) FROM requests",nativeQuery = true)
   Long findMaxId();
-}
+
     @Transactional
     @Modifying
-    @Query(value = "update requests r set r.status = :status,r.comment = :comment, where c.id = :id", nativeQuery = true)
+    @Query(value = "update requests r set r.status = :status,r.comment = :comment where r.id = :id", nativeQuery = true)
     void update(@Param(value = "id") long id, @Param(value = "status") String status, @Param(value = "comment") String comment);
-
 }
+
+

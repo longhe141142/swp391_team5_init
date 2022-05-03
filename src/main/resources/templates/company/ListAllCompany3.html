@@ -119,7 +119,10 @@
                    title="Detail">
                 </a>
               </td>
-              <td th:text="${company.getAddress()}"></td>
+              <td style="width: 500px;
+                    overflow: hidden;
+                   white-space: break-spaces;
+                    text-overflow: ellipsis;" th:text="${company.getAddress()}"></td>
               <td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
               </td>
               <!--phan Long code-->
@@ -130,7 +133,11 @@
                 </div>
               </td>
               <!--Het phan Long code-->
-              <td th:text="${company.companyIntro}"></td>
+              <td  style="width: 500px;
+                    overflow: hidden;
+                   white-space: break-spaces;
+                    text-overflow: ellipsis;"
+                   th:text="${company.companyIntro}"></td>
               <td th:text="${company.getPersonnelSize()}"></td>
               <td>
                 <div class="action-form">

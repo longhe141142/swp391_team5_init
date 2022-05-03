@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-/<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -30,6 +30,8 @@
     <link href="/common/error.css" rel="stylesheet">
     <link href="/company/custom/button-active.css" rel="stylesheet">
     <link href="/company/custom/listCompany.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <style>
         body {
             color: #566787;
@@ -354,7 +356,7 @@
 <body>
 <div id="wrapper">
 
-    <div th:insert="/admin/fragment/slide-bar.html"></div>
+<!--    <div th:insert="/admin/fragment/slide-bar.html"></div>-->
 
     <div class="container-xl" style="max-width: 1800px">
         <div class="table-responsive">
@@ -398,7 +400,7 @@
                             <td th:text="${r.subject}"></td>
                             <td th:text="${r.status}">Jun 21, 2017 </td>
                             <td th:text="${r.cv.id}"></td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                            <td><a th:href="'/candidate/request-detail?id='+${r.getId()}" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -418,6 +420,23 @@
             <script src="/register/vendor/select2/select2.min.js"></script>
             <script src="/register/vendor/datepicker/moment.min.js"></script>
             <script src="/register/vendor/datepicker/daterangepicker.js"></script>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="/admin/vendor/jquery/jquery.min.js"></script>
+            <script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <script src="/admin/vendor/chart.js/Chart.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="/admin/js/demo/chart-area-demo.js"></script>
+            <script src="/admin/js/demo/chart-pie-demo.js"></script>
 
             <!-- Main JS-->
             <script src="/register/js/global.js"></script>
