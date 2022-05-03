@@ -33,5 +33,6 @@ public interface RequestRepository extends CrudRepository<Request,Long> {
     @Modifying
     @Query(value = "update requests r set r.status = :status,r.comment = :comment where r.id = :id", nativeQuery = true)
     void update(@Param(value = "id") long id, @Param(value = "status") String status, @Param(value = "comment") String comment);
-}
 
+    ArrayList<Request> findAllByToUserId(Long id);
+}

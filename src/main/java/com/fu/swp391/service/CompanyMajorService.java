@@ -11,4 +11,6 @@ public interface CompanyMajorService {
     List<JobPost> findJobPostByCompanyIdAndMajorName(long id,String name);
 
     List<String> findMajorbycompanyid(long id);
+
+    JobPost FindJobById(Long id);
 }

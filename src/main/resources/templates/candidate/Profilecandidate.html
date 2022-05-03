@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>List all Job</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <!-- Vendor CSS-->
+    <link href="/register/vendor/select2/select2.min.css" media="all" rel="stylesheet">
+    <link href="/register/vendor/datepicker/daterangepicker.css" media="all" rel="stylesheet">
+    <link href="/company/custom/index.css" rel="stylesheet">
+
+
+    <link href="/common/error.css" rel="stylesheet">
+    <link href="/company/custom/button-active.css" rel="stylesheet">
+    <link href="/company/custom/listCompany.css" rel="stylesheet">
+    <link href="/major/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/major/css/form-validation.css" rel="stylesheet">
+    <link href="/job/css/detail.css" rel="stylesheet">
+    <style>
+        w3-table-all, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        body {
+            background: rgb(99, 39, 120)
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #BA68C8
+        }
+
+        .profile-button {
+            background: rgb(99, 39, 120);
+            box-shadow: none;
+            border: none
+        }
+
+        .profile-button:hover {
+            background: #682773
+        }
+
+        .profile-button:focus {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .back:hover {
+            color: #682773;
+            cursor: pointer
+        }
+
+        .labels {
+            font-size: 11px
+        }
+
+        .add-experience:hover {
+            background: #BA68C8;
+            color: #fff;
+            cursor: pointer;
+            border: solid 1px #BA68C8
+        }
+    </style>
+
+    <!--    <script>-->
+    <!--        $(document).ready(function () {-->
+    <!--            $('[data-toggle="tooltip"]').tooltip();-->
+    <!--        });-->
+    <!--    </script>-->
+</head>
+<body>
+<div class="header-common">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+        <a class="navbar-brand" href="#">
+            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/logo_white.png"
+                 id="swp391-logo"
+                 width="30" height="30" alt="logo">
+            SWP391 TEAM 5
+        </a>
+        <button class="navbar-toggler align-items-baseline" type="button" data-toggle="collapse" data-target="#navbar-list-4"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbar-list-4">
+            <ul class="navbar-nav ">
+                <div class="menu-common d-flex align-items-center justify-content-center">
+                    <li class="nav-item active d-flex align-items-center justify-content-center">
+                        <a class="nav-link" href="#">Home Page <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active d-flex align-items-center justify-content-center">
+                        <a class="nav-link" href="#">Company <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item active d-flex align-items-center justify-content-center">
+                        <a class="nav-link" href="#">Request <span class="sr-only">(current)</span></a>
+                    </li>
+                </div>
+            </ul>
+            <div sec:authorize="isAnonymous()">
+                <ul class="navbar-nav mr-5">
+                    <div class="flex-row d-flex">
+                        <div class="nav-item dropdown">
+                            <a th:href="${'/login'}" class="nav-link dropdown-toggle mr-4" aria-expanded="false">Login</a>
+                        </div>
+                        <div class="nav-item">
+                            <a th:href="${'/register'}"  class="btn btn-primary dropdown-toggle sign-up-btn">Sign up</a>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+                <ul class="navbar-nav mr-5"  >
+                    <div class="flex-row d-flex align-items-baseline">
+                        <h1 id="hello-user" style="color: white;" th:text="${'Hello '+#authentication.getPrincipal().getName()}" ></h1>
+                        <li class="nav-item dropdown" id="avt-section">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                     width="40" height="40" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Dashboard</a>
+                                <a class="dropdown-item" href="#">Edit Profile</a>
+                                <a class="dropdown-item" th:href="${'/auth/logout'}">Log Out</a>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" th:src="${candidate.get().getAvatar()}" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" th:alt="${candidate.get().getAvatar()}">
+
+                <span class="font-weight-bold" th:utext="${candidate.get().getName()}">Edogaru</span>
+                <span class="text-black-50" th:utext="${email}">edogaru@mail.com.my</span><span> </span></div>
+
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number"  th:value="${candidate.get().getPhoneNumber()}" disabled></div>
+                    <div class="col-md-12"><label class="labels">Date of birth</label><input type="text" class="form-control" placeholder="enter address line 2" th:value="${candidate.get().getDob()}" disabled></div>
+                    <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control" placeholder="enter address line 1" th:value="${candidate.get().getGender()}" disabled></div>
+
+
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" onclick="window.location.href='home'">Manage CV</button></div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" onclick="window.location.href='home'">Back to home</button></div>
+
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><a href="editprofile"><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Edit Form</span></a></div><br>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/admin/js/sb-admin-2.min.js"></script>
+
+<script src="/register/vendor/select2/select2.min.js"></script>
+<script src="/register/vendor/datepicker/moment.min.js"></script>
+<script src="/register/vendor/datepicker/daterangepicker.js"></script>
+
+<!-- Main JS-->
+<script src="/register/js/global.js"></script>
+
+
+
+<script src="/company/custom/index.js"></script>
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+
+</script>
+
+<script src="/company/custom/activebutton.js"></script>
+
+
+
+</html>
+
+

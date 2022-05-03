@@ -28,4 +28,6 @@ public interface CandidateService {
     HelperUntil<Candidate> getHelperUntilCandidate();
 
     Optional<Candidate> getCandidateById(Long id);
+
+    Optional<Candidate> getcandidatebyEmail(String email);
 }

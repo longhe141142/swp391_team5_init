@@ -26,4 +26,9 @@ public class CompanyMajorServiceImpl implements CompanyMajorService{
     public List<String> findMajorbycompanyid(long id) {
         return companyMajorRepository.findMajorByCompanyId(id);
     }
+
+    @Override
+    public JobPost FindJobById(Long id) {
+        return this.companyMajorRepository.findJobPostById(id);
+    }
 }

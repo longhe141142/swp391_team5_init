@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -19,7 +20,7 @@
   <!-- Page Heading -->
   <h1 class="my-4" th:inline="text">CV Collection
     <a th:href="'/company/candidate?id='+${candidate.getId()}"><small
-        th:text="'Of Candidate: '+${candidate.getName()}"> </small></a>
+            th:text="'Of Candidate: '+${candidate.getName()}"> </small></a>
   </h1>
 
   <th:block th:each="cv: ${listCvsPublic}">

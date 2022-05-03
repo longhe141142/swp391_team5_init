@@ -1,8 +1,5 @@
 package com.fu.swp391.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.common.enumConstants.GenderEnum;
 import com.fu.swp391.common.enumConstants.StatusEnum;
 import com.fu.swp391.entities.CV;
@@ -23,12 +20,23 @@ import com.fu.swp391.service.*;
 import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.repository.JobPostRepository;
 
+import com.fu.swp391.repository.CandidateRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
 import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.RoleService;
 import com.fu.swp391.service.UserService;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.Date;
+import java.util.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +57,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
 
 import javax.mail.MessagingException;
 
@@ -72,7 +87,8 @@ public class CandidateController {
 
     @Autowired
     CompanyService companyService;
-
+@Autowired
+    CandidateRepository candidateRepository;
     @Autowired
     CompanyMajorService companyMajorService;
 
@@ -113,6 +129,8 @@ public class CandidateController {
 
     @Autowired
     RequestRepository requestRepository;
+
+
 
     ///candidate/HomeCandidate
     @GetMapping("/home")
@@ -291,23 +309,33 @@ public class CandidateController {
 
     @GetMapping("/ListCompanyCandidate/{id}")
     public String ListCompanyCandidatePage(Model model,@PathVariable int id,@RequestParam(value = "searchBy", required = false) String searchBy) {
+        ArrayList<Company> listcomp = companyService.findAllCandidatesByFilter(searchBy);
+        Collections.sort(listcomp, new Comparator<Company>() {
+            @Override
+            public int compare(Company o1, Company o2) {
+                if(o1.getName().compareTo(o2.getName())>0){
+                    return 1;
+                }
+                return -1;
+            }
+        });
+       ArrayList<Company> listcompanypage = helperUntilCompany.PagingElement(listcomp,id,5);
+       int size = listcomp.size();
+       int sopage = 0;
+       if ((size%5)!=0){
+           sopage = size/5 + 1;
+       }else{
+           sopage = size/5;
+       }
+       ArrayList<Integer> listsopage = new ArrayList<>();
+       for (int i=0;i<sopage;i++){
+           listsopage.add(i+1);
+       }
+       model.addAttribute("search",searchBy);
+       model.addAttribute("ListCompany",listcompanypage);
+       model.addAttribute("ListPage",listsopage);
 
-        List<Company> ListCompany = companyService.findAllCandidatesByFilter(searchBy);
-        ArrayList<Company> ListPage = helperUntilCompany.PagingElement((ArrayList<Company>) ListCompany,id,5);
-        int n = ListCompany.size()/5;
-        int NumberOfPage ;
-        if(ListCompany.size()%5==0){
-            NumberOfPage = n;
-        }else {
-            NumberOfPage = n+1;
-        }
-        ArrayList<Integer> listPaging = new ArrayList<Integer>();
-        for (int i = 1;i<NumberOfPage+1;i++){
-            listPaging.add(i);
-        }
-        model.addAttribute("ListPage",listPaging);
-        model.addAttribute("ListCompany",ListPage);
-        model.addAttribute("search",searchBy);
+
         return "candidate/listCompany";
     }
     @GetMapping("/jobdetail/{id}")
@@ -510,6 +538,48 @@ public class CandidateController {
          model.addAttribute("request",request.get());
         return "/request/request-detail";
     }
+
+    @GetMapping("/profileCandidate")
+    public String profileCandidate(Model model) {
+String email = helperUntilCompany.getPrincipal();
+Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
+model.addAttribute("email",email);
+model.addAttribute("candidate",candidate);
+        return "candidate/Profilecandidate";
+    }
+    @GetMapping("/editprofile")
+    public String editcandidateprofile(Model model) {
+        String email = helperUntilCompany.getPrincipal();
+        Optional<Candidate> candidate = candidateService.getcandidatebyEmail(email);
+        Candidate a = candidate.get();
+        System.out.println(a.getName());
+        model.addAttribute("email",email);
+        model.addAttribute("candidate",a);
+        return "candidate/editProfile";
+    }
+    @PostMapping("editCandidate")
+    public String editcandidate(@Validated @ModelAttribute("Candidate") Candidate candidate, BindingResult result,
+                                @RequestParam Long id, @RequestParam("photo")MultipartFile photo){
+//        if (result.hasErrors()){
+//            List<FieldError> fields = result.getFieldErrors();
+//            for (int i =0;i<fields.size();i++){
+//                System.out.println("error field name:"+fields.get(i).getField()+
+//                        "\nError message: "+fields.get(i).getDefaultMessage());
+//            }
+//            System.out.println("12345678");
+//            return "redirect:/admin/loadCompanyToEdit?id="+id;
+//        }
+        candidate.setAvatar(photo.getOriginalFilename());
+
+
+        candidateRepository.updateCandidate(id,candidate.getAvatar(),candidate.getPhoneNumber(), candidate.getDob());
+        System.out.println("123456");
+        return "redirect:/candidate/home";
+
+    }
+
+
+
 
     @GetMapping ("loadRequestForDetail")
     public String loadRequestForDetail(@RequestParam Long id, Model model) {

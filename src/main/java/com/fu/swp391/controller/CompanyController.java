@@ -4,12 +4,9 @@ import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.binding.entiity.PagingParam;
 import com.fu.swp391.binding.entiity.exception.CandidateNotFound;
 import com.fu.swp391.common.enumConstants.PagingParameter;
-import com.fu.swp391.entities.CV;
-import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.JobPost;
-import com.fu.swp391.entities.User;
+import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
+import com.fu.swp391.entities.User;
 import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
@@ -17,14 +14,23 @@ import com.fu.swp391.service.CompanyService;
 import com.fu.swp391.service.CvService;
 import com.fu.swp391.service.JobPostService;
 import com.fu.swp391.service.UserService;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.fu.swp391.service.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +47,10 @@ public class CompanyController {
     @Autowired
     CompanyMajorService companyMajorService;
 
+    @Autowired
+    HelperUntil<Request> helperUntilCompany;
+    @Autowired
+    HelperUntil<CV> helperUntilCV;
     @Autowired
     CandidateService candidateService;
 
@@ -62,8 +72,12 @@ public class CompanyController {
     @Autowired
     CvService cvService;
 
-    public CompanyController(CompanyService companyService,
-        CompanyMajorService companyMajorService) {
+
+
+
+    @Autowired
+    RequestService requestService;
+    public CompanyController(CompanyService companyService, CompanyMajorService companyMajorService) {
         this.companyService = companyService;
         this.companyMajorService = companyMajorService;
     }
@@ -98,7 +112,7 @@ public class CompanyController {
 
         List<Company> list = companyService.findAllCompany();
         model.addAttribute("ListCompany", list);
-        System.out.println("Size_of_company: " + list.size());
+        System.out.println("Size_of_company: "+list.size());
         return "company/ListAllCompany";
     }
 
@@ -109,6 +123,71 @@ public class CompanyController {
         return "company/ListAllCompany";
     }
 
+    @GetMapping("/ListCvRequest/{id}")
+    public String ListRequest(Model model,@PathVariable int id) {
+        String email = getPrincipal();
+        User user = userService.findByEmail(email);
+        System.out.println(email);
+        ArrayList<Request> ListRequest1 = requestService.findAllByToUserId(user.getId());
+        ArrayList<Request> ListRequest = helperUntilCompany.PagingElement(ListRequest1,id,5);
+        List<String> jobPostList = new ArrayList<>();
+        for (Request re: ListRequest
+             ) {
+            re.setComment(companyMajorService.FindJobById(re.getJobPost().getId()).getMajorName());
+        }
+        int size = ListRequest.size();
+        int sopage = 0;
+        if ((size%5)!=0){
+            sopage = size/5 + 1;
+        }else{
+            sopage = size/5;
+        }
+        ArrayList<Integer> listsopage = new ArrayList<>();
+        for (int i=0;i<sopage;i++){
+            listsopage.add(i+1);
+        }
+        model.addAttribute("ListPage",listsopage);
+        model.addAttribute("listJob",jobPostList);
+        model.addAttribute("ListRequest",ListRequest);
+        Optional<Company> company =  companyService.findbyId(user.getId());
+        model.addAttribute("compamny",company);
+        return "company/ListRequest";
+    }
+
+    @GetMapping("/listcandidateCV/{id}")
+    public String ListCvcandidate(Model model,@PathVariable int id) {
+
+        List<CV> listallcv = cvService.getAllCV();
+        ArrayList<CV> ListRequest = helperUntilCV.PagingElement((ArrayList<CV>) listallcv ,id,5);
+        List<String> jobPostList = new ArrayList<>();
+        int size = ListRequest.size();
+        int sopage = 0;
+        if ((size%5)!=0){
+            sopage = size/5 + 1;
+        }else{
+            sopage = size/5;
+        }
+        ArrayList<Integer> listsopage = new ArrayList<>();
+        for (int i=0;i<sopage;i++){
+            listsopage.add(i+1);
+        }
+        model.addAttribute("ListPage",listsopage);
+        model.addAttribute("listJob",jobPostList);
+        model.addAttribute("ListRequest",ListRequest);
+        return "company/listcandidateCV";
+    }
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
 
     @GetMapping("/home")
     public String renderCompanyHome(@RequestParam(value = "page", required = false) Integer page
@@ -197,12 +276,43 @@ public class CompanyController {
         return "/company/companyProfile";
     }
 
+    @GetMapping("/candidate/cv/see-more")
+    public String seeMoreCV1( @RequestParam(value = "id") Long id,@RequestParam(value = "page") Integer page,Model model) throws CandidateNotFound {
+        Optional<Candidate> candidate = candidateService.getCandidateById(id);
+        //validate @RequestParam
+        int pageIndex = page == null ? 1 : page;
+        if (candidate.isPresent()) {
+
+            //get list of cv which is PUBLIC
+            List<CV> cvsPublic = candidate.get().getCVPublic();
+            //Get total page
+            ArrayList<CV> listcompanypage = helperUntilCV.PagingElement((ArrayList<CV>) cvsPublic,page,3);
+            int size = cvsPublic.size();
+            int sopage = 0;
+            if ((size%3)!=0){
+                sopage = size/3 + 1;
+            }else{
+                sopage = size/3;
+            }
+            ArrayList<Integer> listsopage = new ArrayList<>();
+            for (int i=0;i<sopage;i++){
+                listsopage.add(i+1);
+            }
+            model.addAttribute("ListCV",listcompanypage);
+            model.addAttribute("ListPage",listsopage);
+            model.addAttribute("candidate",cvsPublic.get(0).getCandidate());
+            return "/company/company-candidate/cv-list/listcv";
+        } else {
+            throw new CandidateNotFound(id);
+        }
+    }
+
     @GetMapping("/candidate/cv/seeMore")
     public String seeMoreCV(
-        //id value candidateId
-        @RequestParam(value = "id") Long id,
-        @RequestParam(value = "page") Integer page,
-        Model model
+            //id value candidateId
+            @RequestParam(value = "id") Long id,
+            @RequestParam(value = "page") Integer page,
+            Model model
     ) throws CandidateNotFound {
         Optional<Candidate> candidate = candidateService.getCandidateById(id);
         //validate @RequestParam

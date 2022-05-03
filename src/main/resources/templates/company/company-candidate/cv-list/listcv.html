@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="my-4" th:inline="text">CV Collection
+    <a th:href="'/company/candidate?id='+${candidate.getId()}"><small
+            th:text="'Of Candidate: '+${candidate.getName()}"> </small></a>
+  </h1>
+
+  <th:block th:each="cv: ${ListCV}">
+    <!-- Project One -->
+    <div class="row">
+      <div class="col-md-7">
+        <a href="#">
+          <img alt="" class="img-fluid rounded mb-3 mb-md-0"
+               th:src="${cv.getImageUpload()}">
+        </a>
+      </div>
+      <div class="col-md-5">
+        <!--      <h1>HEADER</h1>-->
+        <p th:text="${cv.getContent()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Laudantium veniam exercitationem
+          expedita
+          laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur
+          quos
+          perspiciatis atque eveniet unde.</p>
+        <a class="btn btn-primary"  th:href="'/company/candidate/cv?id='+${cv.getId()}">View
+          CV</a>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+    <!-- Project One -->
+  </th:block>
+
+
+  <!-- Pagination -->
+  <ul class="pagination justify-content-center">
+
+
+    <th:block th:each="Page : ${ListPage}">
+      <li class="page-item"><a class="page-link" th:href="'/company/candidate/cv/see-more?id='+${candidate.getId()}+'&page='+${Page.intValue()}" th:utext="${Page.intValue()}">1</a></li>
+    </th:block>
+  </ul>
+
+</div>
+<!-- /.container -->
+</body>
+
+</html>

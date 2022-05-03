@@ -25,6 +25,11 @@ public interface JobPostRepository extends JpaRepository<JobPost,Long> {
     @Query("SELECT j.majorName from JobPost j where j.company.id = ?1")
     List<String> findMajorByCompanyId(long id);
 
+
+
+    @Override
+    <S extends JobPost> S save(S entity);
+
 //    @Modifying
 //    @Query(value = "DELETE FROM job_post j  WHERE j.id = ?1", nativeQuery = true)
 //    void deleteId( long id);
