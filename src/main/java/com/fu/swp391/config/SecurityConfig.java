@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return source;
   }
 
+  //Username này là ai trong hệ thống , UserName này có quyền gì.
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userService);
@@ -67,12 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
 
     http.authorizeRequests()
+            // Các trang không yêu cầu login như vậy ai cũng có thể vào được
             .antMatchers("/","/register", "login", "*/candidate/*").permitAll()
             .antMatchers(HttpMethod.POST).permitAll()
+            // Trang chỉ dành cho ADMIN
             .antMatchers("/admin/**").access("hasAnyRole('ADMIN','ROLE_ADMIN')")
+            // Trang chỉ dành cho COMPANY
             .antMatchers("/company/**").access("hasAnyRole('COMPANY','ROLE_COMPANY','ROLE_ADMIN')")
+            // Cấu hình cho Login Form.
+            // Submit URL của trang login
             .and().formLogin().loginPage("/login").successHandler(new CustomLoginSuccessHandler())
             .and().formLogin().failureUrl("/fail_login")
+            // Cấu hình cho Logout Page. Khi logout mình trả về trang
             .and().logout().logoutUrl("/auth/logout").addLogoutHandler(customLogoutSuccessHandler)
             .invalidateHttpSession(true).and().cors().and().csrf().disable();
 

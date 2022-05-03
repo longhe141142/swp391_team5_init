@@ -72,7 +72,6 @@
                     <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" th:value="${company.getName()}" disabled></div>
                     <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" th:value="${company.getPhone()}" disabled></div>
                     <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" th:value="${company.getAddress()}" disabled></div>
-                    <div class="col-md-12"><label class="labels">Description</label><input type="text" class="form-control" th:value="${company.getDescription()}" disabled></div>
                     <div class="col-md-12"><label class="labels">Founding Time</label><input type="text" class="form-control" th:value="${company.getFoundingAt()}" disabled></div>
                     <div class="col-md-12"><label class="labels">Personal Size</label><input type="text" class="form-control" th:value="${company.getPersonnelSize()}" disabled></div>
                     <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" th:value="${company.getEmail()}" disabled></div>
@@ -85,6 +84,7 @@
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><h4>Company introduction</h4></div><br>
                 <div class="col-md-12"><label class="labels">Introduction</label><input type="text" class="form-control" th:value="${company.getCompanyIntro()}" disabled></div> <br>
+                <div class="col-md-12"><label class="labels">Description</label><textarea rows="4" type="text" class="form-control" th:text="${company.getDescription()}" disabled></textarea></div>
             </div>
         </div>
     </div>

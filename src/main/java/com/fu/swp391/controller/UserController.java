@@ -71,8 +71,6 @@ public class UserController {
                             System.out.println(name.getDefaultMessage());
                         });
                 System.out.println("error occured");
-                //add atrribute
-
                 return "redirect:/register";
             }
 
@@ -86,8 +84,6 @@ public class UserController {
                             role -> {
                                 System.out.println("ROLE::NAME[" + role.getName() + "]");
                             });
-            System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
-            System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
             user.setPasswordEncoder(encoder.encode( user.getPasswordEncoder()));
             userService.save(user);
 
@@ -97,6 +93,9 @@ public class UserController {
             throw e;
         }
     }
+    //            System.out.println(user.getCandidates().get(0).getName() + "CANDIDATE::NAME");
+//            System.out.println(user.getCandidates().get(0).getGender() + "CANDIDATE::GENDER");
+
 //    @RequestMapping(value = "/templates/homeAdmin.html/", method = RequestMethod.GET){
 //
 //    }

@@ -64,7 +64,9 @@ public class UserServiceImpl2 implements UserService {
     public UserDetails loadUserByUsername(String username) {
         User user = null;
         try {
+            // query xuống database xem user có tồn tại không
             user = userRepository.findByEmail(username);
+            //Nếu không tìm thấy User thì thông báo lỗi
             if (user == null) {
                 throw new UsernameNotFoundException(username);
             }
@@ -104,16 +106,7 @@ public class UserServiceImpl2 implements UserService {
         User user = userCandidate.getUser();
         System.out.println("ROLE1["+roles.get(0)+"]");
         System.out.println("ROLE2["+roles.get(1)+"]");
-//        for (String roleName: roles){
-//            System.out.println("ROLE["+roleName+"]");
-//            Optional<Role> roleUser = roleService.findRoleByName(roleName);
-//            System.out.println("ROLE["+roleName+"]");
-//            System.out.println("ROLE::NAME["+roleUser.get().getName()+"]");
-//            roleUser.get().addUser(user);
-//            // tham chieu phuong thuc
-//            // consumer bind
-//            roleUser.ifPresent(user::setRole);
-//        }
+
         roles.forEach(roleName->{
             Optional<Role> roleUser = roleService.findRoleByName(roleName);
             // tham chieu phuong thuc
@@ -160,9 +153,5 @@ public class UserServiceImpl2 implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    public User getAdmin(String email) {
-//        return userRepository.getAdmin("email");
-//    }
 }
 
