@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CvServiceIml implements CvService {
@@ -112,5 +113,8 @@ public class CvServiceIml implements CvService {
 //        return cvRepository.findById(id);
 //    }
 
-
+    @Override
+    public CV findCVById(long id) {
+        return cvRepository.findCVById(id);
+    }
 }

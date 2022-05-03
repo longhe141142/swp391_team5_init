@@ -94,5 +94,43 @@ public class Request {
         this.status = status;
     }
 
- 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public CV getCv() {
+        return cv;
+    }
+
+    public void setCv(CV cv) {
+        this.cv = cv;
+    }
+
+    public JobPost getJobPost() {
+        return jobPost;
+    }
+
+    public void setJobPost(JobPost jobPost) {
+        this.jobPost = jobPost;
+    }
+
+    public String getCvImage() {
+        return cvImage;
+    }
+
+    public void setCvImage(String cvImage) {
+        this.cvImage = cvImage;
+    }
 }

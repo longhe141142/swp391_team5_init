@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<p style="color: red; font-weight: bold" th:text="'Dear ' + ${company_name} + ','"></p>
+<p th:text="${content}"></p>
+<p th:text="${comment}"></p>
+<p>Thanks and best regards!</p>
+<p style="color: red; font-weight: bold" th:text="'Email: ' + ${user_email}"></p>
+</body>
+</html>

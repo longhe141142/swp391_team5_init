@@ -15,11 +15,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+
 @Service
+
 public class JobPostServiceImpl implements JobPostService {
     MajorRepository majorRepository;
 
     JobPostRepository jobPostRepository;
+
+    @Override
+    public void deleteById(long id) {
+        jobPostRepository.deleteById(id);
+    }
+
     @Override
     public List<JobPost> findJobPostByCompanyId(long id) {
         return jobPostRepository.findJobPostByCompanyId(id);

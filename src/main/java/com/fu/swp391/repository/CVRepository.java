@@ -48,4 +48,6 @@ public interface CVRepository extends CrudRepository<CV, Long> {
 
     List<CV> findCVByCandidate(Candidate candidate);
 
+    CV findCVById(long id);
+
 }

@@ -1,16 +1,13 @@
 package com.fu.swp391.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fu.swp391.binding.entiity.Email;
 import com.fu.swp391.common.enumConstants.GenderEnum;
-import com.fu.swp391.entities.CV;
-import com.fu.swp391.entities.Candidate;
-import com.fu.swp391.entities.CertificateCV;
-import com.fu.swp391.entities.Company;
-import com.fu.swp391.entities.EducateCV;
-import com.fu.swp391.entities.ExperienceCV;
-import com.fu.swp391.entities.JobPost;
-import com.fu.swp391.entities.SkillCV;
+import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.JobPostRepository;
+import com.fu.swp391.repository.RequestRepository;
 import com.fu.swp391.service.*;
 import com.fu.swp391.service.CandidateService;
 import com.fu.swp391.service.CompanyMajorService;
@@ -24,11 +21,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("candidate")
@@ -77,8 +73,14 @@ public class CandidateController {
     @Autowired
     HelperUntil<Candidate> candidateHelperUntil;
 
+    @Autowired
+    EmailSenderService emailSenderServiceImpl;
 
+    @Autowired
+    RequestService requestService;
 
+    @Autowired
+    RequestRepository requestRepository;
 
     ///candidate/HomeCandidate
     @GetMapping("/home")
@@ -218,6 +220,57 @@ public class CandidateController {
         model.addAttribute("job_id",id);
         return "candidate/CvSendReq";
     }
+
+    @GetMapping("/sendCVRequest")
+    public @ResponseBody String sendCVRequest(HttpServletRequest request) throws MessagingException {
+
+
+
+        String comment = request.getParameter("comment");
+        String subject = request.getParameter("subject");
+        String content = request.getParameter("content");
+        long cv_id = Long.parseLong(request.getParameter("cv_id"));
+        long job_id = Long.parseLong(request.getParameter("job_id"));
+
+        CV cv = cvService.findCVById(cv_id);
+        JobPost jp = jobPostRepository.findJobPostById(job_id);
+
+        Request r = new Request();
+
+        r.setComment(comment);
+        r.setContent(content);
+        r.setStatus("SENT");
+        r.setSubject(subject);
+        r.setCvImage(cv.getImageUpload());
+        r.setFromUser(cv.getCandidate().getUser());
+        r.setToUser(jp.getCompany().getUser());
+        r.setCv(cv);
+        r.setJobPost(jp);
+
+        requestRepository.save(r);
+
+        Email email = new Email();
+
+        email.setSubject(subject);
+        email.setFrom(cv.getCandidate().getUser().getEmail());
+        email.setTo(jp.getCompany().getEmail());
+        email.setText(content);
+        email.setTemplate("/emailTemplates/emailRequestCv");
+
+
+        emailSenderServiceImpl.sendMailRequestCV(email,comment,jp.getCompany().getName(),cv.getCandidate().getUser().getEmail());
+
+        ObjectMapper mapper = new ObjectMapper();
+        String ajaxResponse = "";
+        try {
+            ajaxResponse = mapper.writeValueAsString("");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return ajaxResponse;
+    }
+
     @GetMapping("/DetailCompany/{id}")
     public String DetailCompany(Model model, @PathVariable long id) {
         List<JobPost> ListCompanyDetail = companyMajorService.findCompanyMajorsByCompanyId(id);

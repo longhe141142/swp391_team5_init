@@ -35,5 +35,7 @@ public interface CvService {
     void deleteCVById(Long id);
 
     Optional<CV> getCVBySpecificId(Long id);
+
+    CV findCVById(long id);
     // Optional<CV> findbyId(Long id);
 }

@@ -13,6 +13,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JobPostService {
+
+
+    void deleteById(long id);
+
     List<JobPost> findJobPostByCompanyId(long id);
 
     List<JobPost> findCompanyMajorsByCompanyId(long id);

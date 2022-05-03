@@ -2,8 +2,6 @@ package com.fu.swp391.service;
 
 import com.fu.swp391.binding.entiity.Email;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
   @Autowired
    SpringTemplateEngine templateEngine;
 
+  private static final String CONTENT_TYPE_TEXT_HTML = "text/html;charset=\"utf-8\"";
   @Override
   public void sendHtmlMessage(Email email) throws MessagingException {
     System.out.println("Email:"+""
@@ -57,6 +56,30 @@ public class EmailSenderServiceImpl implements EmailSenderService {
       e.printStackTrace();
       System.out.println("That bai");
 
+    }
+
+  }
+  @Override
+  public void sendMailRequestCV(Email email, String comment, String companyName, String userEmail){
+    MimeMessage message =  emailSender.createMimeMessage();
+
+    try {
+      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+      helper.setFrom(email.getFrom());
+      helper.setTo(email.getTo());
+      helper.setSubject(email.getSubject());
+      Context context = new Context();
+      context.setVariable("comment", comment);
+      context.setVariable("content", email.getText());
+      context.setVariable("company_name",companyName);
+      context.setVariable("user_email",userEmail);
+      String html =  templateEngine.process(email.getTemplate(), context);
+      message.setContent(html, CONTENT_TYPE_TEXT_HTML);
+
+
+      emailSender.send(message);
+    } catch (MessagingException e) {
+      e.printStackTrace();
     }
 
   }

@@ -82,6 +82,15 @@ public class CompanyController {
         model.addAttribute("job_detail", jobPostRepository.findJobPostById(id));
         return "/company/JobDetail";
     }
+
+    @GetMapping("/jobpost/delete/{id}")
+    public String deleteJob(Model model, @PathVariable("id") long id) {
+
+       jobPostRepository.deleteById(id);
+
+
+        return "forward:/company/listjob";
+    }
     @GetMapping("/ListCompanyAdmin12")
     public String ListCompanyAdmin(Model model) {
 
