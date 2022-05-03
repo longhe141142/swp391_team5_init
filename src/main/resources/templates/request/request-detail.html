@@ -60,11 +60,13 @@
     }
 
     #accept {
-      background-color: rgb(180, 67, 67);
+      background-color: rgb(86, 155, 86)
+
     }
 
     #deny {
-      background-color: rgb(86, 155, 86)
+      background-color: rgb(180, 67, 67);
+
     }
 
     .greeting {
@@ -90,12 +92,12 @@
     Contact start
     ==================== -->
 <section class="section contact" id="contact">
-  <div class="container">
+  <div class="container" th:object="${request}">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="block">
           <div class="heading wow fadeInUp">
-            <h2 id="get-in-touch">Get In Touch</h2>
+            <h2 id="get-in-touch">Accpet_Deny Request</h2>
             <p class="greeting">Dear <strong
                 th:text="${request.getToUser().getCandidates().get(0).getName()}">Long
               Nguyen</strong></p>
@@ -126,14 +128,19 @@
       <div class="col-xs-12 col-sm-12 col-md-6 offset-md-3 wow fadeInUp" data-wow-delay="0.3s"
            th:if="${request.getStatus() == 'SENT'}">
         <div class="form-group">
-          <form action="#" id="contact-form" method="post">
+          <form  id="contact-form" method="get">
             <div class="input-field">
                                 <textarea class="form-control"
-                                          name="message" placeholder="write your comment here..."
+                                          name="comment" placeholder="write your comment here..."
                                           rows="3"></textarea>
             </div>
-            <button class="btn btn-send" id="accept" type="submit">ACCEPT</button>
-            <button class="btn btn-send" id="deny" type="submit">DENY</button>
+            <div class="input-field" hidden>
+                                <textarea th:field="${request.id}" class="form-control"
+                                          name="id" placeholder="write your comment here..."
+                                          rows="3"></textarea>
+            </div>
+            <button name="ACCEPT" value="ACCEPT" formaction="/candidate/editRequestAccept" class="btn btn-send" id="accept" type="submit">ACCEPT</button>
+            <button name="DENY" value="DENY" formaction="/candidate/editRequestDeny"  class="btn btn-send" id="deny" type="submit">DENY</button>
           </form>
           <div id="success">
             <p>Your Message was sent successfully</p>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--/<html xmlns:th="http://www.thymeleaf.org">-->
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -70,7 +70,7 @@
                 <label>Name Company</label>
                 <input class="form-control" type="text">
               </div>
-              <div class="filter-group">
+              <div class="filter-group" hidden>
                 <label>Major</label>
                 <select class="form-control">
                   <option>Testing</option>
@@ -79,7 +79,7 @@
                   <option>BA</option>
                 </select>
               </div>
-              <div class="filter-group">
+              <div class="filter-group" hidden>
                 <label>Location</label>
                 <select class="form-control">
                   <option>All</option>
@@ -112,14 +112,17 @@
               <td>
                 <img
                         alt="Avatar"
-                        class="avatar" th:src="${company.getCompanyImageUrl()}">
+                        class="avatar" th:src="${'/'+company.getCompanyImageUrl()}">
                 <a data-toggle="modal"
                    th:href="${'#company-'+ company.getId()}"
                    th:text="${company.getName()}"
                    title="Detail">
                 </a>
               </td>
-              <td th:text="${company.getAddress()}"></td>
+              <td style="width: 500px;
+                    overflow: hidden;
+                   white-space: break-spaces;
+                    text-overflow: ellipsis;" th:text="${company.getAddress()}"></td>
               <td th:text="${#dates.format(company.getFoundingAt(), 'dd-MM-yyyy')}">Jun 21, 2017
               </td>
               <!--phan Long code-->
@@ -130,7 +133,11 @@
                 </div>
               </td>
               <!--Het phan Long code-->
-              <td th:text="${company.companyIntro}"></td>
+              <td  style="width: 500px;
+                    overflow: hidden;
+                   white-space: break-spaces;
+                    text-overflow: ellipsis;"
+                   th:text="${company.companyIntro}"></td>
               <td th:text="${company.getPersonnelSize()}"></td>
               <td>
                 <div class="action-form">

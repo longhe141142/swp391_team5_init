@@ -13,6 +13,7 @@ import com.fu.swp391.entities.JobPost;
 import com.fu.swp391.entities.Request;
 import com.fu.swp391.entities.SkillCV;
 import com.fu.swp391.entities.User;
+import com.fu.swp391.entities.*;
 import com.fu.swp391.helper.HelperUntil;
 import com.fu.swp391.repository.CVRepository;
 import com.fu.swp391.repository.ExperienceRepository;
@@ -33,8 +34,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +69,6 @@ public class CandidateController {
     @Autowired
     CandidateService candidateService;
 
-
     @Autowired
     GenderEnum genderEnum;
 
@@ -72,6 +80,9 @@ public class CandidateController {
 
     @Autowired
     CompanyMajorService companyMajorService;
+
+    @Autowired
+    RequestRepository requestRepository;
 
 
     @Autowired
@@ -428,5 +439,58 @@ public class CandidateController {
 //        Optional<User> company =  userService.findById(request.get().getFromUser());
          model.addAttribute("request",request.get());
         return "/request/request-detail";
+    }
+
+    @GetMapping ("loadRequestForDetail")
+    public String loadRequestForDetail(@RequestParam Long id, Model model) {
+        Optional<Request> optionalRequest = requestRepository.findById(id);
+        model.addAttribute("optionalRequest",optionalRequest.get());
+        return "/candidate/detailRequest";
+    }
+    @GetMapping("editRequestAccept")
+    public String editRequestAccept(HttpServletRequest request){
+        String comment =  request.getParameter("comment");
+        long id = Long.parseLong(request.getParameter("id"));
+        String accept = request.getParameter("ACCEPT");
+        System.out.println("ACC"+ accept);
+        requestRepository.update(id, accept, comment);
+        System.out.println("123456");
+        return "redirect:/candidate/listRequestCompany";
+
+    }
+    @GetMapping("editRequestDeny")
+    public String editRequestDeny(HttpServletRequest request){
+        String comment =  request.getParameter("comment");
+        long id = Long.parseLong(request.getParameter("id"));
+        String deny = request.getParameter("DENY");
+        System.out.println("ACC"+ deny);
+        requestRepository.update(id, deny, comment);
+        System.out.println("123456");
+        return "redirect:/candidate/listRequestCompany";
+
+
+    }
+
+    @GetMapping("/listRequestCompany")
+    public String listRequestCompany(Model model) {
+        User user = userService.findByEmail(getPrincipal());
+       // Optional<Request> rq = requestRepository.findById(user.getId());
+        System.out.println("ID: "+user.getId());
+        List<Request> requestcompany = requestRepository.fillAllRequestCompanyByTo_Id(user.getId());
+        model.addAttribute("requestcompany",requestcompany);
+        return "candidate/listRequestCompanySendCandidate";
+    }
+
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }
