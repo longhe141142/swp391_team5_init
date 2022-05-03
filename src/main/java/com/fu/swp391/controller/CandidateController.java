@@ -108,8 +108,7 @@ public class CandidateController {
     @Autowired
     HelperUntil<Candidate> candidateHelperUntil;
 
-    @Autowired
-    RequestRepository requestRepository;
+
 
 
 
