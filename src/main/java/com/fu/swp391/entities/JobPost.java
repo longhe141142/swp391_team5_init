@@ -57,11 +57,11 @@ public class JobPost {
     @NotEmpty
     private String jobDescription;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     @JoinColumn(name = "job_post_id")
     private Major major;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     @JsonIgnore
     private Company company;

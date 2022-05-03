@@ -42,6 +42,10 @@ public class CompanyServiceImpl implements CompanyService {
     this.companyRepository = _compaCompanyRepository;
   }
 
+  @Override
+  public Company findCompanyByEmail(String email) {
+    return companyRepository.findCompanyByEmail(email);
+  }
 
   @Override
   public List<Company> findAllCompany() {

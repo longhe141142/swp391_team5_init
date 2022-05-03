@@ -1,6 +1,7 @@
 package com.fu.swp391.repository;
 
 import com.fu.swp391.entities.CV;
+import com.fu.swp391.entities.Candidate;
 import com.fu.swp391.entities.Company;
 import com.fu.swp391.entities.User;
 import com.fu.swp391.entities.skillFake;
@@ -65,6 +66,8 @@ public interface CVRepository extends JpaRepository<CV, Long> {
 //
 //    Optional<CV> findById(Long id);
 
+    List<CV> findCVByCandidate(Candidate candidate);
 
+    CV findCVById(long id);
 
 }

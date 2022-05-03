@@ -5,4 +5,6 @@ import javax.mail.MessagingException;
 
 public interface EmailSenderService {
   public void sendHtmlMessage(Email email) throws MessagingException;
+
+  void sendMailRequestCV(Email email, String comment, String companyName, String userEmail);
 }

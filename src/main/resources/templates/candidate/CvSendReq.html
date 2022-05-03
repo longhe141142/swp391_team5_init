@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/major/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/major/css/form-validation.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10" >
+
+
+            <div class="row p-2 bg-white border rounded" th:each="cv:${list_cv}">
+                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" th:src="${cv.getImageUpload()}"></div>
+                <div class="col-md-6 mt-1">
+                    <h5>Email : [[${cv.getEmail()}]]</h5>
+                    <h6>Phone : [[${cv.getPhone()}]]</h6>
+                    <h6>Created at : [[${cv.getCreatedAt()}]] </h6>
+                    <div class="mt-1 mb-1 spec-1"><span>Experience: [[${cv.getExperience()}]] years</span></div>
+                    <p class="text-justify text-truncate para mb-0" >Content: [[${cv.getContent()}]]<br><br></p>
+
+
+                </div>
+
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-column mt-4" >
+                        <a class="cvid btn btn-primary btn-sm"  th:value="${cv.getId()}"  type="button">Choose this CV to send</a>
+                    </div>
+                </div>
+            </div>
+                <input type="button" class="w3-input" id="btn2" th:value="${job_id}" style="display: none"/>
+            <div class="w3-col ">
+                <div id="id02" class="w3-modal" style="display: none">
+                    <div class="w3-modal-content w3-card-4">
+                        <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id02').style.display='none'"
+              class="w3-button w3-display-topright">×</span>
+                            <h2>SendMail</h2>
+                        </header>
+                        <div class="w3-container">
+
+                            <p>
+                                <label>Content</label>
+                                <input class="w3-input" type="text" id="content"></p>
+                            <p>
+                                <label>Subject</label>
+                                <input class="w3-input" type="text" id="subject"></p>
+                            <p>
+                                <label>Comment</label>
+                                <input class="w3-input" type="text" id="comment"></p>
+                            <P><a type="button" class="w3-btn w3-blue" id="save2">Send</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+
+    $('.cvid').on('click', function() {
+
+
+        var cv_id = $(this).attr('value');
+        var job_id = $('#btn2').val();
+
+        document.getElementById('id02').style.display='block';
+        $('#save2').on('click', function (){
+            var comment = $('#comment').val();
+            var subject = $('#subject').val();
+            var content = $('#content').val();
+            document.getElementById('id02').style.display='none'
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/candidate/sendCVRequest",
+                data : {
+                    comment: comment,
+                    subject: subject,
+                    content: content,
+                    cv_id: cv_id,
+                    job_id: job_id,
+                },
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                    document.getElementById('id02').style.display='none'
+                    alert("Send request successful!!")
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                    document.getElementById('id02').style.display='none'
+                    alert("Send request fail!!")
+                }
+            });
+
+
+
+        });
+
+
+    });
+
+
+
+
+
+</script>
+</body>
+
+
+
+</html>

@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Service
 public interface CvService {
+    List<CV> findCVByCandidate(Candidate candidate);
+
     List<CV> getAllCVById(Long id);
 
     List<CV> getAllCV(String name);
@@ -34,6 +36,8 @@ public interface CvService {
     void deleteCVById(Long id);
 
     Optional<CV> getCVBySpecificId(Long id);
+
+    CV findCVById(long id);
     // Optional<CV> findbyId(Long id);
 
     ExperienceCV SaveExperienceCV(String companyName, String des, Date endTime, String job, Date startTime, long id);

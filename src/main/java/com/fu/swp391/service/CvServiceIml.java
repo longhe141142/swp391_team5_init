@@ -32,7 +32,10 @@ public class CvServiceIml implements CvService {
         this.skillCVRepository = skillCVRepository;
     }
 
-
+    @Override
+    public List<CV> findCVByCandidate(Candidate candidate) {
+        return cvRepository.findCVByCandidate(candidate);
+    }
 
     @Override
     public List<CV> getAllCVById(Long id) {
@@ -60,6 +63,11 @@ public class CvServiceIml implements CvService {
     public List<CV> listDetailAllOneCV() {
         return cvRepository.listDetailAllOneCV();
     }
+
+//    @Override
+//    public List<skillFake> getSkillFake() {
+//        return cvRepository.findSkillFake();
+//    }
 
     @Override
     public CV saveCV(CV cv) {
@@ -150,4 +158,8 @@ public class CvServiceIml implements CvService {
         return cvRepository.save(cv);
     }
 
+    @Override
+    public CV findCVById(long id) {
+        return cvRepository.findCVById(id);
+    }
 }

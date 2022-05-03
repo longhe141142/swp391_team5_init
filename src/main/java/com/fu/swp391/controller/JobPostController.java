@@ -10,6 +10,8 @@ import com.fu.swp391.entities.*;
 import com.fu.swp391.repository.JobPostRepository;
 import com.fu.swp391.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +57,8 @@ public class JobPostController {
     public String addjob(JobPost jobPost){
 
 
-        List<Company> list = companyService.findAllCompany();
-        jobPost.setCompany(list.get(0));
+        Company company = companyService.findCompanyByEmail(getPrincipal());
+        jobPost.setCompany(company);
 
 //        List<MajorRule> majorRule = new ArrayList<>();
 //        List<MajorBenefit> majorBenefit = new ArrayList<>();
@@ -72,7 +74,7 @@ public class JobPostController {
 
         for (BenefitDTO ben:bens) {
             JobBenefit b = new JobBenefit();
-            b.setBenefit(ben.getTitle());
+            b.setBenefit(ben.getBenefit());
             b.setTitle(ben.getTitle());
             b.setJobPost(jobPost);
             jobPost.getJobBenefits().add(b);
@@ -96,7 +98,7 @@ public class JobPostController {
 //        companyMajor.setMajorBenefits(majorBenefit);
 //        companyMajor.setMajorSkills(majorSkill);
         jobPostRepository.save(jobPost);
-        return "redirect:/company/major/add";
+        return "redirect:/company/listjob";
     }
     ArrayList<ruleDTO> rules = new ArrayList<>();
     ArrayList<BenefitDTO> bens = new ArrayList<>();
@@ -120,23 +122,23 @@ public class JobPostController {
         return ajaxResponse;
     }
     @RequestMapping(value = "/addBenefit", method = RequestMethod.GET)
-    public @ResponseBody String addBenefit(HttpServletRequest request) {
-        String benefit = request.getParameter("benefit");
-        String title = request.getParameter("title");
-        Long count = Long.parseLong(request.getParameter("count"));
+    public @ResponseBody String addBenefit(HttpServletRequest request){
+            String benefit = request.getParameter("benefit");
+            String title = request.getParameter("title");
+            long id = Long.parseLong(request.getParameter("count") );
 
-        BenefitDTO ben = new BenefitDTO(count,title,benefit);
-        bens.add(ben);
+            BenefitDTO ben = new BenefitDTO(id,title,benefit);
+            bens.add(ben);
+            ObjectMapper mapper = new ObjectMapper();
+            String ajaxResponse = "" ;
+            try {
+                ajaxResponse = mapper.writeValueAsString(ben);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
 
-        ObjectMapper mapper = new ObjectMapper();
-        String ajaxResponse = "";
-        try {
-            ajaxResponse = mapper.writeValueAsString(ben);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+            return ajaxResponse;
 
-        return ajaxResponse;
     }
 
 
@@ -263,6 +265,18 @@ public class JobPostController {
         return ajaxResponse;
 
 
+    }
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 
 }
